@@ -1,0 +1,2185 @@
+<!DOCTYPE html><html lang="tr" class="dxChrome dxWindowsPlatform dxWebKitFamily dxBrowserVersion-151" style="height: auto;"><head><link rel="stylesheet" type="text/css" href="/DXR.axd?r=1_22,1_29,1_33,1_35,1_21,1_3,1_17,1_18,1_16-Uluai"><meta charset="utf-8"><meta http-equiv="content-language" content="tr"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"><link rel="icon" href="/img/favicon.png"><title>
+	Boş Araçlar
+</title>
+
+<!-- Source Sans Pro -->
+<link rel="stylesheet" href="/dist/css/fonts.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Daterange picker -->
+<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+<!-- Jquery Ui Css -->
+<link rel="stylesheet" href="/plugins/jquery-ui/jquery-ui.min.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/dist/css/adminlte.min.css">
+<!-- Style -->
+<link rel="stylesheet" href="/dist/css/style.css">
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Sparkline -->
+<script src="/plugins/sparklines/sparkline.js"></script>
+<!-- daterangepicker -->
+<script src="/plugins/moment/moment.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- Eklenti -->
+<script src="/dist/js/turevrac.js?v=1"></script>
+
+
+<script>
+function button3_Click(s, e) {
+	if (grid.IsCustomizationWindowVisible()) {
+		grid.HideCustomizationWindow();
+	}else{
+		grid.ShowCustomizationWindow();
+	}
+}
+
+$(document).ready(function () {
+
+	//gridButtonCreate("table a.dxeHyperlink");
+	
+	let prm = Sys.WebForms.PageRequestManager.getInstance();
+	prm.add_endRequest(function () {
+
+		//gridButtonCreate("table a.dxeHyperlink");
+
+	});
+});
+</script>
+</head>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+
+	<div class="wrapper">
+
+		<div class="preloader flex-column justify-content-center align-items-center" style="height: 0px;">
+			<img class="animation__shake" src="dist/img/loader.svg" alt="TürevRent" height="60" width="60" style="display: none;">
+		</div>
+	  
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+			<ul class="navbar-nav">
+
+				<li class="nav-item">
+					<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="Default.Aspx" title="Anasayfa"><i class="fas fa-home"></i></a>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="far fa-clock"></i>
+						<span class="badge badge-warning navbar-badge">
+0
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg">
+						<a href="Rezervasyon_Listesi.Aspx?Rezervasyon_Durum=Rezervasyon" class="dropdown-item">
+							Yeni Rezervasyon <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Web_Rezervasyon.aspx" class="dropdown-item">
+							Web Rezervasyonu <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Servis_Rezervasyon.aspx" class="dropdown-item">
+							Servis Rezervasyonu <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Rezervasyon_Listesi.Aspx?Rezervasyon_Durum=Rezervasyon&amp;Onayli=False" class="dropdown-item">
+							Onaylı Rezervasyonlar <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Mobil_Teslimat.Aspx" class="dropdown-item">
+							Mobil Teslimat <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Mobil_Odeme.Aspx" class="dropdown-item">
+							Mobil Ödeme <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						
+					</div>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block" id="favorimenus">
+					<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-star"></i>
+						<span id="favoribadge" class="badge badge-warning navbar-badge">2</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg">
+						
+								<a class="dropdown-item" href="Rezervasyon.Aspx?Islem_Turu=Rezerv">Yeni Rezervasyon <i class="fas fa-angle-double-right right-i"></i></a>
+								<div class="dropdown-divider"></div>
+							
+								<a class="dropdown-item" href="Kiralama.Aspx?Islem_Turu=Kira">Yeni Kira <i class="fas fa-angle-double-right right-i"></i></a>
+								<div class="dropdown-divider"></div>
+							
+					<a class="dropdown-item bg-info" href="Favori_Menuler.aspx" style="border-radius: 0px 0px 0.25rem 0.25rem;">Favori Menülerini Düzenle <i class="fas fa-star right-i"></i></a></div>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block">
+					<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-desktop"></i></a>
+					<div class="dropdown-menu p-2">
+						<div class="text-center text-bold text-gray mb-1">Ekran Boyutu</div>
+						<div class="btn-group screen-group">
+							<a href="javascript:screenChange(0);" class="btn btn-default">Çok Küçük</a>
+							<a href="javascript:screenChange(1);" class="btn btn-default">Küçük</a>
+							<a href="javascript:screenChange(2);" class="btn btn-success">Normal</a>
+							<a href="javascript:screenChange(3);" class="btn btn-default">Büyük</a>
+							<a href="javascript:screenChange(4);" class="btn btn-default">Çok Büyük</a>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+
+			<ul class="navbar-nav ml-auto">
+				
+				<li class="nav-item">
+					<div class="form-inline">
+						<div class="input-group light-mod">
+							<input type="text" class="form-control" name="Plaka_Ara" id="Plaka_Ara" onkeypress="return runScript(event)" placeholder="Plaka Yazıp Enter Basınız">
+							<div class="input-group-append" id="plaka-search">
+								<button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button>
+							</div>
+						</div>
+					</div>
+				</li>
+			  
+		  
+				<li class="nav-item dropdown">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="fas fa-user"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<div class="dropdown-item bg-color-gray">
+							<i class="fas fa-user mr-2"></i> BURAK BEY
+						</div>
+						<div class="dropdown-divider"></div>
+						<a href="Sifre_Degistir.aspx" class="dropdown-item">
+							<i class="fas fa-key mr-2"></i> Şifre Değiştir
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Yetki_Reset.aspx" class="dropdown-item">
+							<i class="fas fa-sync-alt mr-2"></i> Yetkileri Yenile
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Cikis.aspx" class="dropdown-item">
+							<i class="fas fa-sign-out-alt mr-2"></i> Çıkış
+						</a>
+					</div>
+				</li>
+			  
+				<li class="nav-item d-none d-sm-inline-block">
+					<a class="nav-link" data-widget="fullscreen" href="#" role="button">
+						<i class="fas fa-expand-arrows-alt"></i>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
+						<i class="fas fa-th-large"></i>
+					</a>
+				</li>
+
+			</ul>
+		</nav>
+
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			
+			<div class="brand-link">
+			
+				<a href="javascript:spinSearchMenu(true);">
+					<img src="/img/favicon.png" alt="Rent" class="brand-image img-circle elevation-3" style="opacity: .8">
+					<span class="brand-text text-capitalize">bnarent
+						<text class="trv-badge">BURAK BEY</text>
+					</span>
+				</a>
+ 
+				<div class="menu_search_div input-group" style="display: none;">
+					<input class="form-control form-control-sidebar form-control-sm" type="search" autocomplete="off" placeholder="Menü Ara" id="menu_search">
+					<div class="input-group-append">
+						<button id="menu_search_button" class="btn btn-sidebar btn-sm"><i class="fas fa-search fa-fw"></i></button>
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 662px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible os-viewport-native-scrollbars-overlaid" style="overflow-y: scroll;"><div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+
+				<div class="form-inline" style="margin-top: 10px;">
+					<div class="input-group">
+						<input class="form-control form-control-sidebar" type="search" placeholder="Evrak No" aria-label="Sozlesme_No" name="RA_Ara" id="RA_Ara" onkeypress="return runScript2(event)">
+						<div class="input-group-append" id="ra-search">
+							<button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+						
+						
+						<li class="nav-item">
+							<a href="Rezervasyon.Aspx?Islem_Turu=Rezerv" class="nav-link" tags="yeni,rezervasyonlar,rezerve">
+								<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Rezervasyon</p>
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a href="Kiralama.Aspx?Islem_Turu=Kira" class="nav-link" tags="yeni,kiralamalar,sözleşmeler">
+								<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Kira</p>
+							</a>
+						</li>
+						
+							<li class="nav-item">
+								<a href="Musait_Arac_Listesi.Aspx" class="nav-link" tags="plaka,bazlı,müsaitlik,rezervasyon,fiyat">
+									<i class="nav-icon fas fa-calendar-alt"></i> <p>Müsaitlik-Fiyat Verme</p>
+								</a>
+							</li>
+						
+						
+						<li class="nav-item">
+							<p class="dropdown-divider left-menu"></p>
+						</li>
+
+						<li class="nav-item" tl="arac">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-car"></i> <p>Araçlar <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Arac_Guncel_Durum.Aspx" class="nav-link" tags="araçlar,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Kayit.Aspx" class="nav-link" tags="araç,yeni,kayıt,plaka">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Bos_Arac_Listesi.Aspx" class="nav-link" tags="araçlar,boştakiler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Boş Araçlar</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Listesi.Aspx" class="nav-link" tags="kiradakiler,araçlar,tüm">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tüm Araçlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Detayli_Arac_Listesi.Aspx" class="nav-link" tags="detayli,araçlar,tüm">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Detaylı Araç Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Genel_Durumu_Grafik.Aspx" class="nav-link" tags="araç,park,durumu,otopark">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Park Durumu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Gunluk_Durum.aspx" class="nav-link" tags="araçlar,günlük,durumu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Günlük Durum</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Satis_Bedeli.aspx" class="nav-link" tags="araçlar,satış,hesaplama,bedeli">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Satış Hesaplama</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Durum_Takip.aspx" class="nav-link" tags="araçlar,hareketleri,raporu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Hareket Raporu</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Bos_Km_Detay.aspx" class="nav-link" tags="araçlar,detay,km,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>KM Detay Listesi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="kira">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-handshake"></i> <p>Kira <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx" class="nav-link" tags="tüm,sözleşmeler,kiralamalar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tüm Sözleşmeler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?Kira_Durum=Kirada" class="nav-link" tags="kiradaki,araçlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kiradaki Araçlar</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?Kira_Durum=Döndü" class="nav-link" tags="kapalı,kapanan,sözleşmeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kapalı Sözleşmeler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?TarihX=2&amp;Kira_Durum=Kirada&amp;Tarih=Gecmis" class="nav-link" tags="dönüşü,gecikenler,araçlar,dönmeyenler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Dönüşü Gecikenler</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?TarihX=2&amp;Kira_Durum=Kirada&amp;Tarih=Gecmis&amp;Fatura_Durum=2" class="nav-link" tags="faturası,kesilmeyen,kesilmemişler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Faturası Kesilmeyenler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Kirada&amp;TarihX=1&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,çıkışı,yapılanlar,çıkanlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Çıkanlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Kirada&amp;TarihX=2&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,dönecekler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Dönecekler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Döndü&amp;TarihX=2&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,dönenler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Dönenler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kabis_Raporu.aspx" class="nav-link" tags="kabis">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kabis Raporu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kiralama.Aspx?Islem_Turu=Kira" class="nav-link" tags="kiralamalar,sözleşmeler,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Kira</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="rez">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-clock"></i> <p>Rezervasyon <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?TarihX=1&amp;Rezervasyon_Durum=Rezervasyon&amp;Tarih=7&amp;Tarih2=365" class="nav-link" tags="rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rezervasyon Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon" class="nav-link" tags="açık,rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Açık Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?TarihX=1&amp;Rezervasyon_Durum=Rezervasyon&amp;Tarih=Bugun" class="nav-link" tags="rezervasyonlar,listeleri,bugünkü">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugünkü Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&amp;Giden_Rez=True" class="nav-link" tags="dış,rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Dış Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Kaynak_Raporu.aspx" class="nav-link" tags="rezervasyon,kaynak,raporu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rez. Kaynak Raporu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Rezervasyon.Aspx?Islem_Turu=Rezerv" class="nav-link" tags="rezervasyonlar,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Rezervasyon</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon.Aspx?Islem_Turu=Giden_Rezerv" class="nav-link" tags="dış,giden">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Dış Rez</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="cari">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-users"></i> <p>Cariler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Musteri_Genel_Liste.Aspx" class="nav-link" tags="cariler,listesi,müşteriler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Cari Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Musteri_Kayit.Aspx" class="nav-link" tags="yeni,cari,bireysel,müşteri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Bireysel Cari</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Musteri_Kayit.aspx?Firma=EVET" class="nav-link" tags="yeni,kurumsal,cari,müşteri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Kurumsal Cari</p>
+									</a>
+								</li>
+                                    
+								    <li class="nav-item">
+									    <a href="Musteri_Kayit.Aspx?Firma=SERVIS" class="nav-link" tags="yeni,servis,cari">
+										    <i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Servis Carisi</p>
+									    </a>
+								    </li>
+                                    
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borçlar,alacaklar">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Hesap_Extresi.aspx" class="nav-link" tags="hesap,ekstresi,extresi">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Hesap Extresi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Musteri_Listesi.aspx" class="nav-link" tags="müşteri,listesi">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müşteri Listesi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="servis">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-tools"></i> <p>Servis &amp; Bakım <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx?Islem_Turu=Servis&amp;Durum=Devam" class="nav-link" tags="servisler,bakımlar,listeleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Servis &amp; Bakım Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Servis_Islemleri.Aspx?Islem_Turu=Servis" class="nav-link" tags="servis,bakım">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Servis &amp; Bakım</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Servis_Tanim_Tablosu.Aspx" class="nav-link" tags="periyodik,km,sınırları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Periyodik Km Sınırları</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Periyodik_Servis_Raporu.aspx" class="nav-link" tags="periyodik,servisler,raporu,listeleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Periyodik Servis Raporu</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="baf">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-road"></i> <p>Baf &amp; Satış İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Baf_Ara.aspx" class="nav-link" tags="baflar,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Baf Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Baf_Islemleri.aspx" class="nav-link" tags="baf,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Baf İşlemi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Satis_Ara.aspx" class="nav-link" tags="satıştakiler,araçlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Satış Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Satis.aspx" class="nav-link" tags="araçlar,satışlar">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Satış</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                          
+
+						<li class="nav-item" tl="filo">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-handshake"></i> <p>Filo İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Filo_Kiralama_Listesi.Aspx" class="nav-link" tags="kiralama,filo,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Filo Sözleşmeleri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis_Listesi.Aspx" class="nav-link" tags="araç,siparis,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Siparis Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis_Detay_Listesi.Aspx" class="nav-link" tags="araç,siparis,detay,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Siparis Detayı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Maliyet_Hesaplama_Ara.aspx" class="nav-link" tags="araç,filo,maliyet,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Maliyet Teklif Listesi</p>
+									</a>
+								</li>
+                                
+								
+								<li class="nav-item">
+									<a href="Filo_Arac_Kiralama.Aspx" class="nav-link" tags="kiralamalar,sözleşmeler,yeni,filo">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Filo Kiralama</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis.Aspx" class="nav-link" tags="arac,sipariş,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Sipariş</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Maliyet_Hesaplama.Aspx" class="nav-link" tags="filo,maliyet,hesaplama">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Maliyet Hesaplama</p>
+									</a>
+								</li>
+                                
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Fatura_Donem_Raporu.aspx" class="nav-link" tags="fatura,dönemleri,taksitleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Fatura Dönemleri (Taksit)</p>
+									</a>
+								</li>
+								
+
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="gider">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-gas-pump"></i> <p>Gider İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx" class="nav-link" tags="giderler,listesi,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Gider Listeleri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Ofis" class="nav-link" tags="genel,gider,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Genel Gider</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx?Islem_Turu=Personel" class="nav-link" tags="personel,giderleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Personel Gider Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Personel" class="nav-link" tags="yeni,personel,gideri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Personel Gideri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Arac" class="nav-link" tags="yeni,araç,gideri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Sigorta_Gider_Ara.Aspx" class="nav-link" tags="sigorta,kasko,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Sigorta İşlemleri</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Arac_Sigorta_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,sigorta,kasko,trafik,excel">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Sigorta Gideri</p>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a href="Arac_MTV_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,mtv,excel">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni MTV Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Muayene_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,muayene">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Muayene Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Toplu_Gider.Aspx" class="nav-link" tags="toplu,gider,girişi,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Toplu Gider Girişi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+					    	
+						<li class="nav-item" tl="diger">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-money-check-alt"></i> <p>Diğer İşlemler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+                                
+								<li class="nav-item" tl="diger-fatura">
+									<a href="#" class="nav-link">
+										<p>Fatura İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Satis" class="nav-link" tags="satış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Satış Fatura Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Detay_Listesi.aspx?Islem_Turu=Satis" class="nav-link" tags="satış,detaylı,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Satış Detay Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Prof" class="nav-link" tags="onay,bekleyen,satış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Onay Bekleyen Faturalar</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura.aspx?Islem_Turu=Satis" class="nav-link" tags="yeni,satış,faturası">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Satış Faturası</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="alış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alış Fatura Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Detay_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="alış,detaylı,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alış Detay Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Gelen_E_Fatura_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="gelen,efatura,e-fatura,alış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Gelen E-Faturalar</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura.aspx?Islem_Turu=Alis" class="nav-link" tags="yeni,alış,faturası">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Alış Faturası</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                	
+								<li class="nav-item" tl="diger-nakit">
+									<a href="#" class="nav-link">
+										<p>Nakit İşlemler <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Tahsilat" class="nav-link" tags="nakit,tahsilatlar,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Tahsilat Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="nakit,tahsilat">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Nakit Tahsilat</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Ödeme" class="nav-link" tags="nakit,ödemeler,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Ödeme Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="nakit,ödeme,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Nakit Ödeme</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Virman_Islem_Ara.aspx" class="nav-link" tags="virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kasa Virman Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Kasa_Virman.aspx" class="nav-link" tags="kasa,virman,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Kasa Virman</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Depozit" class="nav-link" tags="nakit,depozito,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Depozit Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Genel_Kasa.Aspx" class="nav-link" tags="nakit,kasa,listesi,durumu">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Kasa Durumu</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+	                            
+								<li class="nav-item" tl="diger-bakiye">
+									<a href="#" class="nav-link">
+										<p>Bakiye İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem_Ara.Aspx?Islem_Turu=Cari Borçlandır" class="nav-link" tags="borçlandırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Borçlandırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="cari,borçlandırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Borçlandırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem_Ara.Aspx?Islem_Turu=Cari Alacaklandır" class="nav-link" tags="alacaklandırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alacaklandırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="yeni,cari,alacaklandırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Alacaklandırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Cari_Virman_Islem_Ara.aspx" class="nav-link" tags="cari,virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Cari Virman Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Cari_Virman.aspx" class="nav-link" tags="yeni,cari,virman">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Virman</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                
+								<li class="nav-item" tl="diger-banka">
+									<a href="#" class="nav-link">
+										<p>Banka İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Kredi Kart Tahsilatı" class="nav-link" tags="kredi,kartı,tahsilatı,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>K.Kartı Tahsilat Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=3" class="nav-link" tags="yeni,kredi,kartı,tahsilatı">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>K.Kartı Tahsilatı</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Kredi Kart İade" class="nav-link" tags="kredi,kartı,iade,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>K.Kartı İade Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=4" class="nav-link" tags="yeni,kredi,kartı,iade,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>K.Kartı İade</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Gelen Havale" class="nav-link" tags="gelen,havale,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Gelen Havale Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=1" class="nav-link" tags="yeni,gelen,havale,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Gelen Havale</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Giden Havale" class="nav-link" tags="giden,havale,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Giden Havale Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=2" class="nav-link" tags="yeni,giden,havale">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Giden Havale</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Nakit_Listesi.Aspx?Islem_Turu=1" class="nav-link" tags="bankaya,para,yatırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Para Yatırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Hesap_Para_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="bankaya,para,yatırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Para Yatırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Nakit_Listesi.Aspx?Islem_Turu=2" class="nav-link" tags="bankadan,para,çekme,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Para Çekme Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Hesap_Para_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="bankadan,para,çekme">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Para Çekme</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Virman_Islem_Ara.aspx" class="nav-link" tags="bankalar,virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Banka Virman Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Virman.aspx" class="nav-link" tags="bankalar,virman">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Banka Virman</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Hesap_Hareketleri.Aspx" class="nav-link" tags="bankalar,hesaplar,hareketleri">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Banka Hesap Hareketleri</p>
+											</a>
+										</li>
+										
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Provizyon=True" class="nav-link" tags="kredi,kartı,provizyon,depozito,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Provizyon İşlemleri</p>
+											</a>
+										</li>
+
+										
+									</ul>
+								</li>
+                                
+								<li class="nav-item" tl="diger-kredi">
+									<a href="#" class="nav-link">
+										<p>Kredi İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Arac_Kredi_Listesi.Aspx" class="nav-link" tags="krediler,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kredi ListesiKredi Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Arac_Kredi.Aspx" class="nav-link" tags="araç,kredisi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Kredi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Kredi_Takip_Listesi.aspx" class="nav-link" tags="kredi,takip,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kredi Takip Listesi</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+								
+								<li class="nav-item" tl="diger-ceza">
+									<a href="#" class="nav-link">
+										<p>Ceza &amp; Geçiş İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Ceza_Listesi.aspx" class="nav-link" tags="ceza,geçiş,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Ceza &amp; Geçiş Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Cezalar.aspx" class="nav-link" tags="yeni,ceza,geçiş,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Ceza &amp; Geçiş</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                										   
+					            <li class="nav-item" tl="diger-gelir">
+									<a href="#" class="nav-link">
+										<p>Hukuk <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+                                            <a href="Hukuk_Birimi.aspx" class="nav-link" tags="hukuk,avukat,icra">
+										        <i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Hukuk Birimi</p>
+									        </a>
+										</li>
+										<li class="nav-item">
+									        <a href="Hukuk_Islem_Listesi.aspx" class="nav-link" tags="hukuk,avukat,icra">
+										        <i class="fas fa-circle nav-icon alt"></i> <p>Hukuk Dosyaları</p>
+									        </a>
+										</li>
+									</ul>
+								</li>
+								
+								<li class="nav-item" tl="diger-broker">
+									<a href="#" class="nav-link">
+										<p>Broker Yönetimi <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+											<a href="Broker_Musaitlik_Listesi.Aspx" class="nav-link" tags="broker,müsaitlik,lokasyon">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Müsaitlik</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Disardan_Sube.Aspx" class="nav-link" tags="broker,excelden,şubeleri,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Şube Ayarları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Disardan_Arac.Aspx" class="nav-link" tags="broker,excelden,xml,araçları,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Araç Ayarları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Firma_Tanim.Aspx" class="nav-link" tags="broker,excelden,xml,firma,şube,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Şube Yönetimi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Rez_Kaynak_Tedarikci.Aspx" class="nav-link" tags="broker,excelden,xml,firma,şube,aktarma,tedarikçi,rezervasyon,kaynak">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Tedarikçi Oranları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Fiyat_Aktar.aspx" class="nav-link" tags="broker,excelden,xml,fiyatları,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Fiyat Yönetimi</p>
+											</a>
+										</li>
+									</ul>
+								</li>
+								
+									<li class="nav-item" tl="diger-raporlar">
+										<a href="#" class="nav-link">
+											<p>Raporlar <i class="fas fa-angle-left right"></i></p>
+										</a>
+										<ul class="nav nav-treeview">
+											<li class="nav-item">
+												<a href="GunRaporu.aspx" class="nav-link" tags="günlük,faaliyet,raporu,ozeti">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i> <p>Günlük Faaliyet Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Arac_Rac_Takvim.aspx" class="nav-link" tags="çalışma,takvimi">
+													<i class="fas fa-calendar-alt nav-icon alt text-info"></i><p>Çalışma Takvimi</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Musaitlik_Durum.Aspx" class="nav-link" tags="müsaitlik,durumu,raporu">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müsaitlik Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Doluluk_Grafik.Aspx" class="nav-link" tags="doluluk,raporu">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Doluluk Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Extralar_Raporu.aspx" class="nav-link" tags="extra, ekstra, satış">
+													<i class="fas fa-donate nav-icon alt text-info"></i><p>Ek Hizmet Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Gelir_Tablosu.Aspx" class="nav-link" tags="gelirler,gider,tablosu,raporu,geliri">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Gelir &amp; Gider Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Genel_Rapor.Aspx" class="nav-link" tags="genel,gelir,extra,hizmet,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Genel Rapor</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Tahsilat_Raporu.Aspx" class="nav-link" tags="tahsilat,fatura,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Tahsilat Fatura Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Musteri_CRM.Aspx" class="nav-link" tags="musteri,analiz,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Müşteri Analiz</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Rakip_Fiyat_Analizi.aspx" class="nav-link" tags="rakip,analiz,fiyat">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Rakip Fiyat Analiz</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Rez_Kaynagi_Mutabakat.aspx" class="nav-link" tags="mutabakat">
+													<i class="fas fa-donate nav-icon alt text-info"></i><p>Rez. Kaynağı Mutabakat</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Kasa_Dagilimi.Aspx" class="nav-link" tags="tahsilatlar,ödemeler,listesi">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Tahsilat &amp; Ödeme</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<p class="dropdown-divider left-menu"></p>
+											</li>
+											
+												<li class="nav-item">
+													<a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borç,alacak,raporu,durumu">
+														<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak Raporu</p>
+													</a>
+												</li>
+												
+												<li class="nav-item">
+													<a href="Hesap_Extresi.aspx" class="nav-link" tags="cari,hesap,ekstresi,extresi,dökümü">
+														<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Cari Hesap Extresi</p>
+													</a>
+												</li>
+												
+												<li class="nav-item">
+													<p class="dropdown-divider left-menu"></p>
+												</li>
+											
+											<li class="nav-item">
+												<a href="Sigorta_Muayene.Aspx" class="nav-link" tags="sigorta,muayene,kasko,raporu,listesi">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Sigorta &amp; Muayene Raporu</p>
+												</a>
+											</li>
+											
+										</ul>
+									</li>
+								
+
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Serbest_SMS.aspx" class="nav-link" tags="sms,gönderme">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Sms Gönder</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Toplu_Tahsilat.aspx" class="nav-link" tags="toplu,tahsilat,girişi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Toplu Tahsilat</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+
+								
+								<li class="nav-item">
+									<a href="HGS_Gecis_Listesi.aspx" class="nav-link" tags="hgs,geçişler,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Hgs Geçiş Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Ceza_Gecis_Listesi.aspx" class="nav-link" tags="cezaları,trafik,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Trafik Ceza Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Anket_Listesi.aspx" class="nav-link" tags="anket,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Anket Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Otomatik_Servisler.aspx" class="nav-link" tags="otomatik, servisler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Otomatik Servisler</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="tanim">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-folder-plus"></i> <p>Tanımlamalar <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Arac_Grubu.Aspx" class="nav-link" tags="araç,grubu,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Grubu Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Marka_Tanim.Aspx" class="nav-link" tags="marka,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Marka Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Tipi_Tanimlama.Aspx" class="nav-link" tags="tip,model,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tip Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Sube_Tanimlama.Aspx" class="nav-link" tags="şube,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Şube Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Lokasyonlar.Aspx" class="nav-link" tags="lokasyon,tanımı,tanımlama,drop">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Lokasyon Tanımı</p>
+									</a>
+								</li>
+                              						
+								
+								<li class="nav-item">
+									<a href="Lokasyon_Sube_Ara.aspx" class="nav-link" tags="lokasyon,şube,drop,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Lokasyon Drop Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Rezervasyon_Kaynagi.aspx" class="nav-link" tags="rezervasyon,kaynağı,kaynak">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rezervasyon Kaynağı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Tarifeler_XML.Aspx" class="nav-link" tags="fiyat,xml,tarifeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>XML Tarife</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Tarifeler.Aspx" class="nav-link" tags="genel,tarifeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Genel Tarife (NRM)</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Sigorta_Tarife_Listesi.aspx" class="nav-link" tags="sigorta,tarifeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Sigorta Tarifeleri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kiralama_Sartlari.aspx" class="nav-link" tags="kiralama,şartları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kiralama Şartları</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Broker_Yasaklari.Aspx" class="nav-link" tags="stop,sell,broker,yasakları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Stop Sell (Yasaklar)</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Plan_Yonetim.aspx" class="nav-link" tags="araç,artır,azalt">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Artır &amp; Azalt</p>
+									</a>
+								</li>
+								
+									<li class="nav-item">
+										<a href="Fiyat_Kampanya_Yonetimi.aspx" class="nav-link" tags="xml,tarife,fiyat,kampanya,indirim">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Fiyat Kampanya Yönetimi</p>
+										</a>
+									</li>
+
+									<li class="nav-item">
+										<a href="Kiralama_Kurallari_Basic.aspx" class="nav-link" tags="kupon,kampanya,indirim,kiralama,şartları,kuralları,promosyonlar,kodu">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Kupon Yönetimi</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="Kiralama_Kurallari.aspx" class="nav-link" tags="kupon,kampanya,indirim,kiralama,şartları,kuralları,promosyonlar,kodu">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Detaylı Kupon Yönetimi</p>
+										</a>
+									</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Sahibi.aspx" class="nav-link" tags="araç,sahip,grubu,sahibi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Sahip Grubu</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Tanimlama.Aspx" class="nav-link" tags="gider,tanımı,tanımlamalar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Gider Tanımı</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Para_Tanimlama.Aspx" class="nav-link" tags="döviz,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Döviz Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kasa_Tanimi.Aspx" class="nav-link" tags="kasa,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kasa Tanımı</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Hesap_No_Tanimlama.Aspx" class="nav-link" tags="banka,hesabı,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Banka Hesabı Tanımı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Fiyat_Grup_Tanimlama.aspx" class="nav-link" tags="genel,tarifeler,grup,tanımla">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tarife Grubu Tanımı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Iptal_Sebepleri.Aspx" class="nav-link" tags="iptal,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>İptal Sebep Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Ozel_Kod_Tanim.Aspx" class="nav-link" tags="özel,kod,tanımı,tanımlama,kanal,noter,">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Kod Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Hesap_Tanimalama.aspx" class="nav-link" tags="fatura,hesap,kod,tanim,tanimlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Hesap Kod Tanım</p>
+									</a>
+								</li>
+                                 
+								
+							</ul>
+						</li>
+
+						<li class="nav-item" tl="per">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-id-card-alt"></i> <p>Personeller <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Personel_Listesi.aspx" class="nav-link" tags="personeller,çalışanlar,listesi,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Personel Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Personel_Kayit.aspx" class="nav-link" tags="yeni,personel,tanımı,tanımlama,çalışanlar,elemanlar">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Personel</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Personel_Calisma_Grafigi.aspx" class="nav-link" tags="personel,çalışma,tablosu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Per. Çalışma Tablosu</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						
+						<li class="nav-item" tl="yetki">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-user"></i> <p>Kullanıcılar &amp; Yetkiler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a href="Kullanicilar.Aspx?Grup=True" class="nav-link" tags="yetki,grupları,grubu,tanımlama,tanımı">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yetki Grupları</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kullanicilar.Aspx" class="nav-link" tags="kullanıcılar,tanımlama,tanımı,kullanıcısı,program,yetkili">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Program Kullanıcıları</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+						
+
+						<div class="iframe-alt"></div>
+
+					</ul>
+				</nav>
+
+			</div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="height: 54.8841%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></div>
+		</aside>
+
+		<aside class="control-sidebar control-sidebar-dark" style="display: none; top: 57px; height: 663px;">
+			
+			<nav class="mt-2 control-sidebar-content os-host os-theme-light os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition os-host-scrollbar-vertical-hidden" style="height: 663px;"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px; width: 0px; height: 0px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible os-viewport-native-scrollbars-overlaid"><div class="os-content" style="padding: 0px; height: 100%; width: 100%;">
+				<ul class="nav nav-pills nav-sidebar flex-column sidebar-right">
+					
+					<li class="nav-item">
+						<a href="Arac_Rac_Takvim.aspx" class="nav-link" tags="çalışma,takvimi">
+							<i class="fas fa-calendar-alt nav-icon alt text-info"></i><p>Çalışma Takvimi</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Musaitlik_Durum.Aspx" class="nav-link" tags="müsaitlik,durumu,raporu">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müsaitlik Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Doluluk_Grafik.Aspx" class="nav-link" tags="doluluk,raporu">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Doluluk Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Extralar_Raporu.aspx" class="nav-link" tags="extra, ekstra, satış">
+							<i class="fas fa-donate nav-icon alt text-info"></i><p>Ek Hizmet Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Gelir_Tablosu.Aspx" class="nav-link" tags="gelirler,gider,tablosu,raporu,geliri">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Gelir &amp; Gider Raporu</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Tahsilat_Raporu.Aspx" class="nav-link" tags="tahsilat,fatura,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Tahsilat Fatura Raporu</p>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="Genel_Rapor.Aspx" class="nav-link" tags="genel,gelir,extra,hizmet,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Genel Rapor</p>
+						</a>
+					</li>
+                    
+					
+					<li class="nav-item">
+						<a href="Rez_Kaynagi_Mutabakat.aspx" class="nav-link" tags="mutabakat">
+							<i class="fas fa-donate nav-icon alt text-info"></i><p>Rez. Kaynağı Mutabakat</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Kasa_Dagilimi.Aspx" class="nav-link" tags="tahsilatlar,ödemeler,listesi">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Tahsilat &amp; Ödeme</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Musteri_CRM.Aspx" class="nav-link" tags="musteri,analiz,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Müşteri Analiz</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Rakip_Fiyat_Analizi.Aspx" class="nav-link" tags="rakip,analiz,fiyat">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Rakip Fiyat Analiz</p>
+						</a>
+					</li>
+											
+
+					
+					<li class="nav-item">
+						<p class="dropdown-divider left-menu"></p>
+					</li>
+					
+					    <li class="nav-item">
+						    <a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borç,alacak,raporu,durumu">
+							    <i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak Raporu</p>
+						    </a>
+					    </li>
+					    
+					    <li class="nav-item">
+						    <a href="Hesap_Extresi.aspx" class="nav-link" tags="cari,hesap,ekstresi,extresi,dökümü">
+							    <i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Cari Hesap Extresi</p>
+						    </a>
+					    </li>
+					    
+					    <li class="nav-item">
+						    <p class="dropdown-divider left-menu"></p>
+					    </li>
+
+					
+					<li class="nav-item">
+						<a href="Sigorta_Muayene.Aspx" class="nav-link" tags="sigorta,muayene,kasko,raporu,listesi">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Sigorta &amp; Muayene Raporu</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<p class="dropdown-divider left-menu"></p>
+					</li>
+                    
+						<li class="nav-item">
+							<a href="Web_Site_Yonetimi.aspx" class="nav-link" tags="web,sitesi,makaleler,yönetimi,listesi">
+								<i class="fas fa-project-diagram nav-icon alt text-info"></i> <p>Web Site Yönetimi</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<p class="dropdown-divider left-menu"></p>
+						</li>
+					
+					<li class="nav-item">
+						<a href="Ayarlar.aspx" class="nav-link" tags="ayarlar">
+							<i class="fas fa-tools nav-icon alt text-info"></i><p>Ayarlar</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Log_Kayit.Aspx" class="nav-link" tags="loglar,kayıtları">
+							<i class="fas fa-archive nav-icon alt text-info"></i><p>Log Kayıtları</p>
+						</a>
+					</li>
+					
+
+					<div class="iframe-alt"></div>
+				</ul>
+			</div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></nav>
+
+		</aside>
+
+		<div class="content-wrapper" style="min-height: 663px;">
+			<div class="content-empty"></div>
+			<form method="post" action="./Bos_Arac_Listesi.aspx" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="ToolkitScriptManager1_HiddenField" id="ToolkitScriptManager1_HiddenField" value="">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTg1NjQxNjI5Nw9kFgJmD2QWBgIBDxYCHglpbm5lcmh0bWwFATJkAgIPFgIeC18hSXRlbUNvdW50AgIWBGYPZBYCZg8VAiJSZXplcnZhc3lvbi5Bc3B4P0lzbGVtX1R1cnU9UmV6ZXJ2EFllbmkgUmV6ZXJ2YXN5b25kAgEPZBYCZg8VAh1LaXJhbGFtYS5Bc3B4P0lzbGVtX1R1cnU9S2lyYQlZZW5pIEtpcmFkAgMPZBYCAgEPZBYCAgMPZBYCZg9kFggCBw8QDxYGHg1EYXRhVGV4dEZpZWxkBQpBcmFjX0dydWJ1Hg5EYXRhVmFsdWVGaWVsZAUKQXJhY19HcnVidR4LXyFEYXRhQm91bmRnZBAVFgVIZXBzaShEQUPEsEEtU0FOREVSTy1TVEVQV0FZLU9UT01BVMSwSy1CRU5axLBOH0bEsEFULUVHRUEtQ1JPU1MtTUFOVUVMLUJFTlrEsE4ZRsSwQVQtRUdFQS1NQU5VRUwtQkVOWsSwThhGxLBBVC1FR0VBLU1BTlVFTC1ExLBaRUwbRsSwQVQtRUdFQS1PVE9NQVTEsEstRMSwWkVMHUbEsEFULUbEsE9SxLBOTy1NQU5VRUwtRMSwWkVMGkbEsEFULUzEsE5FQS1NQU5VRUwtRMSwWkVMDUZPUkQgQ09VUsSwRVIbRk9SRC1GT0NVUy1PVE9NQVTEsEstRMSwWkVMHEvEsEEtU1BPUlRBR0UtTUFOVUVMLUJFTlrEsE4XT1BFTCBBU1RSQSBTRURBTiBExLBaRUweUkVOQVVMVCBDTElPIDEuNSBNQU5VRUwgRMSwWkVMHVJlbmF1bHQgQ2xpbyBIQiBtYW51ZWwgQmVuemluH1JFTkFVTFQtQ0zEsE8tT1RPTUFUxLBLLUJFTlrEsE4dUkVOQVVMVC1GTFVFTkNFLU1BTlVFTC1ExLBaRUwgUkVOQVVMVC1GTFVFTkNFLU9UT01BVMSwSy1ExLBaRUwfUkVOQVVMVC1NRUdBTkUtT1RPTUFUxLBLLUTEsFpFTCJSRU5BVUxULVRBTMSwQU5ULU9UT01BVMSwSy1CRU5axLBOG1NFQVQgxLBCxLBaQSBCRU5axLBOIE1BTlVFTBhUT1lPVEEgQ09ST0xMQSBPVE9NQVTEsEsiVk9MS1NXQUdFTi1QQVNTQVQtT1RPTUFUxLBLLUTEsFpFTBUWBUhlcHNpKERBQ8SwQS1TQU5ERVJPLVNURVBXQVktT1RPTUFUxLBLLUJFTlrEsE4fRsSwQVQtRUdFQS1DUk9TUy1NQU5VRUwtQkVOWsSwThlGxLBBVC1FR0VBLU1BTlVFTC1CRU5axLBOGEbEsEFULUVHRUEtTUFOVUVMLUTEsFpFTBtGxLBBVC1FR0VBLU9UT01BVMSwSy1ExLBaRUwdRsSwQVQtRsSwT1LEsE5PLU1BTlVFTC1ExLBaRUwaRsSwQVQtTMSwTkVBLU1BTlVFTC1ExLBaRUwNRk9SRCBDT1VSxLBFUhtGT1JELUZPQ1VTLU9UT01BVMSwSy1ExLBaRUwcS8SwQS1TUE9SVEFHRS1NQU5VRUwtQkVOWsSwThdPUEVMIEFTVFJBIFNFREFOIETEsFpFTB5SRU5BVUxUIENMSU8gMS41IE1BTlVFTCBExLBaRUwdUmVuYXVsdCBDbGlvIEhCIG1hbnVlbCBCZW56aW4fUkVOQVVMVC1DTMSwTy1PVE9NQVTEsEstQkVOWsSwTh1SRU5BVUxULUZMVUVOQ0UtTUFOVUVMLUTEsFpFTCBSRU5BVUxULUZMVUVOQ0UtT1RPTUFUxLBLLUTEsFpFTB9SRU5BVUxULU1FR0FORS1PVE9NQVTEsEstRMSwWkVMIlJFTkFVTFQtVEFMxLBBTlQtT1RPTUFUxLBLLUJFTlrEsE4bU0VBVCDEsELEsFpBIEJFTlrEsE4gTUFOVUVMGFRPWU9UQSBDT1JPTExBIE9UT01BVMSwSyJWT0xLU1dBR0VOLVBBU1NBVC1PVE9NQVTEsEstRMSwWkVMFCsDFmdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dkZAIJDxAPFgYfAgUJU3ViZV9Jc2ltHwMFCFN1YmVfQWRpHwRnZBAVAgVIZXBzaQZNRVJLRVoVAgVIZXBzaQZNRVJLRVoUKwMCZ2dkZAIRDw8WAh4EVGV4dAURS2F5xLF0IFNhecSxc8SxOjFkZAITDzwrACACAA8WAh4PRGF0YVNvdXJjZUJvdW5kZ2QePCsABgEFFCsAAmRkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WBgUfY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRHcnVidQUeY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRPZmlzBSZjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJEF0YW5hbl9QbGFrYQUyY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRHcmlkVmlld0Jvc19BcmFjX0xpc3Rlc2kFPWN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkR3JpZFZpZXdCb3NfQXJhY19MaXN0ZXNpJGN1c3R3aW5kb3cFRGN0bDAwJENvbnRlbnRQbGFjZUhvbGRlcjEkR3JpZFZpZXdCb3NfQXJhY19MaXN0ZXNpJERYUGFnZXJCb3R0b20kUFNQZ13xmQPzwPLkLC9Smimw/Xs/F9OEKQa3+SI8eUHK0r8=">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=JTn3AcvQUqE_gObjkBdGpRANKCf3bputTEz9KuNp-SST2XMgrHbiVpD9ciSbJJUxfxVpuLk6rB2z_WwAVjMwVcFIqaHjwTUirbXBXdpUrS01&amp;t=638942318819057530" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=YDzgj5Mbp3qRDssDkILTBXMjZemzvPZZkGUJobX-x8x9Gy9chE-sPWjI6cvRoy0-_USaERj2iq1FPTDqZYoe4TgDAKNcrqnFeR91RjU4ms5INOxwxFiwUM1b9NiSm4gbr1g18rvn2tgRhUwSQt9BdA2&amp;t=7c776dc1" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=6XKTE5du3CsTNOEFZ0ooPeD6WhMEsJu8kJ2rXvFE_BYMXzhlzdMHWq7HPUp1lzAj-SEIlU0zrwHNUW2OH26FeonO-dfgJB31SjHzors4n36QpnoWQ3YY8ilN_6D0ItzeZEuq3SAYPb024otSiSQeBw2&amp;t=7c776dc1" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4ECDE12A">
+</div>
+				
+	<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ContentPlaceHolder1$ToolkitScriptManager1', 'form1', ['tctl00$ContentPlaceHolder1$UpdatePanel1','UpdatePanel1'], ['ctl00$ContentPlaceHolder1$ButtonBos','ButtonBos'], ['ctl00$ContentPlaceHolder1$Button2','Button2'], 90, 'ctl00');
+//]]>
+</script>
+
+	<div id="UpdatePanel1">
+	
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title icon-title">
+								<i class="fas fa-list"></i> Boş Araç Listesi
+							</h3>
+							<div class="btn-group btn-right">
+								<button id="button3" onclick="button3_Click()" class="btn btn-default">Tablo Düzenle</button>
+								<input type="submit" name="ctl00$ContentPlaceHolder1$btnSaveLayout" value="Tablo Ayarlarını Kaydet" id="btnSaveLayout" class="btn btn-default" autopostback="false">
+								<input type="submit" name="ctl00$ContentPlaceHolder1$Button2" value="Excel'e Aktar" id="Button2" class="btn btn-default">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+
+								<div class="col-sm-6">
+									
+									<div class="form-group row">
+										<label class="col-sm-4 col-form-label">Plaka</label>
+										<div class="col-sm-8">
+											<input name="ctl00$ContentPlaceHolder1$TextBox1" type="text" id="TextBox1" class="form-control" placeholder="Plaka yazınız">
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label class="col-sm-4 col-form-label">Araç Grubu</label>
+										<div class="col-sm-8">
+											<select size="4" name="ctl00$ContentPlaceHolder1$Grubu" multiple="multiple" id="Grubu" class="form-control">
+		<option selected="selected" value="Hepsi">Hepsi</option>
+		<option value="DACİA-SANDERO-STEPWAY-OTOMATİK-BENZİN">DACİA-SANDERO-STEPWAY-OTOMATİK-BENZİN</option>
+		<option value="FİAT-EGEA-CROSS-MANUEL-BENZİN">FİAT-EGEA-CROSS-MANUEL-BENZİN</option>
+		<option value="FİAT-EGEA-MANUEL-BENZİN">FİAT-EGEA-MANUEL-BENZİN</option>
+		<option value="FİAT-EGEA-MANUEL-DİZEL">FİAT-EGEA-MANUEL-DİZEL</option>
+		<option value="FİAT-EGEA-OTOMATİK-DİZEL">FİAT-EGEA-OTOMATİK-DİZEL</option>
+		<option value="FİAT-FİORİNO-MANUEL-DİZEL">FİAT-FİORİNO-MANUEL-DİZEL</option>
+		<option value="FİAT-LİNEA-MANUEL-DİZEL">FİAT-LİNEA-MANUEL-DİZEL</option>
+		<option value="FORD COURİER">FORD COURİER</option>
+		<option value="FORD-FOCUS-OTOMATİK-DİZEL">FORD-FOCUS-OTOMATİK-DİZEL</option>
+		<option value="KİA-SPORTAGE-MANUEL-BENZİN">KİA-SPORTAGE-MANUEL-BENZİN</option>
+		<option value="OPEL ASTRA SEDAN DİZEL">OPEL ASTRA SEDAN DİZEL</option>
+		<option value="RENAULT CLIO 1.5 MANUEL DİZEL">RENAULT CLIO 1.5 MANUEL DİZEL</option>
+		<option value="Renault Clio HB manuel Benzin">Renault Clio HB manuel Benzin</option>
+		<option value="RENAULT-CLİO-OTOMATİK-BENZİN">RENAULT-CLİO-OTOMATİK-BENZİN</option>
+		<option value="RENAULT-FLUENCE-MANUEL-DİZEL">RENAULT-FLUENCE-MANUEL-DİZEL</option>
+		<option value="RENAULT-FLUENCE-OTOMATİK-DİZEL">RENAULT-FLUENCE-OTOMATİK-DİZEL</option>
+		<option value="RENAULT-MEGANE-OTOMATİK-DİZEL">RENAULT-MEGANE-OTOMATİK-DİZEL</option>
+		<option value="RENAULT-TALİANT-OTOMATİK-BENZİN">RENAULT-TALİANT-OTOMATİK-BENZİN</option>
+		<option value="SEAT İBİZA BENZİN MANUEL">SEAT İBİZA BENZİN MANUEL</option>
+		<option value="TOYOTA COROLLA OTOMATİK">TOYOTA COROLLA OTOMATİK</option>
+		<option value="VOLKSWAGEN-PASSAT-OTOMATİK-DİZEL">VOLKSWAGEN-PASSAT-OTOMATİK-DİZEL</option>
+
+	</select>
+										</div>
+									</div>
+									
+								</div>
+									
+								<div class="col-sm-6">
+								
+									<div class="form-group row">
+										<label class="col-sm-4 col-form-label">Şube</label>
+										<div class="col-sm-8">
+											<select size="4" name="ctl00$ContentPlaceHolder1$Ofis" multiple="multiple" id="Ofis" class="form-control">
+		<option selected="selected" value="Hepsi">Hepsi</option>
+		<option value="MERKEZ">MERKEZ</option>
+
+	</select>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label class="col-sm-4 col-form-label">Lokasyon</label>
+										<div class="col-sm-8">
+											<select name="ctl00$ContentPlaceHolder1$Lokasyon" id="Lokasyon" class="form-control">
+
+	</select>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="col-sm-12">
+								
+									<div class="form-group row">
+									
+										<div class="col-sm-2">
+											<a id="ButtonBos" class="btn btn-block btn-info" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$ButtonBos','')">
+												<i class="fas fa-filter"></i> Filtrele</a>
+										</div>
+
+										<div class="col-sm-4">
+											<div class="input-group">
+												<div class="form-control input-group-text">
+													Atanan Plakaları Gizle
+												</div>
+												<div class="input-group-append">
+													<span class="input-group-text">
+														<input id="Atanan_Plaka" type="checkbox" name="ctl00$ContentPlaceHolder1$Atanan_Plaka">
+													</span>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-6">
+											<span id="Label1Bos" class="btn btn-default btn-block">Kayıt Sayısı:1</span>
+										</div>
+										
+									</div>
+									
+								</div>
+									
+								<div class="col-sm-12 dropdown-divider mt-3 mb-3"></div>
+								
+								<div class="col-sm-12">
+									<script id="dxis_724151525" src="/DXR.axd?r=1_231,1_134,1_224,1_168,1_153,1_226,1_193,1_195,1_196,1_166,1_174,1_131,1_216,1_214,1_212,1_222,1_205,1_215-Uluai" type="text/javascript"></script><table class="dxgvControl" id="GridViewBos_Arac_Listesi" style="width: 973px; border-collapse: separate;" tabindex="0">
+		<tbody><tr>
+			<td><div id="GridViewBos_Arac_Listesi_grouppanel" class="dxgvGroupPanel">
+				Drag a column header here to group by that column
+			</div><div class="dxgvHSDC" style="padding-right: 0px;">
+				<div style="overflow: hidden; width: 973px;" align="left">
+					<table id="GridViewBos_Arac_Listesi_DXHeaderTable" class="dxgvTable" onclick="ASPx.GTableClick('GridViewBos_Arac_Listesi', event);" ondblclick="ASPx.GVTableDblClick('GridViewBos_Arac_Listesi', event);" style="width:100%;empty-cells:show;table-layout:fixed;overflow:hidden;text-overflow:ellipsis;">
+						<tbody><tr class="dxgvArm">
+							<td style="width:130px;"></td><td style="width:130px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td></td>
+						</tr><tr id="GridViewBos_Arac_Listesi_DXHeadersRow0">
+							<td id="GridViewBos_Arac_Listesi_col0" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Kirala</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col1" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Rezerve</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col2" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Plaka</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col3" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Boştaki Süresi</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col4" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Marka</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col5" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Tipi</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col6" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Yılı</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col7" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Yakıt Türü</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col8" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Vites</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col9" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Grup</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col10" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Grup Özel Kod</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col11" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Yakıt</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col12" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Renk</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col13" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>SIPP</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col14" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Şube</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col15" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Lokasyon</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col16" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Son Km</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col17" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Kar Lastiği</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col18" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Temizlik</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col19" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Müşteri</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col20" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Baş. Tar.</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col21" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Açıklama</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col22" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Tescil Tar.</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td id="GridViewBos_Arac_Listesi_col23" class="dxgvHeader" onmousedown="ASPx.GHeaderMouseDown('GridViewBos_Arac_Listesi', this, event);" style="border-top-width:0px;border-left-width:0px;"><table style="width:100%;">
+								<tbody><tr>
+									<td>Ruhsat Tar.</td><td style="width:1px;text-align:right;"><span class="dx-vam">&nbsp;</span></td>
+								</tr>
+							</tbody></table></td><td class="dxgvHEC"></td>
+						</tr>
+					</tbody></table>
+				</div>
+			</div><div class="dxgvCSD" style="height: 380px; overflow: auto; width: 973px;" align="left">
+				<table id="GridViewBos_Arac_Listesi_DXMainTable" class="dxgvTable dxgvRBB" onclick="ASPx.GTableClick('GridViewBos_Arac_Listesi', event);" ondblclick="ASPx.GVTableDblClick('GridViewBos_Arac_Listesi', event);" style="width:100%;empty-cells:show;table-layout:fixed;overflow:hidden;text-overflow:ellipsis;">
+					<tbody><tr class="dxgvArm">
+						<td style="width:130px;"></td><td style="width:130px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td style="width:100px;"></td><td></td>
+					</tr><tr id="GridViewBos_Arac_Listesi_DXDataRow0" class="dxgvDataRow dxgvFocusedRow" style="background-color: rgb(255, 255, 198);">
+						<td class="dxgv dx-al" style="color:White;background-color:White;font-size:12px;font-weight:bold;text-decoration:underline;"><a class="dxeHyperlink" href="Komut_Islem.Aspx?Kirala_Plaka=35EP210" target="_blank">35EP210-Kirala</a></td><td class="dxgv dx-al" style="color:White;background-color:White;font-size:12px;font-weight:bold;text-decoration:underline;"><a class="dxeHyperlink" href="Komut_Islem.Aspx?Rezerv_Plaka=35EP210" target="_blank">35EP210-Rezerv</a></td><td class="dxgv dx-al" style="color:White;background-color:White;font-weight:bold;text-decoration:underline;"><a class="dxeHyperlink" href="Arac_Kayit.aspx?Plaka=35EP210" target="_blank">35EP210</a></td><td class="dxgv dx-ar">5</td><td class="dxgv">RENAULT</td><td class="dxgv">FLUENCE TOUCH 1.5DCİ</td><td class="dxgv">&nbsp;</td><td class="dxgv">Dizel</td><td class="dxgv">Düz</td><td class="dxgv">RENAULT-FLUENCE-MANUEL-DİZEL</td><td class="dxgv">&nbsp;</td><td class="dxgv">0</td><td class="dxgv">&nbsp;</td><td class="dxgv">IDMD</td><td class="dxgv">MERKEZ</td><td class="dxgv">&nbsp;</td><td class="dxgv dx-ar">111</td><td class="dxgv">YOK</td><td class="dxgv">Kirli</td><td class="dxgv">SERHAT YAVUZ</td><td class="dxgv">6.08.2026</td><td class="dxgv">&nbsp;</td><td class="dxgv">&nbsp;</td><td class="dxgv">&nbsp;</td><td class="dxgvHEC"></td>
+					</tr>
+				</tbody></table>
+			</div><div id="GridViewBos_Arac_Listesi_custwindow_PW-1" class="dxpcLite dxpclW" style="width:1px;cursor:default;z-index:10000;display:none;visibility:hidden;">
+				<div class="dxpc-mainDiv dxpc-shadow">
+					<div class="dxpc-header dxpc-withBtn" style="cursor:move;-webkit-user-select:none;" id="GridViewBos_Arac_Listesi_custwindow_PWH-1">
+						<div class="dxpc-closeBtn" id="GridViewBos_Arac_Listesi_custwindow_HCB-1">
+							<img class="dxWeb_pcCloseButton" src="/DXR.axd?r=1_37-Uluai" alt="[Close]">
+						</div><div class="dxpc-headerContent">
+							<span class="dxpc-headerText dx-vam" id="GridViewBos_Arac_Listesi_custwindow_PWH-1T">Column Chooser</span>
+						</div><b class="dx-clear"></b>
+					</div><div class="dxpc-contentWrapper">
+						<div class="dxpc-content" style="padding-left:0px;padding-right:0px;padding-top:0px;padding-bottom:0px;" id="GridViewBos_Arac_Listesi_custwindow_PWC-1">
+							<div id="GridViewBos_Arac_Listesi_custwindow_Scroller" class="dxgvCustomization" style="height:170px;width:150px;overflow:auto;">
+								<table style="width:100%;border-spacing:3px;border-collapse:separate;">
+									<tbody><tr>
+										<td></td>
+									</tr>
+								</tbody></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><script id="dxss_319671927" type="text/javascript">
+<!--
+ASPx.AddHoverItems('GridViewBos_Arac_Listesi_custwindow',[[['dxpc-closeBtnHover'],[''],['HCB-1']]]);
+
+var dxo = new ASPxClientPopupControl('GridViewBos_Arac_Listesi_custwindow');
+dxo.InitGlobalVariable('GridViewBos_Arac_Listesi_custwindow');
+dxo.uniqueID = 'ctl00$ContentPlaceHolder1$GridViewBos_Arac_Listesi$custwindow';
+dxo.popupAnimationType='fade';
+dxo.closeAction='CloseButton';
+dxo.popupHorizontalAlign='RightSides';
+dxo.popupVerticalAlign='BottomSides';
+dxo.isPopupPositionCorrectionOn=false;
+dxo.allowDragging=true;
+dxo.width=1;
+dxo.widthFromServer=true;
+dxo.AfterCreate();
+
+//-->
+</script><div class="dxgvPagerBottomPanel">
+				<div class="dxpLite" id="GridViewBos_Arac_Listesi_DXPagerBottom" style="width: 100%; min-width: 320.453px; display: inline-block; float: none;">
+					<b class="dxp-lead dxp-summary">Page 1 of 1 (1 items)</b><b class="dxp-button dxp-bi dxp-disabledButton"><img class="dxWeb_pPrevDisabled" src="/DXR.axd?r=1_37-Uluai" alt="Prev"></b><b class="dxp-num dxp-current">[1]</b><b class="dxp-button dxp-bi dxp-disabledButton"><img class="dxWeb_pNextDisabled" src="/DXR.axd?r=1_37-Uluai" alt="Next"></b><b class="dxp-spacer" style="width: 0px;">&nbsp;</b><b class="dxp-pageSizeItem dxp-right"><span class="dx"><label for="GridViewBos_Arac_Listesi_DXPagerBottom_PSI">Page size:</label></span><span id="GridViewBos_Arac_Listesi_DXPagerBottom_PSB" class="dxp-comboBox" onmousedown="ASPx.POnPageSizeClick('GridViewBos_Arac_Listesi_DXPagerBottom', event)" style="margin-left:4px;"><input id="GridViewBos_Arac_Listesi_DXPagerBottom_PSI" type="text" readonly="readonly" value="50" onkeydown="ASPx.POnPageSizeKeyDown('GridViewBos_Arac_Listesi_DXPagerBottom', event)" onblur="ASPx.POnPageSizeBlur('GridViewBos_Arac_Listesi_DXPagerBottom', event)" style="border-width:0px;"><span id="GridViewBos_Arac_Listesi_DXPagerBottom_DDB" class="dxp-dropDownButton"><img id="GridViewBos_Arac_Listesi_DXPagerBottom_DDBImg" class="dxWeb_pPopOut" src="/DXR.axd?r=1_37-Uluai" alt="v"></span></span></b>
+				</div><b class="dx-clear"></b><div class="dxmLite dxm-ltr">
+					<div id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP" style="z-index: 20000; display: none; position: absolute;">
+						<div class="dxm-popupMain dxm-shadow dxm-popup" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXME_">
+							<ul class="dx dxm-noImages">
+								<li class="dxm-item" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI0_"><div class="dxm-content dxm-hasText" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI0_T">
+									<span class="dx-vam">10</span>
+								</div><b class="dx-clear"></b></li><li class="dxm-spacing" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI1_II"></li><li class="dxm-item" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI1_"><div class="dxm-content dxm-hasText" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI1_T">
+									<span class="dx-vam">20</span>
+								</div><b class="dx-clear"></b></li><li class="dxm-spacing" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI2_II"></li><li class="dxm-item dxm-selected" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI2_"><div class="dxm-content dxm-hasText " id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI2_T">
+									<span class="dx-vam">50</span>
+								</div><b class="dx-clear"></b></li><li class="dxm-spacing" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI3_II"></li><li class="dxm-item" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI3_"><div class="dxm-content dxm-hasText" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI3_T">
+									<span class="dx-vam">100</span>
+								</div><b class="dx-clear"></b></li><li class="dxm-spacing" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI4_II"></li><li class="dxm-item" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI4_"><div class="dxm-content dxm-hasText" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI4_T">
+									<span class="dx-vam">200</span>
+								</div><b class="dx-clear"></b></li><li class="dxm-separator" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI5_IS"><b></b></li><li class="dxm-item" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI5_"><div class="dxm-content dxm-hasText" id="GridViewBos_Arac_Listesi_DXPagerBottom_PSP_DXI5_T">
+									<span class="dx-vam">All</span>
+								</div><b class="dx-clear"></b></li>
+							</ul>
+						</div>
+					</div>
+				</div><script id="dxss_1830908716" type="text/javascript">
+<!--
+ASPx.AddHoverItems('GridViewBos_Arac_Listesi_DXPagerBottom_PSP',[[[''],[''],['DXME_']],[['dxm-hovered',''],['',''],['DXI0_','DXI1_','DXI2_','DXI3_','DXI4_','DXI5_'],['','T']]]);
+ASPx.AddSelectedItems('GridViewBos_Arac_Listesi_DXPagerBottom_PSP',[[['dxm-selected',''],['',''],['DXI0_','DXI1_','DXI2_','DXI3_','DXI4_','DXI5_'],['','T']]]);
+ASPx.AddDisabledItems('GridViewBos_Arac_Listesi_DXPagerBottom_PSP',[[['dxm-disabled'],[''],['DXI0_','DXI1_','DXI2_','DXI3_','DXI4_','DXI5_'],['','T']]]);
+
+var dxo = new ASPxClientPopupMenu('GridViewBos_Arac_Listesi_DXPagerBottom_PSP');
+dxo.InitGlobalVariable('GridViewBos_Arac_Listesi_DXPagerBottom_PSP');
+dxo.uniqueID = 'ctl00$ContentPlaceHolder1$GridViewBos_Arac_Listesi$DXPagerBottom$PSP';
+dxo.ItemClick.AddHandler(function(s,e) { ASPx.POnPageSizePopupItemClick('GridViewBos_Arac_Listesi_DXPagerBottom', e.item); });
+dxo.renderData={'':[[0],[1],[2],[3],[4],[5]]};
+dxo.allowSelectItem=true;
+dxo.selectedItemIndexPath='2';
+dxo.CreateItems([{'name':'10'},{'name':'20'},{'name':'50'},{'name':'100'},{'name':'200'},{'beginGroup':true,'name':'-1'}]);
+dxo.popupElementIDList=['GridViewBos_Arac_Listesi_DXPagerBottom_PSB'];
+dxo.popupHorizontalAlign='LeftSides'
+dxo.popupVerticalAlign='Below';
+dxo.AfterCreate();
+
+//-->
+</script><script id="dxss_393095285" type="text/javascript">
+<!--
+ASPx.AddHoverItems('GridViewBos_Arac_Listesi_DXPagerBottom',[[['dxp-hoverComboBox'],[''],['PSB']],[['dxp-hoverDropDownButton'],[''],['DDB']]]);
+ASPx.AddPressedItems('GridViewBos_Arac_Listesi_DXPagerBottom',[[['dxp-pressedComboBox'],[''],['PSB']],[['dxp-pressedDropDownButton'],[''],['DDB']]]);
+
+var dxo = new ASPxClientPager('GridViewBos_Arac_Listesi_DXPagerBottom');
+dxo.InitGlobalVariable('GridViewBos_Arac_Listesi_DXPagerBottom');
+dxo.uniqueID = 'ctl00$ContentPlaceHolder1$GridViewBos_Arac_Listesi$DXPagerBottom';
+dxo.hasOwnerControl=true;
+dxo.requireInlineLayout=true;
+dxo.pageSizeItems = [{'text':'10','value':'10'},{'text':'20','value':'20'},{'text':'50','value':'50'},{'text':'100','value':'100'},{'text':'200','value':'200'},{'text':'All','value':'-1'}];
+dxo.pageSizeSelectedItem = ({'text':'50','value':50});
+dxo.pageSizeChangedHandler.AddHandler(function(s, e) { ASPx.GVPagerOnClick('GridViewBos_Arac_Listesi',e.value); });
+dxo.AfterCreate();
+
+//-->
+</script>
+			</div><table id="GridViewBos_Arac_Listesi_LP" class="dxgvLoadingPanel" style="left:0px;top:0px;z-index:30000;display:none;">
+				<tbody><tr>
+					<td class="dx" style="padding-right:0px;"><img class="dxlp-loadingImage dxlp-imgPosLeft" src="/DXR.axd?r=1_37-Uluai" alt="" style="vertical-align:middle;"></td><td class="dx" style="padding-left:0px;"><span id="GridViewBos_Arac_Listesi_TL">Loading…</span></td>
+				</tr>
+			</tbody></table><div id="GridViewBos_Arac_Listesi_LD" class="dxgvLoadingDiv" style="display:none;z-index:29999;position:absolute;">
+
+			</div><img id="GridViewBos_Arac_Listesi_IADD" class="dxGridView_gvDragAndDropArrowDown" src="/DXR.axd?r=1_37-Uluai" alt="|" style="position:absolute;visibility:hidden;top:-100px;"><img id="GridViewBos_Arac_Listesi_IADU" class="dxGridView_gvDragAndDropArrowUp" src="/DXR.axd?r=1_37-Uluai" alt="|" style="position:absolute;visibility:hidden;top:-100px;"><img id="GridViewBos_Arac_Listesi_IDHF" class="dxGridView_gvDragAndDropHideColumn" src="/DXR.axd?r=1_37-Uluai" alt="Hide" style="position:absolute;visibility:hidden;top:-100px;"></td>
+		</tr>
+	</tbody></table><script id="dxss_1806607946" type="text/javascript">
+<!--
+
+var dxo = new ASPxClientGridView('GridViewBos_Arac_Listesi');
+dxo.InitGlobalVariable('grid');
+dxo.callBack = function(arg) { WebForm_DoCallback('ctl00$ContentPlaceHolder1$GridViewBos_Arac_Listesi',arg,ASPx.Callback,'GridViewBos_Arac_Listesi',ASPx.CallbackError,true); };
+dxo.uniqueID = 'ctl00$ContentPlaceHolder1$GridViewBos_Arac_Listesi';
+dxo.RowDblClick.AddHandler(function(s, e) {
+									doProcessClick = false;
+									var key = s.GetRowKey(e.visibleIndex);
+									window.location.replace('/Arac_Kayit.aspx?Plaka='+key);
+									});
+dxo.stateObject = ({'focusedRow':'','selection':'','callbackState':'BwUHAwIERGF0YQa6BwAAAAABAAAAAQAAAAAAAAABAAAAABYAAAAFUGxha2EFUGxha2EHAAABBU1hcmthBU1hcmthBwAAAQRUaXBpBFRpcGkHAAABBFlpbGkEWWlsaQcAAAEER3J1cARHcnVwBwAAAQRSZW5rBFJlbmsHAAABBVZpdGVzBVZpdGVzBwAAAQpZYWtpdF9UdXJ1Cllha2l0X1R1cnUHAAABBlNvbl9LbQZTb25fS20DAAABBUtvbnVtBUtvbnVtBwAAAQtLYXJfTGFzdGlnaQtLYXJfTGFzdGlnaQcAAAEIVGVtaXpsaWsIVGVtaXpsaWsHAAABCEFjaWtsYW1hCEFjaWtsYW1hBwAAAQ1UZXNjaWxfVGFyaWhpDVRlc2NpbF9UYXJpaGkIAAABDVJ1aHNhdF9UYXJpaGkNUnVoc2F0X1RhcmloaQgAAAEFWWFraXQFWWFraXQHAAABC1Jlel9NdXN0ZXJpC1Jlel9NdXN0ZXJpBwAAAQdCYXNfVGFyB0Jhc19UYXIIAAABBFNJUFAEU0lQUAcAAAEJU3ViZV9Jc2ltCVN1YmVfSXNpbQcAAAENR3J1cF9PemVsX0tvZA1HcnVwX096ZWxfS29kBwAAAQpHZWNlbl9TdXJlCkdlY2VuX1N1cmUDAAABYAAAAAdTYXRpbGRpCUtleV9EZWdlcg5UcmFmaWtfQml0X1Rhcg1UcmFmaWtfUG9sX05vDFRyYWZpa19GaXJtYQ1LYXNrb19CaXRfVGFyDEthc2tvX1BvbF9ObwtLYXNrb19GaXJtYQ9NdWF5ZW5lX0JpdF9UYXIKSXNsZW1fU3ViZQxIR1NfTnVtYXJhc2kLQXJhY19TdGF0dXMKU2lwYXJpc19ObwlTb25fS21fSUQMU29uX0ttX01vZHVsDFNvbl9LbV9UYXJpaBBTYWdfT25fTGFzdGlrX0lkEFNvbF9Pbl9MYXN0aWtfSWQSU2FnX0Fya2FfTGFzdGlrX0lkElNvbF9BcmthX0xhc3Rpa19JZAxLYXNrb19BY2VudGEOU2lnb3J0YV9BY2VudGEKT3plbF9Lb2RfMQpPemVsX0tvZF8yCk96ZWxfS29kXzMKT3plbF9Lb2RfNApPemVsX0tvZF81DEFsdF9HcnVwX0FkaQ1XZWJfUmV6X0thcGF0Dk9maXNfUmV6X0thcGF0CUthc2FfVGlwaQxSZWhpbl9EdXJ1bXUWRmF0dXJhX1R1dGFyaV9WZXJnaXNpehFGYXR1cmFfVHV0YXJpX0tEVhFGYXR1cmFfVHV0YXJpX09UVglGYXR1cmFfTm8TV2ViX1Jlel9LYXBhdF9TZWJlcBRPZmlzX1Jlel9LYXBhdF9TZWJlcAhHdWlkX1N0cgxLb250YWtfS2FwYXQQRW50ZWdyYXN5b25fS29kdQdIR1NfT0dTD0lsa19DaWtpc19PZmlzaRBJbGtfQ2lraXNfVGFyaWhpC1Bhc2lmX1NlYmVwDVllZGVrX0FuYWh0YXIKS2Fza29fS29kdQtLcmVkaV9GaXJtYQ1LYXBhdG1hX1RhcmloDEFyYWNfMl9GaXlhdAxBcmFjXzJfRG92aXoKRGV0YXlfVGlwaQxLYXNrb19CZWRlbGkPTGFzdGlrX1V5YXJpX0ttEkFsaW1fWWFwaWxhbl9GaXJtYQ5BbGltX0ZhdF9UYXJpaAtBbGlzX0JlZGVsaQlUZXlwX0tvZHUKTW90b3JfR3VjdQ5TaWxpbmRpcl9IYWNtaQhUYWtpcF9ObwxBcmFjX1NhaGliaTIQTGFzdGlrX0JpbGdpbGVyaQRLYXBpBktvbHR1awtNb3Rvcl9IYWNtaQdBZ2lybGlrFENpa21hc2lfUGxhbmFuX1RhcmloD0FyYWNfU2FoaXBfR3J1cAhNb3Rvcl9ObwdTYXNlX05vDlRyYWZpa19CYXNfVGFyDUthc2tvX0Jhc19UYXIPTXVheWVuZV9CYXNfVGFyDUFyYWNfQmVsZ2VfTm8OQXJhY19TYWhpYmlfTm8NQXJhY19TYXRpc19LTQtBcmFjX1NhaGliaQ5GaWxvX0Npa2lzX1Rhcg5GaWxvX0dpcmlzX1RhchRTZXJ2aXNfVGFraXBfRGlzYXJkYRVTaWdvcnRhX1Rha2lwX0Rpc2FyZGELSEdTX0Zpcm1hc2kKU2V5cnVzZWZlcgZaX2l6bmkHRWtGaXlhdBNGaWxvWW9uZXRpbU1hbGl5ZXRpDEF5bGlrTWFsaXlldBFBeWxpa01hbGl5ZXREb3ZpehNIaXptZXRfQXNzaXN0X0Zpcm1hDktpcmFfS21fTGltaXRpD1RTUkJfTWFya2FfS29kdQ1UU1JCX1RpcF9Lb2R1C1Rha2lwX01hcmthBFVUVFMJQWxpc19FdXJvAAAAAAcABwAHAAcABwAG//8HAgczNUVQMjEwBwIHUkVOQVVMVAcCFUZMVUVOQ0UgVE9VQ0ggMS41REPEsAcCAAcCHVJFTkFVTFQtRkxVRU5DRS1NQU5VRUwtRMSwWkVMBwIABwIERMO8egcCBURpemVsAwdvBwIABwIDWU9LBwIFS2lybGkHAgAMDAcCATAHAgxTRVJIQVQgWUFWVVoIAgQAwJuoTfPeCAcCBElETUQHAgZNRVJLRVoHAgADBwUCC0Zvcm1hdFN0YXRlBwACBVN0YXRlB8EHGAcAAgEHAAIBBwECAQcCAgEHAgIBBwMCAQcEAgEHBQIBBwYCAQcHAgEHCAIBBwgCAQcJAgEHCgIBBwsCAQcLAgEHDAIBBwwCAQcMAgEHDQIBBw4CAQcPAgEHEAIBBxECAQcABwAHAgcABwECAAAAAABAYEAHAQcBAgAAAAAAQGBABwACAAcABwIHMzVFUDIxMAIFUGxha2EHAQIFUGxha2EHCQIAAgADBwQCAAcAAgEHAQcAAgACAQcABwAHAAcAAghQYWdlU2l6ZQMHMgIOU2hvd0dyb3VwUGFuZWwKAgE=','resizingState':'','keys':['35EP210'],'scrollState':null});
+dxo.callBacksEnabled=true;
+dxo.pageRowCount=1;
+dxo.pageRowSize=50;
+dxo.pageIndex=0;
+dxo.pageCount=1;
+dxo.selectedWithoutPageRowCount=0;
+dxo.visibleStartIndex=0;
+dxo.focusedRowIndex=0;
+dxo.allowFocusedRow=true;
+dxo.allowSelectByItemClick=false;
+dxo.allowSelectSingleRowOnly=false;
+dxo.horzScroll=2;
+dxo.vertScroll=2;
+dxo.callbackOnFocusedRowChanged=false;
+dxo.callbackOnSelectionChanged=false;
+dxo.columns = [new ASPxClientGridViewColumn('',0,-1,'Plaka',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',1,-1,'Plaka',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',2,-1,'Plaka',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',3,-1,'Gecen_Sure',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',4,-1,'Marka',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',5,-1,'Tipi',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',6,-1,'Yili',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',7,-1,'Yakit_Turu',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',8,-1,'Vites',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',9,-1,'Grup',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',10,-1,'Grup_Ozel_Kod',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',11,-1,'Yakit',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',12,-1,'Renk',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',13,-1,'SIPP',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',14,-1,'Sube_Isim',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',15,-1,'Konum',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',16,-1,'Son_Km',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',17,-1,'Kar_Lastigi',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',18,-1,'Temizlik',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',19,-1,'Rez_Musteri',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',20,-1,'Bas_Tar',1,'',0,1,1,1,1,0,0,0),
+new ASPxClientGridViewColumn('',21,-1,'Aciklama',1,'',0,1,1,1,0,0,0,0),
+new ASPxClientGridViewColumn('',22,-1,'Tescil_Tarihi',1,'',0,1,1,1,1,0,0,0),
+new ASPxClientGridViewColumn('',23,-1,'Ruhsat_Tarihi',1,'',0,1,1,1,1,0,0,0)];
+dxo.pendingEvents=['RaiseFocusedItemChanged'];
+dxo.editState=0;
+dxo.editItemVisibleIndex=-1;
+dxo.enableKeyboard=true;
+dxo.accessKey='G';
+dxo.searchPanelFilter='';
+dxo.editMode=2;
+dxo.indentColumnCount=0;
+dxo.allowMultiColumnAutoFilter=false;
+dxo.columnResizeMode=1;
+dxo.AfterCreate();
+
+//-->
+</script><script id="dxss_1035906627" type="text/javascript">
+<!--
+ASPxClientGridBase.InitializeStyles('GridViewBos_Arac_Listesi',({'sel':{'css':'dxgvSelectedRow'},'fi':{'css':'dxgvFocusedRow'},'bec':{'css':'dxgvBatchEditCell dxgv'},'bemc':{'css':'dxgvBatchEditModifiedCell dxgv'},'bemergmc':{'css':'dxgvBatchEditCell dxgvBatchEditModifiedCell dxgv'},'ei':'<tr class="dxgvEditingErrorRow">\r\n\t<td class="dxgv" data-colSpan="24"></td>\r\n</tr>','fgi':{'css':'dxgvFocusedGroupRow'}}),[])
+//-->
+</script>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			
+			<input type="hidden" name="ctl00$ContentPlaceHolder1$Islem" id="Islem">
+			<input type="hidden" name="ctl00$ContentPlaceHolder1$Kll_Tum_Bos_Arac" id="Kll_Tum_Bos_Arac" value="False">
+			<input type="hidden" name="ctl00$ContentPlaceHolder1$Konum" id="Konum">
+		
+</div>
+
+			
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("ToolkitScriptManager1_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();
+WebForm_InitCallback();//]]>
+</script>
+<input type="hidden" name="DXScript" id="DXScript" value="1_231,1_134,1_224,1_168,1_153,1_226,1_193,1_195,1_196,1_166,1_174,1_131,1_216,1_214,1_212,1_222,1_205,1_215"><input type="hidden" name="DXCss" id="DXCss" value="1_22,1_29,1_33,1_35,1_21,1_3,1_17,1_18,1_16,/img/favicon.png,/dist/css/fonts.css,/plugins/fontawesome-free/css/all.min.css,/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css,/plugins/icheck-bootstrap/icheck-bootstrap.min.css,/plugins/overlayScrollbars/css/OverlayScrollbars.min.css,/plugins/daterangepicker/daterangepicker.css,/plugins/jquery-ui/jquery-ui.min.css,/plugins/toastr/toastr.min.css,/dist/css/adminlte.min.css,/dist/css/style.css"></form>
+		</div>
+
+		
+
+	<div id="sidebar-overlay"></div></div>
+
+	<div class="toaster">
+		<div class="toast-header">
+			<strong class="mr-auto"></strong>
+			<small></small>
+			<a type="button" class="ml-2 mb-1 close" href="javascript:toaster({close:true});">
+				<span aria-hidden="true">×</span>
+			</a>
+		</div>
+		<div class="toast-body"></div>
+	</div>
+	
+	<div id="search_result" class="control-sidebar-dark" style="display: none;"></div>
+
+<script src="/plugins/MaskedEditFix.js"></script>
+<script type="text/javascript">
+var turevRentUser = "BURAK BEY";
+var mnu = (index) => {
+	const mnus = ";True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;False;False;False;False;False;False;True;True;True;True;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True";
+	const arr = mnus.split(";");
+	if(arr[index] == "True") {
+		return true;
+	}else{
+		return false;
+	}
+};
+
+function runScript(e) {
+	if (e.keyCode == 13) {
+		let tb = document.getElementById("Plaka_Ara");
+		openWindow('/Arac_Guncel_Durum.Aspx?Plaka_Ara='+tb.value, '_self');
+	}
+}
+
+function runScript2(e) {
+	if (e.keyCode == 13) {
+		let tb = document.getElementById("RA_Ara");
+		openWindow('/Fonksiyonlar.Aspx?Belge_Git=' + tb.value, '_self');
+	}
+}
+
+$(document).ready(function () {
+
+	document.getElementById('ra-search').onclick = function changeContent() {
+		runScript2({keyCode:13});
+	}
+
+	document.getElementById('plaka-search').onclick = function changeContent() {
+		runScript({keyCode:13});
+	}
+
+	sidebarListening();
+	spinSearchMenu();
+	favoriteMenusRead();
+	clickListening();
+	keydownListening();
+
+});
+</script>
+
+</body></html>

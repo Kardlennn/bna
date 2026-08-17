@@ -1,0 +1,3977 @@
+<!DOCTYPE html><html lang="tr" style="height: auto;"><head><meta charset="utf-8"><meta http-equiv="content-language" content="tr"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"><link rel="icon" href="/img/favicon.png"><title>
+	TürevRent
+</title>
+
+<!-- Source Sans Pro -->
+<link rel="stylesheet" href="/dist/css/fonts.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Daterange picker -->
+<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+<!-- Jquery Ui Css -->
+<link rel="stylesheet" href="/plugins/jquery-ui/jquery-ui.min.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/dist/css/adminlte.min.css">
+<!-- Style -->
+<link rel="stylesheet" href="/dist/css/style.css">
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Sparkline -->
+<script src="/plugins/sparklines/sparkline.js"></script>
+<!-- daterangepicker -->
+<script src="/plugins/moment/moment.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- Toastr -->
+<script src="/plugins/toastr/toastr.min.js"></script>
+<!-- App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- Eklenti -->
+<script src="/dist/js/turevrac.js?v=1"></script>
+
+
+<link rel="stylesheet" href="/src/comboTreePlugin.css">
+<script src="/src/comboTreePlugin.js"></script>
+<script src="/plugins/chart.js/Chart.min.js"></script>
+<script src="/plugins/progress-circle/progresscircle.js"></script>
+<script>
+	let mainKiraRapor = {
+						dataType: "cikislar",
+						view: {},
+						type: "bar",
+						stepSize: -1,
+						period: "hafta",
+						dataRow: []
+	};
+
+	function shortMenu(type = 'donus-geciken') {
+        let data = '{ "sube":"' + Sube_Isim_Value + '","type":"' + type + '" }';
+		let elm = 'short_cikis';
+		if (type.indexOf('donus-') > -1) {
+            elm = 'short_donus';
+        }
+		try {
+			$.ajax({
+				type: 'POST',
+				async: true,
+				url: 'Fonksiyonlar2.aspx/MainPageReportShortCut',
+				data: data,
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (result) {
+					//console.log(result);
+					if (result.d !== undefined && result.d != '') {
+						const json = JSON.parse(result.d);
+						tableCreate(elm, json, false);
+					} else {
+						tableCreate(elm, null, true);
+					}
+				}
+			});
+		} catch (e) { console.log(e); }
+
+		shortActivate(type);
+	}
+
+	function shortActivate(type) {
+		try {
+			let group = document.querySelector('.btn-group a[type="' + type + '"]');
+            if (group === null) {
+				return;
+			}
+
+            let btn_group = group.parentElement;
+			let groups = btn_group.querySelectorAll('a[type]');
+
+            if (btn_group.classList.contains('dropdown-menu')) {
+				btn_group = group.parentElement.parentElement;
+				groups = btn_group.querySelectorAll('a[type]');
+			}
+
+			for (let i = 0; i < groups.length; i++) {
+				if (groups[i].attributes['type'] !== undefined && groups[i].classList.contains('active')) {
+					groups[i].classList.remove('active');
+				}
+			}
+			group.classList.add('active');
+        } catch (e) { console.log(e); }
+	}
+
+    function tableCreate(elmid, obj, remover) {
+        try {
+
+            const pt = document.getElementById(elmid);
+
+            if (pt === null) {
+                return;
+			}
+
+            while (pt.firstChild) {
+                pt.removeChild(pt.firstChild);
+			}
+
+			if (remover) {
+				if (obj === null) {
+                    pt.innerHTML = '<div class="alert alert-warning">Kayıt Bulunamadı!</div>';
+				}
+				return;
+			}
+
+			let state = elmid == 'short_donus' ? true : false;
+
+            let table = document.createElement("table");
+            table.setAttribute("class", "table table-bordered table-striped table-sm");
+
+			let fragment = document.createDocumentFragment();
+			let html_tr, html_tr_all,relink;
+			let tr = {};
+
+			for (let i = 0; i < obj.length; i++) {
+
+				html_tr_all = 'Başlama Tarihi: <div class="float-right ml-3">' + obj[i].Bas_Tar + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Başlama Saati: <div class="float-right ml-3">' + obj[i].Bas_Saat.substr(0, 5) + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Bitiş Tarihi: <div class="float-right ml-3">' + obj[i].Bit_Tar + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Bitiş Saati: <div class="float-right ml-3">' + obj[i].Bit_Saat.substr(0, 5) + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Kiralayan: <div class="float-right ml-3">' + obj[i].Ad + ' ' + obj[i].Soyad + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Telefon: <div class="float-right ml-3">' + obj[i].Cep_Tel + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>'
+					+ 'Plaka: <div class="float-right ml-3">' + obj[i].Plaka + '</div>'
+					+ '<div class="col-sm-12 dropdown-divider m-0"></div>';
+
+				if (state) {
+                    html_tr_all += 'Dönüş Şube: <div class="float-right ml-3">' + obj[i].Donus_Ofisi;
+				} else {
+                    html_tr_all += 'Çıkış Şube: <div class="float-right ml-3">' + obj[i].Cikis_Ofisi;
+				}
+
+				tr = document.createElement("tr");
+
+                relink = '/Kiralama.Aspx?Sozlesme_No=' + obj[i].Kayit_No;
+                if (obj[i].Tabler == 'Rezervasyon') {
+                    relink = '/Rezervasyon.Aspx?Sozlesme_No=' + obj[i].Kayit_No;
+				}
+
+				if (state) {
+                    html_tr = "<td><a tabindex='0' class='btn btn-block btn-sm closer' role='button' data-toggle='popover' data-content='" + html_tr_all + "'><i class='fas fa-eye closer'></i></a></td>"
+                        + "<td><a target='_blank' class='btn btn-default btn-sm btn-block' href='" + relink + "'>" + obj[i].Bit_Tar + ' ' + obj[i].Bit_Saat.substr(0,5) + "</a></td>"
+						+ "<td>" + obj[i].Ad + ' ' + obj[i].Soyad + "</td>"
+                        + "<td>" + obj[i].Plaka + "</td>"
+                        + "<td>" + obj[i].Donus_Ofisi + "</td>";
+				} else {
+                    html_tr = "<td><a tabindex='0' class='btn btn-block btn-sm closer' role='button' data-toggle='popover' data-content='" + html_tr_all + "'><i class='fas fa-eye closer'></i></a></td>"
+                        + "<td><a target='_blank' class='btn btn-default btn-sm btn-block' href='" + relink + "'>" + obj[i].Bas_Tar + ' ' + obj[i].Bas_Saat.substr(0, 5) + "</a></td>"
+                        + "<td>" + obj[i].Ad + ' ' + obj[i].Soyad + "</td>"
+                        + "<td>" + obj[i].Plaka + "</td>"
+                        + "<td>" + obj[i].Cikis_Ofisi + "</td>";
+				}
+
+                tr.innerHTML = html_tr;
+
+                fragment.appendChild(tr);
+            }
+
+            let thead = document.createElement("thead");
+			thead.setAttribute("style", "background-color: #e9ecef;");
+			if (state) {
+				thead.innerHTML = "<tr><th>Gör</th><th>Bitiş Tarih/Saat</th><th>Ad Soyad</th><th>Plaka</th><th>Şube</th></tr>";
+			} else {
+                thead.innerHTML = "<tr><th>Gör</th><th>Başlama Tarih/Saat</th><th>Ad Soyad</th><th>Plaka</th><th>Şube</th></tr>";
+			}
+            let tbody = document.createElement("tbody");
+            tbody.appendChild(fragment);
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+			pt.appendChild(table);
+
+			try {
+				const popover = new bootstrap.Popover('[data-toggle="popover"]', {
+					trigger: 'focus',
+					container: 'body',
+					html: true
+				});
+			} catch (ex) {
+				//console.log(ex);
+			}
+
+        } catch (err) {
+            console.log(err);
+        }
+	}
+
+    function shortVeriCekimi() {
+		setTimeout(() => {
+            let data = '{ "sube":"' + Sube_Isim_Value + '"}';
+            try {
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: 'Fonksiyonlar2.aspx/MainPageReportShortCutQuantity',
+                    data: data,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+					success: function (result) {
+						//console.log(result);
+                        if (result.d !== undefined && result.d != '') {
+                            const json = JSON.parse(result.d);
+							const arr = ['donus_geciken', 'donus_bugun_donecek', 'donus_bugun_donen', 'donus_yarin_donecek'
+								, 'cikis_geciken', 'cikis_bugun_cikacak', 'cikis_bugun_cikan', 'cikis_yarin_cikacak'
+								, 'donus_3gunicinde_donecek', 'donus_7gunicinde_donecek', 'donus_15gunicinde_donecek'
+								, 'cikis_3gunicinde_cikacak', 'cikis_7gunicinde_cikacak', 'cikis_15gunicinde_cikacak'
+								, 'trafik_sigortasi_yaklasan', 'trafik_sigortasi_gecen', 'kasko_yaklasan'
+								, 'kasko_gecen', 'muayene_yaklasan', 'muayene_gecen','gorulmeyen_rezler','bakimi_gecen_araclar'];
+							let obj, donus, cikis;
+
+							for (let i = 0; i < arr.length; i++) {
+								obj = document.getElementById(arr[i]);
+								if (obj !== null) {
+									let text = json[0][arr[i]];
+									if (text !== undefined) {
+										obj.innerText = text;
+
+										if (i == 10) {
+											donus = text;
+										} else if (i == 13) {
+											cikis = text;
+										} else if (i == 15 || i == 17 || i == 19 || i == 20 || i == 21) {
+											if (text != '0') {
+												let prnt = obj.parentElement;
+												if (prnt.classList.contains('btn-border-solid') && !prnt.classList.contains('btn-animation')) {
+													prnt.classList.add('btn-animation');
+												}
+											}
+										}
+									}
+								}
+							}
+
+							shortCutTotalQuantitys(donus, cikis);
+
+							shortCutDefaultActive();
+                        }
+                    }
+                });
+            } catch (e) { console.log(e); }
+		}, 0);
+	}
+
+	function shortCutTotalQuantitys(donus, cikis) {
+		if (donus !== undefined || donus != '') {
+            const donus_gunicinde_toplam = document.getElementById('donus_gunicinde_toplam');
+			donus_gunicinde_toplam.innerText = donus;
+		}
+
+		if (cikis !== undefined || cikis != '') {
+            const cikis_gunicinde_toplam = document.getElementById('cikis_gunicinde_toplam');
+            cikis_gunicinde_toplam.innerText = cikis;
+        }
+	}
+
+	function shortCutDefaultActive() {
+		try {
+			let elm = document.querySelector('a[type="donus-bugun-donecek"]');
+			if (elm !== null) {
+				elm.click();
+			}
+            elm = document.querySelector('a[type="cikis-bugun-cikan"]');
+            if (elm !== null) {
+                elm.click();
+            }
+		} catch (e) {
+			console.log(e);
+		}
+	}
+    
+	function shortCutCreate(sc) {
+
+		try {
+			let elm, info_box_number, progress_bar, progress_description;
+			let sube = Sube_Kodu_Value.replace(';', '');
+            
+			if (sc.sadecekirada !== undefined) {
+                elm = document.getElementById('mainpage_tab5_kirada');
+                info_box_number = elm.querySelector('.info-box-number');
+                info_box_number.innerHTML = sc.sadecekirada;
+                progress_bar = elm.querySelector('.progress-bar');
+				progress_bar.style = 'width: ' + sc.kiraPercent + '%;';
+                progress_description = elm.querySelector('.progress-description');
+                progress_description.innerHTML = 'Toplamdaki ağırlığı %' + sc.kiraPercent;
+                elm.href = '/Kira_Listesi.aspx?Sube=' + sube + '&Kira_Durum=Kirada&TarihX=0';
+			}
+
+            if (sc.sadecebos !== undefined) {
+                elm = document.getElementById('mainpage_tab5_bosta');
+                info_box_number = elm.querySelector('.info-box-number');
+                info_box_number.innerHTML = sc.sadecebos;
+                progress_bar = elm.querySelector('.progress-bar');
+                progress_bar.style = 'width: ' + sc.bosPercent + '%;';
+                progress_description = elm.querySelector('.progress-description');
+                progress_description.innerHTML = 'Toplamdaki ağırlığı %' + sc.bosPercent;
+                elm.href = '/Bos_Arac_Listesi.aspx?Sube=' + sube;
+			}
+
+            if (sc.sadeceservis !== undefined) {
+                elm = document.getElementById('mainpage_tab5_servis');
+                info_box_number = elm.querySelector('.info-box-number');
+                info_box_number.innerHTML = sc.sadeceservis;
+                progress_bar = elm.querySelector('.progress-bar');
+                progress_bar.style = 'width: ' + sc.servisPercent + '%;';
+                progress_description = elm.querySelector('.progress-description');
+                progress_description.innerHTML = 'Toplamdaki ağırlığı %' + sc.servisPercent;
+                elm.href = '/Gider_Ara.Aspx?Islem_Turu=Servis&Durum=Devam&Tarih_Sec=0&Sube=' + sube;
+            }
+
+            if (sc.sadecerezervasyon !== undefined) {
+                elm = document.getElementById('mainpage_tab5_rezervasyon');
+                info_box_number = elm.querySelector('.info-box-number');
+                info_box_number.innerHTML = sc.sadecerezervasyon;
+                progress_bar = elm.querySelector('.progress-bar');
+                progress_bar.style = 'width: ' + sc.sadecerezervasyonPercent + '%;';
+                progress_description = elm.querySelector('.progress-description');
+                progress_description.innerHTML = 'Toplamdaki ağırlığı %' + sc.sadecerezervasyonPercent;
+                elm.href = '/Rezervasyon_Listesi.aspx?TarihX=1&Rezervasyon_Durum=Rezervasyon&Tarih=7&Tarih2=365&Sube=' + sube;
+			}
+
+		} catch (e) { console.log(e); }
+	}
+
+function ServisAdetTespit() {
+
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '" }';
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/ServisAdetTespit',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			let arr = [
+				{	title: 'Servis İşlemleri <i class="far fa-question-circle ml-2" data-bs-toggle="tooltip" title="* Aracın birden fazla talebi olabilir"></i>', 
+					count: parcala[0], 
+					link: "Servis_Hasar_Ara.aspx?Islem_Turu=Servis&Durum=Devam&Tarih_Sec=0&Sube=" + Sube_Kodu_Value	} ,
+					
+				{	title: "Bekleyen Talepler", 
+					count: parcala[1], 
+					link: "Servis_Hasar_Ara.aspx?Islem_Turu=Servis&Durum=Talep&Tarih_Sec=0&Sube=" + Sube_Kodu_Value	} ,
+					
+				{	title: "Servise Teslim Et", 
+					count: parcala[2], 
+					link: "Servis_Hasar_Ara.aspx?Islem_Turu=Servis&Durum=SVer&Tarih_Sec=0&Sube=" + Sube_Kodu_Value	} ,
+					
+				{	title: "Servisten Al", 
+					count: parcala[3], 
+					link: "Servis_Hasar_Ara.aspx?Islem_Turu=Servis&Durum=SAl&Tarih_Sec=0&Sube=" + Sube_Kodu_Value	} ,
+					
+				{	title: "Zamanaşımı", 
+					count: parcala[5], 
+					link: "Servis_Hasar_Ara.aspx?Islem_Turu=Servis&Gecikme=1&Durum=Devam&Tarih_Sec=0&Sube=" + Sube_Kodu_Value	}
+			];
+
+			progressLinkCreate(arr, "progress_4");
+			tooltipCreate();
+		}
+	});
+}
+
+function KiraRapor() {
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '" }';
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/ProvizyonIadeRapor',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			let arr = [
+				{	title: "Bekleyen Provizyon İadeleri", 
+					count: parcala[0], 
+					link: "Provizyon_Iade_Listesi.aspx?Sube=" + Sube_Isim_Value}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		}
+	});
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/MusteriBakiyeliRapor',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			let arr = [
+				{	title: "Bakiyeli Müşteriler", 
+					count: parcala[0], 
+					link: "Genel_Borc_Alacak.aspx"}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		}
+	});
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/KabisKontrol',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			let arr = [
+				{	title: "Kabis Bildirimi Yapılmayanlar", 
+					count: parcala[0], 
+					link: "Kira_Listesi.aspx?TarihX=9&Tarih=Bugun&Kabis=1&Otopark=2&Sube=" + Sube_Kodu_Value}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		}
+	});
+}
+
+function KiraAdetTespit() {
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '","sadece":"' + "" + '" }';
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/KiraAdetTespit',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			
+			let arr = [
+				{	title: "Kiradakiler", 
+					count: parcala[5], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=0&Tarih=Hepsi&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+				
+				{	title: "Bugün Çıkanlar", 
+					count: parcala[0], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=1&Tarih=Bugun&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+				
+				{	title: "Bugün Dönenler", 
+					count: parcala[2], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Döndü&TarihX=2&Tarih=Bugun&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+							
+				{	title: "Bugün Dönüşü Beklenenler", 
+					count: parcala[3], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Bugun&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Yarın Dönüşü Beklenenler", 
+					count: parcala[4], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Yarin&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Dönüşü Gecikenler", 
+					count: parcala[1], 
+                    link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Saat_Gecmis&Otopark=2&Sube=" + Sube_Kodu_Value},
+					
+				{	title: "Suistimal (+3)", 
+					count: parcala[6], 
+					link: "Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Suistimal&Otopark=2&Sube=" + Sube_Kodu_Value}
+			];
+
+			progressLinkCreate(arr, "progress_1");
+		}
+	});
+}
+
+function RezAdetTespit() {
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '" }';
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/RezAdetTespit',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			
+			let arr = [
+				{	title: "Gelecek Rezervasyonlar", 
+					count: parcala[0], 
+					link: "Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&Tarih=Gelecek&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Bugün Çıkışı Beklenen", 
+					count: parcala[1], 
+					link: "Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&TarihX=1&Tarih=Bugun&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Yarın Çıkışı Beklenen", 
+					count: parcala[2], 
+					link: "Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&TarihX=1&Tarih=Yarin&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Bugünkü İptaller", 
+					count: parcala[3], 
+					link: "Rezervasyon_Listesi.aspx?Rezervasyon_Durum=TIptal&TarihX=1&Tarih=Bugun&Otopark=2&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Sözleşmede (Bugün)", 
+					count: parcala[4], 
+					link: ""} ,
+					
+				{	title: "Plakasız Rezervasyonlar", 
+					count: parcala[5], 
+					link: "Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&TarihX=0&Plaka_DurumX=0&Otopark=2&Sube=" + Sube_Kodu_Value}
+			];
+
+			progressLinkCreate(arr, "progress_2");
+		}
+	});
+}
+
+function BafAdetTespit() {
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '","sadece":"' + "" + '" }';
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/BafAdetTespit',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			
+			let arr = [
+				{	title: "BAF'daki Araçlar", 
+					count: parcala[0], 
+					link: "Baf_Ara.aspx?Durum=1&Ofis_Turu=1&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Zamanaşımı", 
+					count: parcala[1], 
+					link: "Baf_Ara.aspx?Durum=1&Ozel_Rapor=zamanasimi&TarihX=2&Ofis_Turu=1&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Bugün Bitecek", 
+					count: parcala[2], 
+					link: "Baf_Ara.aspx?Durum=1&Tarih=Bugun&TarihX=2&Ofis_Turu=1&Sube=" + Sube_Kodu_Value}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		}
+	});
+}
+
+function AracAdetTespit() {
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '","sadece":"' + "webkapali;ofiskapali;muayene;trafik;kasko" + '" }';
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/AracAdetTespit',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+			
+			let arr = [
+				{	title: "Webe Kapalı Araçlar", 
+					count: parcala[0], 
+					link: "Arac_Guncel_Durum.aspx?Web_Rez_Kapat=True&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Ofis Rez.e Kapalı Araçlar", 
+					count: parcala[1], 
+					link: "Arac_Guncel_Durum.aspx?Ofis_Rez_Kapat=True&Sube=" + Sube_Kodu_Value} ,
+					
+				{	title: "Muayenesi Gelenler", 
+					count: parcala[2], 
+					link: "Arac_Guncel_Durum.aspx?TarihX=8&Tarih=Gecmis&Sube=" + Sube_Kodu_Value},
+				{	title: "Sigortası Gelenler", 
+					count: parcala[10], 
+					link: "Arac_Guncel_Durum.aspx?TarihX=6&Tarih=Gecmis&Sube=" + Sube_Kodu_Value},
+				{	title: "Kaskosu Gelenler", 
+					count: parcala[11], 
+					link: "Arac_Guncel_Durum.aspx?TarihX=7&Tarih=Gecmis&Sube=" + Sube_Kodu_Value}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		},
+		error : function (err) {
+			console.log(err);
+			return false;
+		}
+	});
+
+}
+
+function progressLinkCreate(arr, parentId) {
+
+	let obj = {title: "", count: 0, link: ""};
+	let rst = {};
+	let a = {};
+	let fragment = document.createDocumentFragment();
+
+	arr.forEach( e => {
+		rst = Object.assign(obj, e);
+		
+		a = document.createElement("a");
+		a.setAttribute("href", rst.link);
+		a.setAttribute("target", "_self");
+		a.setAttribute("class", "input-group input-group-sm mb-1");
+
+		a.innerHTML = '<div class="form-control btn btn-default text-left overflow-hidden">' + rst.title + '</div>' 
+					+ '<span class="input-group-append"><button type="button" class="btn btn-default wp-40" style="min-width:3rem;">'
+					+ rst.count + '</button></span>';
+
+		fragment.appendChild(a);
+	});
+
+	let card = document.getElementById(parentId);
+
+	if(card !== null && card !== undefined) {
+
+		card = document.getElementById(parentId);
+		card.appendChild(fragment);
+
+	}else{
+		const col = document.createElement("div");
+		col.setAttribute("class", "col-sm-3");
+		
+		card = document.createElement("div");
+		card.setAttribute("class", "card card-body p-2");
+		card.setAttribute("id", parentId);
+		
+		card.appendChild(fragment);
+		col.appendChild(card);
+		
+		document.getElementById("items").appendChild(col);
+	}
+}
+
+function subeCombo() {
+
+	let comboData = {};
+	let Hepsi_Deger = "False";
+
+	if (document.getElementById('Hepsi').checked) {
+		Hepsi_Deger = "True";
+	}
+
+	Arac_Grubu_Deger = document.getElementById("Secili_Sube_Kod_X").value;
+	let dataX = '{ "liste":"' + Arac_Grubu_Deger + '","Hepsi":"' + Hepsi_Deger + '" }';
+
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: 'Fonksiyonlar.aspx/SubeListesi',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			comboData = JSON.parse(result.d);
+		},
+		error: function () {
+            console.log('Talep esnasında sorun oluştu. Yeniden deneyin');
+		}
+	});
+
+	comboTree3 = $('#justAnInputBox1');
+	comboTree3.comboTree(comboData);
+	comboTree3.focus(function() {
+		$(".multiplesFilter").focus();
+	});
+
+	document.getElementById('justAnInputBox1').value = document.getElementById('Sube_Isim_X').value;
+}
+
+function topluVeriCekimi() {
+	if(progress_1234 === null || progressDataObject === null) {
+		setTimeout(() => { KiraAdetTespit(); }, 0);
+		setTimeout(() => { RezAdetTespit(); }, 0);
+		setTimeout(() => { ServisAdetTespit(); }, 0);
+		setTimeout(() => { BafAdetTespit(); }, 0);
+		setTimeout(() => { AracAdetTespit(); }, 0);
+		progress_1234 = true;
+	}
+}
+
+function chartCreate(dataType = "adet") {
+
+	try {
+
+		const chartData = document.getElementById("chartData").value;
+		if(chartData == "") {
+			return;
+		}
+		
+		const json = JSON.parse(chartData);
+		
+		if(json === null || json.length == 0) {
+			return;
+		}
+		
+		staffTableCreate(json);
+		
+		let personelArray = [];
+		let template = {
+			label               : 'Kira Adet',
+			backgroundColor     : 'rgb(255, 99, 132)',
+			borderColor         : 'rgb(255, 99, 132)',
+			pointRadius         : true,
+			pointColor          : '#3b8bba',
+			pointStrokeColor    : 'rgba(60,141,188,1)',
+			pointHighlightFill  : '#fff',
+			pointHighlightStroke: 'rgba(60,141,188,1)',
+			data                : []
+		};
+
+		for(let i = 0; i < json.length; i++) {
+			
+			personelArray.push(json[i].Islem_Personel);
+			
+			if(dataType == "adet") {
+				template.label = "Kira Adet";
+				template.data.push(json[i].Adet);
+			}else if(dataType == "gun") {
+				template.label = "Kira Gün Sayısı";
+				template.data.push(json[i].Gun);
+			}else if(dataType == "tutar") {
+				template.label = "Kira Tutar Toplamı";
+				template.data.push(json[i].Kira);
+			}
+		}
+			
+		const personel_chart = document.getElementById('personel_chart');
+		personel_chart.innerHTML = "";
+		
+		const canvas = document.createElement("canvas");
+		canvas.setAttribute("style", "min-height: 300px; height: 300px; max-height: 400px; max-width: 100%;");
+		personel_chart.appendChild(canvas);
+		const barChartCanvas = canvas.getContext('2d');
+		
+		const personel = new Chart(barChartCanvas, {
+			type: 'bar',
+			data: {
+				labels: personelArray,
+				datasets: [template]
+			},
+			options: {
+					responsive : true,
+					maintainAspectRatio : false,
+					datasetFill : false,
+					scales: {
+						xAxes: [{stacked: true}],
+						yAxes: [{stacked: true}]
+					}
+				}
+		});
+
+	}catch(err) {
+		console.log(err);
+	}
+}
+
+function staffTableCreate(obj) {
+
+	try {
+
+		const pt = document.getElementById("personel_tablosu");
+		const test = pt.querySelector("table");
+		
+		if(pt === null || test !== null) {
+			return;
+		}
+
+		let table = document.createElement("table");
+		table.setAttribute("class", "table table-bordered table-striped table-sm");
+		
+		let fragment = document.createDocumentFragment();
+		
+		const nf = new Intl.NumberFormat('tr-TR', { minimumFractionDigits:2, maximumFractionDigits: 2, style: "decimal" });
+		let totals = {kira:0.0, adet:0, gun: 0, hizmet:0};
+		
+		for(let i = 0; i < obj.length; i++) {
+		
+			totals.kira += parseFloat(obj[i].Kira);
+			totals.adet += parseInt(obj[i].Adet);
+			totals.gun += parseInt(obj[i].Gun);
+			totals.hizmet += parseFloat(obj[i].Hizmet);
+
+			let tr = document.createElement("tr");
+			
+			tr.innerHTML = "<td>" + obj[i].Islem_Personel + "</td>"
+							+ "<td>" + obj[i].Adet + "</td>"
+							+ "<td>" + obj[i].Gun + "</td>"
+							+ "<td class='rp'>" + nf.format(obj[i].Kira) + "</td>"
+							+ "<td class='rp'>" + nf.format(obj[i].Hizmet) + "</td>"
+							+ "<td>% " + nf.format(obj[i].Oran) + "</td>";
+		
+			fragment.appendChild(tr);
+		}
+		
+		let thead = document.createElement("thead");
+		thead.setAttribute("style", "background-color: #e9ecef;");
+		thead.innerHTML = "<tr><th>Personel</th><th>Adet</th><th>Gün</th><th class='rp'>Kira Tutar</th>"
+							+ "<th class='rp'>Hizmet</th><th>Kira/Hizmet "
+							+ "<i class='far fa-question-circle' data-bs-toggle='tooltip' title='Ek Hizmet Satışlarının Kira Tutarına Oranı.'></i></th></tr>";
+		
+		let tbody = document.createElement("tbody");
+		tbody.appendChild(fragment);
+		
+		const oran = () => { return nf.format((totals.hizmet * 100) / totals.kira); };
+		
+		let tfoot = document.createElement("tfoot");
+		tfoot.setAttribute("style", "background-color: #e9ecef;");
+		tfoot.innerHTML = "<tr><th>Toplam</th><th>" + totals.adet + "</th><th>" + totals.gun 
+							+ "</th><th class='rp'>" + nf.format(totals.kira) 
+							+ "</th><th class='rp'>" + nf.format(totals.hizmet) 
+							+ "</th><th>% " + oran() + "</th></tr>";
+		
+		table.appendChild(thead);
+		table.appendChild(tbody);
+		table.appendChild(tfoot);
+		
+		pt.appendChild(table);
+
+	}catch(err) {
+		console.log(err);
+	}
+}
+
+function progCircle() {
+
+	if(pCircle !== null) {
+		return;
+	}
+
+	progCirclePrepare();
+
+	let Sube_Isim_Value = document.getElementById('Sube_Adi_X').value;
+	let Sube_Kodu_Value = document.getElementById('Sube_Kod_X').value;
+
+	Sube_Isim_Value = Sube_Isim_Value.replace(/\'/gi,"");
+
+	let totalCars = 0;
+
+	const pr = (e) => {
+		return parseInt((parseInt(e)*100)/totalCars) || 0;
+	};
+
+	const autCheck = (e) => {
+		if(e == -1) {
+			return '<text class="text-danger text-bold" data-bs-toggle="tooltip" title="Bu değer için yetkiniz yok!">* 0</text>';
+		}
+		return e;
+	};
+
+	const pc = new ProgressCircle({selector: "#mainpage_tab2 .row", css: true, color: ["bg-danger","border-danger","bg-primary","border-primary"]});
+
+	let data = "{sube:'" + Sube_Isim_Value 
+				+ "', alan:'hepsi;sadecekirada;sadecebos;sadecebaf;sadecesatilik;sadeceservis;"
+				+ "sadecegeciken;buguncikanlar;bugundonenler;bugundonecekler;yarindonecekler;sadecerezervasyon;suistimal'}";
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/Adetler',
+		data: data,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+            const row = objectTojsonForNet(result);
+
+			progressDataObject = row;
+
+			totalCars = row.hepsi;
+
+			const sadecekirada = autCheck(row.sadecekirada);
+			const sadecebos = autCheck(row.sadecebos);
+			const sadecebaf = autCheck(row.sadecebaf);
+			const sadecesatilik = autCheck(row.sadecesatilik);
+			const sadeceservis = autCheck(row.sadeceservis);
+            const sadecegeciken = autCheck(row.sadecegeciken);
+            const suistimal = autCheck(row.suistimal);
+			const buguncikanlar = autCheck(row.buguncikanlar);
+			const bugundonenler = autCheck(row.bugundonenler);
+			const bugundonecekler = autCheck(row.bugundonecekler);
+			const yarindonecekler = autCheck(row.yarindonecekler);
+			const sadecerezervasyon = autCheck(row.sadecerezervasyon);
+
+			const kiraPercent = pr(sadecekirada);
+			const bosPercent = pr(sadecebos);
+			const bafPercent = pr(sadecebaf);
+			const satilikPercent = pr(sadecesatilik);
+			const servisPercent = pr(sadeceservis);
+            const sadecegecikenPersent = pr(sadecegeciken);
+            const suistimalPersent = pr(suistimal);
+			const buguncikanlarPercent = pr(buguncikanlar);
+			const bugundonenlerPercent = pr(bugundonenler);
+			const bugundoneceklerPercent = pr(bugundonecekler);
+			const yarindoneceklerPercent = pr(yarindonecekler);
+			const sadecerezervasyonPercent = pr(sadecerezervasyon);
+
+			let ob = [
+						{	text: "Toplam<br/><text class='text-lg'>%</text><text class='text-bold'>100</text>", 
+							textColor: "black", 
+							percent: 100, 
+							color: "bg-primary border-primary", 
+							lines: [{text: totalCars + " Araç"}],
+							click: function(){
+								if( mnu(28) && mnu(29) ){
+									openWindow("Arac_Listesi.Aspx");
+								}
+							}
+						},
+						{	text: "Kira<br/><text class='text-lg'>%</text><text class='text-bold'>" + kiraPercent + "</text>", 
+							textColor: "black", 
+							percent: kiraPercent, 
+							color: "bg-danger border-danger", 
+							lines: [{text: sadecekirada + " Araç"}],
+							click: function(){
+								if( mnu(35) && mnu(37) ){
+									openWindow("Kira_Listesi.Aspx?Kira_Durum=Kirada");
+								}
+							}
+						},
+						{	text: "Boş<br/><text class='text-lg'>%</text><text class='text-bold'>" + bosPercent + "</text>", 
+							textColor: "black", 
+							percent: bosPercent, 
+							color: "pink", 
+							lines: [{text: sadecebos + " Araç"}],
+							click: function(){
+								if( mnu(28) && mnu(30) ){
+									openWindow("Bos_Arac_Listesi.Aspx");
+								}
+							}
+						},
+						{	text: "Baf<br/><text class='text-lg'>%</text><text class='text-bold'>" + bafPercent + "</text>", 
+							textColor: "black", 
+							percent: bafPercent, 
+							color: "green", 
+							lines: [{text: sadecebaf + " Araç"}],
+							click: function(){
+								if( mnu(44) && mnu(45) ){
+									openWindow("Baf_Ara.aspx");
+								}
+							}
+						},
+						{	text: "Satılık<br/><text class='text-lg'>%</text><text class='text-bold'>" + satilikPercent + "</text>", 
+							textColor: "black", 
+							percent: satilikPercent, 
+							color: "purple", 
+							lines: [{text: sadecesatilik + ' Araç<i class="far fa-question-circle float-right" data-bs-toggle="tooltip" title="Kiraya Verilemez, Satılıklar!"></i>'}],
+							click: function(){
+								if( mnu(44) && mnu(46) ){
+									openWindow("Arac_Satis_Ara.aspx");
+								}
+							}
+						},
+						{	text: "Servis<br/><text class='text-lg'>%</text><text class='text-bold'>" + servisPercent + "</text>", 
+							textColor: "black", 
+							percent: servisPercent, 
+							color: "teal", 
+							lines: [{text: sadeceservis + ' Araç<i class="far fa-question-circle float-right" data-bs-toggle="tooltip" title="Bir aracın birden çok servis kaydı olabilir. Burada Plaka sayısı önemlidir!"></i>'}],
+							click: function(){
+								if( mnu(28) && mnu(32) ){
+									openWindow("Gider_Ara.Aspx?Islem_Turu=Servis&Durum=Devam");
+								}
+							}
+						},
+						{	text: "Dönüşü Geciken<br/><text class='text-lg'>%</text><text class='text-bold'>" + sadecegecikenPersent + "</text>", 
+							textColor: "black", 
+							percent: sadecegecikenPersent, 
+							color: "red", 
+							lines: [{text: sadecegeciken + ' Araç'}],
+							click: function(){
+								if( mnu(35) ){
+									openWindow("Kira_Listesi.Aspx?TarihX=2&Kira_Durum=Kirada&Tarih=Gecmis");
+								}
+							}
+                        },
+               
+						{	text: "Bugünkü Çıkışlar<br/><text class='text-lg'>%</text><text class='text-bold'>" + buguncikanlarPercent + "</text>", 
+							textColor: "black", 
+							percent: buguncikanlarPercent, 
+							color: "green", 
+							lines: [{text: buguncikanlar + ' Araç'}],
+							click: function(){
+								if( mnu(35) ){
+									openWindow("Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=1&Tarih=Bugun&Otopark=2&Sube=" + Sube_Isim_Value);
+								}
+							}
+						},
+						{	text: "Bugün Dönenler<br/><text class='text-lg'>%</text><text class='text-bold'>" + bugundonenlerPercent + "</text>", 
+							textColor: "black", 
+							percent: bugundonenlerPercent, 
+							color: "brown", 
+							lines: [{text: bugundonenler + ' Araç'}],
+							click: function(){
+								if( mnu(38) ){
+									openWindow("Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=1&Tarih=Bugun&Otopark=2&Sube=" + Sube_Isim_Value);
+								}
+							}
+						},
+						{	text: "Bugün Dönecekler<br/><text class='text-lg'>%</text><text class='text-bold'>" + bugundoneceklerPercent + "</text>", 
+							textColor: "black", 
+							percent: bugundoneceklerPercent, 
+							color: "yellow", 
+							lines: [{text: bugundonecekler + ' Araç'}],
+							click: function(){
+								if( mnu(37) ){
+									openWindow("Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Bugun&Otopark=2&Sube=" + Sube_Isim_Value);
+								}
+							}
+						},
+						{	text: "Yarın Dönecekler<br/><text class='text-lg'>%</text><text class='text-bold'>" + yarindoneceklerPercent + "</text>", 
+							textColor: "black", 
+							percent: yarindoneceklerPercent, 
+							color: "yellow", 
+							lines: [{text: yarindonecekler + ' Araç'}],
+							click: function(){
+								if( mnu(37) ){
+									openWindow("Kira_Listesi.aspx?Kira_Durum=Kirada&TarihX=2&Tarih=Yarin&Otopark=2&Sube=" + Sube_Isim_Value);
+								}
+							}
+						},
+						{	text: "Tüm Rez.<br/><text class='text-lg'>%</text><text class='text-bold'>" + sadecerezervasyonPercent + "</text>", 
+							textColor: "black", 
+							percent: sadecerezervasyonPercent, 
+							color: "teal", 
+							lines: [{text: sadecerezervasyon + ' Araç'}],
+							click: function(){
+								if( mnu(39) ){
+									openWindow("Rezervasyon_Listesi.aspx?TarihX=1&Rezervasyon_Durum=Rezervasyon&Tarih=7&Tarih2=365&Sube=" + Sube_Isim_Value);
+								}
+							}
+						}
+
+					];
+
+			pc.load(ob);
+
+			pCircle = true;
+			/*** shortCut ***/
+            let sc = {
+                'sadecekirada': sadecekirada, 'kiraPercent': kiraPercent
+                , 'sadecebos': sadecebos, 'bosPercent': bosPercent
+                , 'sadeceservis': sadeceservis, 'servisPercent': servisPercent
+                , 'sadecerezervasyon': sadecerezervasyon, 'sadecerezervasyonPercent': sadecerezervasyonPercent
+            };
+			shortCutCreate(sc);
+            /*** shortCut ***/
+
+            progCirclePrepareClear();
+			tooltipCreate();
+		},
+		error: function (err) {
+			progCirclePrepareClear();
+			console.log(err);
+		}
+	});
+	
+}
+
+function progCirclePrepare() {
+	const preloader = document.querySelector("#mainpage_tab2 .preloader-absolute");
+	preloader.style.display = "flex";
+}
+
+function progCirclePrepareClear() {
+	const preloader = document.querySelector("#mainpage_tab2 .preloader-absolute");
+	preloader.style.display = "none";
+}
+
+function tabTrack() {
+
+	const tab = document.getElementById("aktifTab");
+
+	if(tab.value == "3") {
+
+		progCircle();
+
+	}else if(tab.value == "4") {
+
+		topluVeriCekimi();
+
+    } else if (tab.value == "6") {
+
+        progCircle();
+        shortVeriCekimi();
+
+    }
+
+}
+
+function RaporAdetTespit() {
+
+	let dataX = '{ "Sube_Adi":"' + Sube_Isim_Value + '" }';
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: 'Fonksiyonlar2.aspx/SupheliTPC',
+		data: dataX,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (result) {
+			let degisken = result.d;
+			let parcala = degisken.split(";");
+
+			let arr = [
+				{	title: "Şüpheli TPC Kayıtları", 
+					count: parcala[0], 
+					link: "Ceza_Listesi.aspx?Supheli=1"}
+			];
+
+			progressLinkCreate(arr, "progress_3");
+		}
+	});
+
+}
+
+function tour() {
+
+	const head = document.head || document.getElementsByTagName('head')[0];
+	const test = head.querySelector("link[href='/plugins/tour/webtour.min.css']");
+
+	if(test === null) {
+
+		const link = document.createElement("link");
+		link.setAttribute("rel", "stylesheet");
+		link.setAttribute("href", "/plugins/tour/webtour.min.css");
+
+		const script = document.createElement("script");
+		script.setAttribute("src", "/plugins/tour/webtour.min.js?v=2");
+
+		if(head !== null){
+			head.appendChild(link);
+			head.appendChild(script);
+		}else{
+			this.main.appendChild(link);
+			head.appendChild(script);
+		}
+	}
+
+	setTimeout(() => {
+
+		if(typeof(WebTour) === 'undefined') {
+
+			setTimeout(()=>{
+				tour();
+			}, 100);
+
+		}else{
+
+			const wt = new WebTour();
+			const steps = [
+				{
+					element: '.nav-link .fas.fa-home',
+					title: '',
+					content: 'Anasayfa\'ya dönmek için kısa yolunuz.',
+					placement: 'bottom-start'
+				},
+				{
+					element: '.nav-link .far.fa-clock',
+					title: '',
+					content: 'Web\'den gelen rezervasyonlar.',
+					placement: 'bottom-start',
+				},
+				{
+					element: '.nav-link .fas.fa-star',
+					title: '',
+					content: 'Favori menülerinizi ayarlayın.',
+					placement: 'bottom-start',
+				},
+				{
+					element: '.nav-link .fas.fa-desktop',
+					title: '',
+					content: 'Ekran boyutunuzu ayarlayın.',
+					placement: 'bottom-start',
+				},
+				{
+					element: '.nav-item .form-inline .input-group',
+					title: '',
+					content: 'Plaka\'nın birkaç karakterini yazarak işlemlerine ulaşın.',
+					placement: 'bottom-start',
+				},
+				{
+					element: '.fas.fa-th-large',
+					title: '',
+					content: 'Rapor menüleri için tıklayın.',
+					placement: 'left-start',
+				},
+				{
+					element: '.brand-link',
+					title: '',
+					content: 'İç içe geçmiş menüler zor geldiyse, menü filtresi için üzerine gelin ve aradığınızı yazıp enter basın.',
+					placement: 'right-start'
+				},
+				{
+					element: '.destek-klavuz',
+					title: '',
+					content: 'Alpemix yada Anydesk indirmek için açılır menüyü kullanın.',
+					placement: 'left-start',
+                },
+                {
+                    element: '#mainpagetab',
+                    title: '',
+                    content: 'Anasayfa sekmelerinden birini varsayılan seçebilirsiniz. İstediğiniz sekmeyi seçip sağ tıklayın ve çıkan menüden kayıt yapın.',
+                    placement: 'bottom-start',
+                }
+
+			];
+
+			wt.setSteps(steps);
+			wt.start();
+		}
+
+	}, 100);
+}
+
+Date.prototype.addDays = function(days, format = true) {
+	let date = new Date(this.valueOf());
+	date.setDate(date.getDate() + days);
+	if(format) {
+		return date.formatTR();
+	}else{
+		return date;
+	}
+};
+
+Date.prototype.formatTR = function() {
+	return this.getDate() + "." + (this.getMonth() + 1) + "." +  this.getFullYear();
+};
+
+Date.prototype.getDayName = function() {
+	let days = ['Pa', 'Pzt', 'Sa', 'Çar', 'Per', 'Cum', 'Cmt'];
+	let dayName = days[this.getDay()];
+	return dayName;
+};
+
+function mainRaporPrepare() {
+	const preloader = document.querySelector("#mainpage_tab0 .preloader-absolute");
+	preloader.style.display = "flex";
+}
+
+function mainRaporPrepareClear() {
+	const preloader = document.querySelector("#mainpage_tab0 .preloader-absolute");
+	preloader.style.display = "none";
+}
+
+function mainRapor(obj = {}) {
+
+	if(!mnu(35, 36)) {
+
+		reklamPanel();
+
+	}else{
+
+		mainRaporPrepare();
+
+		if(obj.period !== undefined) {
+			mainKiraRapor.period = obj.period;
+		}else{
+			obj.period = mainKiraRapor.period;
+		}
+
+		if(obj.dataType !== undefined) {
+			mainKiraRapor.dataType = obj.dataType;
+		}
+
+		if(mainKiraRapor.dataType == "12ay" || mainKiraRapor.dataType == "12aytutarlar") {
+			mainKiraRapor.period = "ay";
+		}
+
+		const pr = document.getElementById("mainRaporPeriod");
+
+		if(pr !== null && mainKiraRapor.period == "hafta") {
+
+			if(mainKiraRapor.dataType == "cikislar") {
+				pr.innerHTML = "Bu Haftanın Günlük Çıkışları";
+			}else if(mainKiraRapor.dataType == "tutarlar") {
+				pr.innerHTML = "Bu Haftanın Günlük Sözleşme Tutarları";
+			}else if(mainKiraRapor.dataType == "12ay" || mainKiraRapor.dataType == "12aytutarlar") {
+				// Aylık Gösterim Yok!
+			}
+
+		}else if(pr !== null && mainKiraRapor.period == "ay") {
+
+			if(mainKiraRapor.dataType == "cikislar") {
+				pr.innerHTML = "Bu Ayın Günlük Çıkışları";
+			}else if(mainKiraRapor.dataType == "tutarlar") {
+				pr.innerHTML = "Bu Ayın Günlük Sözleşme Tutarları";
+			}else if(mainKiraRapor.dataType == "12ay") {
+				pr.innerHTML = "Bu Yılın, Aylık Çıkış Adetleri";
+			}else if(mainKiraRapor.dataType == "12aytutarlar") {
+				pr.innerHTML = "Bu Yılın, Aylık Çıkış Tutarları";
+			}
+
+		}
+
+		let Sube_Isim_Value = document.getElementById('Sube_Adi_X').value;
+		let sube = Sube_Isim_Value.replace(/\'/gi,"");
+
+		$.ajax({
+			type: 'POST',
+			async: true,
+			url: 'Fonksiyonlar2.aspx/MainPageReport',
+			data: "{period:'" + mainKiraRapor.period + "',sube:'" + sube + "',dataType:'" + mainKiraRapor.dataType + "'}",
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (result) {
+
+                const row = objectTojsonForNet(result);
+				
+				if(row.error) {
+					mainRaporPrepareClear();
+					toaster(row.errorContent);
+				}else{
+					mainKiraRapor.dataRow = row;
+					chartCreateMainRapor(mainKiraRapor.type);
+				}
+			},
+			error: function (err) {
+				console.log(err);
+			}
+		});
+	}
+}
+
+function chartCreateMainRapor(type = "bar") {
+
+	if(mainKiraRapor.dataRow.length == 0) {
+		mainKiraRapor.type = type;
+		mainRapor();
+	}else{
+
+		try {
+
+			mainKiraRapor.view = {};
+			mainKiraRapor.type = type;
+			let stepSize = mainKiraRapor.stepSize;
+
+			if(mainKiraRapor.dataType == "12ay" || mainKiraRapor.dataType == "12aytutarlar") {
+				mainKiraRapor.period = "ay";
+			}
+
+			const json = mainKiraRapor.dataRow;
+
+			if(json === null || json.length == 0) {
+				return;
+			}
+
+			const chart_kira = document.getElementById('chart_kira');
+			chart_kira.innerHTML = "";
+
+			const canvas = document.createElement("canvas");
+			canvas.setAttribute("style", "min-height: 300px; height: 300px; max-height: 400px; max-width: 100%;");
+			chart_kira.appendChild(canvas);
+			const barChartCanvas = canvas.getContext('2d');
+
+			let dataArray = [];
+
+			let templateBar = {
+				label               : '',
+				backgroundColor     : '#efefef',
+				borderColor         : '#efefef',
+				pointRadius         : true,
+				pointColor          : '#3b8bba',
+				pointStrokeColor    : 'rgba(60,141,188,1)',
+				pointHighlightFill  : '#fff',
+				pointHighlightStroke: 'rgba(60,141,188,1)',
+				data                : [],
+			};
+
+			let templateLine = {
+				label: '',
+				fill: false,
+				borderWidth: 2,
+				lineTension: 0,
+				spanGaps: true,
+				borderColor: '#efefef',
+				pointRadius: 3,
+				pointHoverRadius: 7,
+				pointColor: '#efefef',
+				pointBackgroundColor: '#efefef',
+				data : [],
+			};
+
+			const key = Object.keys(json);
+			const len = key.length;
+
+			let dataArrayKeys = [];
+
+			let date = {};
+			let month = 0;
+			let week = 0;
+
+			for(let i = 0; i < len; i++) {
+
+				dataArray.push(json[key[i]]);
+
+				date = new Date();
+
+				if(mainKiraRapor.dataType == "12ay" || mainKiraRapor.dataType == "12aytutarlar") {
+
+					month = date.getMonth() - i;
+					date.setMonth(month);
+					dataArrayKeys.push((date.getMonth() + 1) + "." + date.getFullYear());
+
+				}else{
+					if(i == 0) {
+						dataArrayKeys.push(date.getDayName() + " " + date.addDays(0, true));
+					}else{
+						date = date.addDays(-1*i, false);
+						dateStr = date.getDayName() + " " + date.formatTR();
+						dataArrayKeys.push(dateStr);
+					}
+				}
+			}
+
+			dataArrayKeys = dataArrayKeys.reverse();
+			
+			let optionLine = {
+				maintainAspectRatio: false,
+				responsive: true,
+				legend: {
+					display: false
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							fontColor: '#efefef'
+						},
+						gridLines: {
+							display: false,
+							color: '#efefef',
+							drawBorder: false
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							//stepSize: stepSize,
+							fontColor: '#efefef'
+						},
+						gridLines: {
+							display: true,
+							color: '#efefef',
+							drawBorder: false
+						}
+					}]
+				}
+			};
+
+			let optionsBar = {
+				responsive : true,
+				maintainAspectRatio : false,
+				datasetFill : false,
+				scales: {
+					xAxes: [{
+						stacked: true,
+						ticks: {
+							fontColor: '#efefef'
+						}
+					}],
+					yAxes: [{
+						stacked: true,
+						ticks:{
+							//stepSize: stepSize,
+							fontColor: '#efefef'
+						}
+					}]
+				},
+				legend: {
+					display: false
+				}
+			};
+
+			let template = {};
+			let options = {};
+
+			if(type == "bar"){
+				templateBar.data = dataArray.reverse();
+				template = templateBar;
+				options = optionsBar;
+			}else{
+				templateLine.data = dataArray.reverse();
+				template = templateLine;
+				options = optionLine;
+			}
+
+			if(mainKiraRapor.dataType == "cikislar" || mainKiraRapor.dataType == "12ay") {
+				mainKiraRapor.stepSize = 1;
+			}else if(mainKiraRapor.dataType == "tutarlar" || mainKiraRapor.dataType == "12aytutarlar") {
+				mainKiraRapor.stepSize = -1;
+			}
+
+			if(mainKiraRapor.stepSize != -1) {
+				options.scales.yAxes[0].ticks.stepSize = mainKiraRapor.stepSize;
+			}
+
+			mainKiraRapor.view = new Chart(barChartCanvas, {
+				type: mainKiraRapor.type,
+				data: {
+					labels: dataArrayKeys,
+					datasets: [template]
+				},
+				options: options
+			});
+
+			mainKiraRaporButtonActive();
+
+		}catch(err) {
+			console.log(err);
+		}
+	}
+
+	mainRaporPrepareClear();
+}
+
+function mainKiraRaporButtonActive() {
+
+	const cikislar = document.querySelector(".main-report-cikislar");
+	const tutarlar = document.querySelector(".main-report-tutarlar");
+	const _12ay = document.querySelector(".main-report-12ay");
+	const _12aytutarlar = document.querySelector(".main-report-12aytutarlar");
+	const hafta = document.querySelector(".main-report-hafta");
+	const ay = document.querySelector(".main-report-ay");
+	const bar = document.querySelector(".main-report-bar");
+	const line = document.querySelector(".main-report-line");
+
+	if(mainKiraRapor.period == "hafta") {
+
+		if(!hafta.classList.contains("bg-warning")) {
+			hafta.classList.add("bg-warning");
+		}
+
+		if(ay.classList.contains("bg-warning")) {
+			ay.classList.remove("bg-warning");
+		}
+
+	}else if(mainKiraRapor.period == "ay") {
+
+		if(!ay.classList.contains("bg-warning")) {
+			ay.classList.add("bg-warning");
+		}
+
+		if(hafta.classList.contains("bg-warning")) {
+			hafta.classList.remove("bg-warning");
+		}
+
+	}
+
+	if(mainKiraRapor.dataType == "cikislar") {
+
+		if(!cikislar.classList.contains("bg-warning")) {
+			cikislar.classList.add("bg-warning");
+		}
+
+		if(tutarlar.classList.contains("bg-warning")) {
+			tutarlar.classList.remove("bg-warning");
+		}
+
+		if(_12ay.classList.contains("bg-warning")) {
+			_12ay.classList.remove("bg-warning");
+		}
+
+		if(_12aytutarlar.classList.contains("bg-warning")) {
+			_12aytutarlar.classList.remove("bg-warning");
+		}
+
+	}else if(mainKiraRapor.dataType == "tutarlar") {
+
+		if(!tutarlar.classList.contains("bg-warning")) {
+			tutarlar.classList.add("bg-warning");
+		}
+
+		if(cikislar.classList.contains("bg-warning")) {
+			cikislar.classList.remove("bg-warning");
+		}
+
+		if(_12ay.classList.contains("bg-warning")) {
+			_12ay.classList.remove("bg-warning");
+		}
+
+		if(_12aytutarlar.classList.contains("bg-warning")) {
+			_12aytutarlar.classList.remove("bg-warning");
+		}
+
+	}else if(mainKiraRapor.dataType == "12ay") {
+
+		if(!_12ay.classList.contains("bg-warning")) {
+			_12ay.classList.add("bg-warning");
+		}
+
+		if(cikislar.classList.contains("bg-warning")) {
+			cikislar.classList.remove("bg-warning");
+		}
+
+		if(tutarlar.classList.contains("bg-warning")) {
+			tutarlar.classList.remove("bg-warning");
+		}
+
+		if(_12aytutarlar.classList.contains("bg-warning")) {
+			_12aytutarlar.classList.remove("bg-warning");
+		}
+
+	}else if(mainKiraRapor.dataType == "12aytutarlar") {
+
+		if(!_12aytutarlar.classList.contains("bg-warning")) {
+			_12aytutarlar.classList.add("bg-warning");
+		}
+
+		if(cikislar.classList.contains("bg-warning")) {
+			cikislar.classList.remove("bg-warning");
+		}
+
+		if(tutarlar.classList.contains("bg-warning")) {
+			tutarlar.classList.remove("bg-warning");
+		}
+
+		if(_12ay.classList.contains("bg-warning")) {
+			_12ay.classList.remove("bg-warning");
+		}
+
+	}
+
+	if(mainKiraRapor.type == "bar") {
+
+		if(!bar.classList.contains("bg-warning")) {
+			bar.classList.add("bg-warning");
+		}
+
+		if(line.classList.contains("bg-warning")) {
+			line.classList.remove("bg-warning");
+		}
+
+	}else if(mainKiraRapor.type == "line") {
+
+		if(!line.classList.contains("bg-warning")) {
+			line.classList.add("bg-warning");
+		}
+
+		if(bar.classList.contains("bg-warning")) {
+			bar.classList.remove("bg-warning");
+		}
+
+	}
+
+}
+
+function reklamPanel() {
+	const main_grafik_screen = document.getElementById("main_grafik_screen");
+
+	if(main_grafik_screen !== null) {
+
+		main_grafik_screen.innerHTML = "";
+
+		const card = document.createElement("div");
+		card.setAttribute("class", "card bg-warning p-1");
+
+		const card_body = document.createElement("div");
+		card_body.setAttribute("class", "card-body p-1");
+
+		const iframe = document.createElement("iframe");
+		iframe.setAttribute("src", "");
+		iframe.setAttribute("class", "iframe-alt");
+		iframe.setAttribute("marginwidth", "0");
+		iframe.setAttribute("marginheight", "0");
+		iframe.setAttribute("frameborder", "0");
+		iframe.setAttribute("scrolling", "yes");
+
+		card_body.appendChild(iframe);
+
+		card.appendChild(card_body);
+
+		main_grafik_screen.appendChild(card);
+	}
+}
+
+function saveTabMenu() {
+
+    $.ajax({
+        type: 'POST',
+        async: true,
+        url: 'Fonksiyonlar2.aspx/MainPageTabSave',
+        data: "{tab:'" + document.getElementById("aktifTab").value + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+		success: function (result) {
+            const row = objectTojsonForNet(result);
+            if (row.error) {
+                console.log(row.errorContent);
+            } else {
+                message("Kayıt Yapıldı", 0);
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+$(document).ready(function () {
+
+	subeCombo();
+
+	let obj = {		selector: "#mainpagetab li .nav-link", 
+					func: function() {
+
+						const tab = document.getElementById("aktifTab");
+
+						if(tab.value == "3") {
+
+							progCircle();
+
+						}else if(tab.value == "4" && progress_1234 === null) {
+
+							topluVeriCekimi();
+
+                        } else if (tab.value == "6") {
+
+                            progCircle();
+                            shortVeriCekimi();
+
+                        }
+
+					}
+				};
+
+	activeTabTracker(obj);
+	chartCreate();
+	tabTrack();
+	tooltipCreate();
+	mainRapor();
+	contextMenuCreate("#mainpagetab", [{ title: '<i class="fa fa-save"></i> Seçilen Tabı Varsayılan Olarak Kaydet', href: "javascript:saveTabMenu();" }]);
+    
+	let prm = Sys.WebForms.PageRequestManager.getInstance();
+	prm.add_endRequest(function () {
+
+		activeTabTracker(obj);
+		tabTrack();
+		tooltipCreate();
+		mainRapor();
+        contextMenuCreate("#mainpagetab", [{ title: '<i class="fa fa-save"></i> Seçilen Tabı Varsayılan Olarak Kaydet', href: "javascript:saveTabMenu();" }]);
+
+	});
+});
+</script>
+<style>
+#GridView1 th:nth-child(n+2) {
+    text-align: center;
+	width:7%;
+}
+
+#GridView1 td:nth-child(n+2) a {
+	display: block;
+	width: 100%;
+}
+
+#GridView1 a:hover {
+	color: var(--white);
+	background-color: var(--primary);
+	font-weight: bold;
+	border-radius: 3px;
+}
+
+#personel_tablosu td:nth-child(n+2), #personel_tablosu th:nth-child(n+2) {
+    text-align: center;
+}
+
+#personel_tablosu .rp {
+	text-align: right !important;
+	padding-right: 1rem !important;
+}
+
+.input-group.flex-nowrap:hover #Hepsi, #Hepsi:checked {
+	transform: scale(1.4);
+}
+
+.up-text.short {
+	/*font-size:0.76rem;*/
+}
+
+.btn-group a.btn-default.active {
+	background-color: #e9ecef;
+}
+</style>
+<style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style><style>.pc-app{display:inline-block;font-size:10px;--red:#d01919;--green:#50b23e;--blue:#1678c2;--orange:#f26202;--yellow:#eaae00;--teal:#009c95;--black:#27292a;--brown:#975b33;--olive:#a7bd0d;--violet:#6435c9;--purple:#a333c8;--pink:#e03997;--grey:#767676;--border:#bbb;--offwhite:#f2e9e1}.pc-container{margin:.3em;padding:.9em .2em .9em .2em;width:18em;border-radius:.5em;border:1px solid var(--border);display:inline-grid;cursor:pointer}.pc-container .list-parent{font-size:2em;padding:.6em .6em .2em .6em}.pc-container .list-parent span{padding:.2em;border-bottom:1px solid var(--border);text-align:center;display:block}.pc-container .list-parent span:nth-child(1){border-top:1px solid var(--border)}.progress-circle{overflow:visible;line-height:2.4rem;font-size:3em;width:5em;height:5em;padding:0;margin:auto;border-radius:50%;background-color:var(--offwhite);position:relative}.progress-circle::after{top:.5em;left:.5em;width:4em;height:4em;border:none;border-radius:50%;text-align:center;content:" ";background-color:#fff;display:block;position:absolute}.progress-circle:hover:after{top:.6em;left:.6em;width:3.8em;height:3.8em}.progress-circle span{width:5em;text-align:center;z-index:2;position:absolute;display:block}.progress-circle span div{width:5em;height:5em;color:var(--grey);text-align:center;vertical-align:middle;display:table-cell}.progress-circle .value-bar.red{border:.6em solid var(--red)!important}.progress-circle .value-bar.green{border:.6em solid var(--green)!important}.progress-circle .value-bar.blue{border:.6em solid var(--blue)!important}.progress-circle .value-bar.orange{border:.6em solid var(--orange)!important}.progress-circle .value-bar.yellow{border:.6em solid var(--yellow)!important}.progress-circle .value-bar.teal{border:.6em solid var(--teal)!important}.progress-circle .value-bar.black{border:.6em solid var(--black)!important}.progress-circle .value-bar.brown{border:.6em solid var(--brown)!important}.progress-circle .value-bar.olive{border:.6em solid var(--olive)!important}.progress-circle .value-bar.purple{border:.6em solid var(--purple)!important}.progress-circle .value-bar.pink{border:.6em solid var(--pink)!important}.progress-circle .value-bar.grey{border:.6em solid var(--grey)!important}.progress-circle .first50-bar.red{background-color:var(--red)!important}.progress-circle .first50-bar.green{background-color:var(--green)!important}.progress-circle .first50-bar.blue{background-color:var(--blue)!important}.progress-circle .first50-bar.orange{background-color:var(--orange)!important}.progress-circle .first50-bar.yellow{background-color:var(--yellow)!important}.progress-circle .first50-bar.teal{background-color:var(--teal)!important}.progress-circle .first50-bar.black{background-color:var(--black)!important}.progress-circle .first50-bar.brown{background-color:var(--brown)!important}.progress-circle .first50-bar.olive{background-color:var(--olive)!important}.progress-circle .first50-bar.purple{background-color:var(--purple)!important}.progress-circle .first50-bar.pink{background-color:var(--pink)!important}.progress-circle .first50-bar.grey{background-color:var(--grey)!important}.progress-circle .red{color:var(--red)!important}.progress-circle .green{color:var(--green)!important}.progress-circle .blue{color:var(--blue)!important}.progress-circle .orange{color:var(--orange)!important}.progress-circle .yellow{color:var(--yellow)!important}.progress-circle .teal{color:var(--teal)!important}.progress-circle .black{color:var(--black)!important}.progress-circle .brown{color:var(--brown)!important}.progress-circle .olive{color:var(--olive)!important}.progress-circle .purple{color:var(--purple)!important}.progress-circle .pink{color:var(--pink)!important}.progress-circle .grey{color:var(--grey)!important}.progress-circle .left-half-clipper{width:5em;height:5em;border-radius:50%;clip:rect(0,5em,5em,2.5em);position:absolute}.progress-circle.over50 .left-half-clipper{clip:rect(auto,auto,auto,auto)}.progress-circle .value-bar{width:5em;height:5em;border-radius:50%;border:.6em solid var(--grey);box-sizing:border-box;clip:rect(0,2.5em,5em,0);position:absolute}.progress-circle.over50 .first50-bar{width:5em;height:5em;background-color:var(--grey);border-radius:50%;clip:rect(0,5em,5em,2.5em);position:absolute}.progress-circle:not(.over50) .first50-bar{display:none}.progress-circle.p0 .value-bar{display:none}.progress-circle.p1 .value-bar{transform:rotate(4deg)}.progress-circle.p2 .value-bar{transform:rotate(7deg)}.progress-circle.p3 .value-bar{transform:rotate(11deg)}.progress-circle.p4 .value-bar{transform:rotate(14deg)}.progress-circle.p5 .value-bar{transform:rotate(18deg)}.progress-circle.p6 .value-bar{transform:rotate(22deg)}.progress-circle.p7 .value-bar{transform:rotate(25deg)}.progress-circle.p8 .value-bar{transform:rotate(29deg)}.progress-circle.p9 .value-bar{transform:rotate(32deg)}.progress-circle.p10 .value-bar{transform:rotate(36deg)}.progress-circle.p11 .value-bar{transform:rotate(40deg)}.progress-circle.p12 .value-bar{transform:rotate(43deg)}.progress-circle.p13 .value-bar{transform:rotate(47deg)}.progress-circle.p14 .value-bar{transform:rotate(50deg)}.progress-circle.p15 .value-bar{transform:rotate(54deg)}.progress-circle.p16 .value-bar{transform:rotate(58deg)}.progress-circle.p17 .value-bar{transform:rotate(61deg)}.progress-circle.p18 .value-bar{transform:rotate(65deg)}.progress-circle.p19 .value-bar{transform:rotate(68deg)}.progress-circle.p20 .value-bar{transform:rotate(72deg)}.progress-circle.p21 .value-bar{transform:rotate(76deg)}.progress-circle.p22 .value-bar{transform:rotate(79deg)}.progress-circle.p23 .value-bar{transform:rotate(83deg)}.progress-circle.p24 .value-bar{transform:rotate(86deg)}.progress-circle.p25 .value-bar{transform:rotate(90deg)}.progress-circle.p26 .value-bar{transform:rotate(94deg)}.progress-circle.p27 .value-bar{transform:rotate(97deg)}.progress-circle.p28 .value-bar{transform:rotate(101deg)}.progress-circle.p29 .value-bar{transform:rotate(104deg)}.progress-circle.p30 .value-bar{transform:rotate(108deg)}.progress-circle.p31 .value-bar{transform:rotate(112deg)}.progress-circle.p32 .value-bar{transform:rotate(115deg)}.progress-circle.p33 .value-bar{transform:rotate(119deg)}.progress-circle.p34 .value-bar{transform:rotate(122deg)}.progress-circle.p35 .value-bar{transform:rotate(126deg)}.progress-circle.p36 .value-bar{transform:rotate(130deg)}.progress-circle.p37 .value-bar{transform:rotate(133deg)}.progress-circle.p38 .value-bar{transform:rotate(137deg)}.progress-circle.p39 .value-bar{transform:rotate(140deg)}.progress-circle.p40 .value-bar{transform:rotate(144deg)}.progress-circle.p41 .value-bar{transform:rotate(148deg)}.progress-circle.p42 .value-bar{transform:rotate(151deg)}.progress-circle.p43 .value-bar{transform:rotate(155deg)}.progress-circle.p44 .value-bar{transform:rotate(158deg)}.progress-circle.p45 .value-bar{transform:rotate(162deg)}.progress-circle.p46 .value-bar{transform:rotate(166deg)}.progress-circle.p47 .value-bar{transform:rotate(169deg)}.progress-circle.p48 .value-bar{transform:rotate(173deg)}.progress-circle.p49 .value-bar{transform:rotate(176deg)}.progress-circle.p50 .value-bar{transform:rotate(180deg)}.progress-circle.p51 .value-bar{transform:rotate(184deg)}.progress-circle.p52 .value-bar{transform:rotate(187deg)}.progress-circle.p53 .value-bar{transform:rotate(191deg)}.progress-circle.p54 .value-bar{transform:rotate(194deg)}.progress-circle.p55 .value-bar{transform:rotate(198deg)}.progress-circle.p56 .value-bar{transform:rotate(202deg)}.progress-circle.p57 .value-bar{transform:rotate(205deg)}.progress-circle.p58 .value-bar{transform:rotate(209deg)}.progress-circle.p59 .value-bar{transform:rotate(212deg)}.progress-circle.p60 .value-bar{transform:rotate(216deg)}.progress-circle.p61 .value-bar{transform:rotate(220deg)}.progress-circle.p62 .value-bar{transform:rotate(223deg)}.progress-circle.p63 .value-bar{transform:rotate(227deg)}.progress-circle.p64 .value-bar{transform:rotate(230deg)}.progress-circle.p65 .value-bar{transform:rotate(234deg)}.progress-circle.p66 .value-bar{transform:rotate(238deg)}.progress-circle.p67 .value-bar{transform:rotate(241deg)}.progress-circle.p68 .value-bar{transform:rotate(245deg)}.progress-circle.p69 .value-bar{transform:rotate(248deg)}.progress-circle.p70 .value-bar{transform:rotate(252deg)}.progress-circle.p71 .value-bar{transform:rotate(256deg)}.progress-circle.p72 .value-bar{transform:rotate(259deg)}.progress-circle.p73 .value-bar{transform:rotate(263deg)}.progress-circle.p74 .value-bar{transform:rotate(266deg)}.progress-circle.p75 .value-bar{transform:rotate(270deg)}.progress-circle.p76 .value-bar{transform:rotate(274deg)}.progress-circle.p77 .value-bar{transform:rotate(277deg)}.progress-circle.p78 .value-bar{transform:rotate(281deg)}.progress-circle.p79 .value-bar{transform:rotate(284deg)}.progress-circle.p80 .value-bar{transform:rotate(288deg)}.progress-circle.p81 .value-bar{transform:rotate(292deg)}.progress-circle.p82 .value-bar{transform:rotate(295deg)}.progress-circle.p83 .value-bar{transform:rotate(299deg)}.progress-circle.p84 .value-bar{transform:rotate(302deg)}.progress-circle.p85 .value-bar{transform:rotate(306deg)}.progress-circle.p86 .value-bar{transform:rotate(310deg)}.progress-circle.p87 .value-bar{transform:rotate(313deg)}.progress-circle.p88 .value-bar{transform:rotate(317deg)}.progress-circle.p89 .value-bar{transform:rotate(320deg)}.progress-circle.p90 .value-bar{transform:rotate(324deg)}.progress-circle.p91 .value-bar{transform:rotate(328deg)}.progress-circle.p92 .value-bar{transform:rotate(331deg)}.progress-circle.p93 .value-bar{transform:rotate(335deg)}.progress-circle.p94 .value-bar{transform:rotate(338deg)}.progress-circle.p95 .value-bar{transform:rotate(342deg)}.progress-circle.p96 .value-bar{transform:rotate(346deg)}.progress-circle.p97 .value-bar{transform:rotate(349deg)}.progress-circle.p98 .value-bar{transform:rotate(353deg)}.progress-circle.p99 .value-bar{transform:rotate(356deg)}.progress-circle.p100 .value-bar{transform:rotate(360deg)}@media screen and (max-width:414px){.pc-container{margin:1em 0 1em 0;padding:1em 0 1em 0;width:100%}}</style></head>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+
+	<div class="wrapper">
+
+		<div class="preloader flex-column justify-content-center align-items-center" style="height: 0px;">
+			<img class="animation__shake" src="dist/img/loader.svg" alt="TürevRent" height="60" width="60" style="display: none;">
+		</div>
+	  
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+			<ul class="navbar-nav">
+
+				<li class="nav-item">
+					<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="Default.Aspx" title="Anasayfa"><i class="fas fa-home"></i></a>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="far fa-clock"></i>
+						<span class="badge badge-warning navbar-badge">
+0
+						</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg">
+						<a href="Rezervasyon_Listesi.Aspx?Rezervasyon_Durum=Rezervasyon" class="dropdown-item">
+							Yeni Rezervasyon <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Web_Rezervasyon.aspx" class="dropdown-item">
+							Web Rezervasyonu <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Servis_Rezervasyon.aspx" class="dropdown-item">
+							Servis Rezervasyonu <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Rezervasyon_Listesi.Aspx?Rezervasyon_Durum=Rezervasyon&amp;Onayli=False" class="dropdown-item">
+							Onaylı Rezervasyonlar <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Mobil_Teslimat.Aspx" class="dropdown-item">
+							Mobil Teslimat <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Mobil_Odeme.Aspx" class="dropdown-item">
+							Mobil Ödeme <span class="float-right text-muted text-sm">0 Adet</span>
+						</a>
+						
+					</div>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block" id="favorimenus">
+					<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-star"></i>
+						<span id="favoribadge" class="badge badge-warning navbar-badge">2</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg">
+						
+								<a class="dropdown-item" href="Rezervasyon.Aspx?Islem_Turu=Rezerv">Yeni Rezervasyon <i class="fas fa-angle-double-right right-i"></i></a>
+								<div class="dropdown-divider"></div>
+							
+								<a class="dropdown-item" href="Kiralama.Aspx?Islem_Turu=Kira">Yeni Kira <i class="fas fa-angle-double-right right-i"></i></a>
+								<div class="dropdown-divider"></div>
+							
+					<a class="dropdown-item bg-info" href="Favori_Menuler.aspx" style="border-radius: 0px 0px 0.25rem 0.25rem;">Favori Menülerini Düzenle <i class="fas fa-star right-i"></i></a></div>
+				</li>
+
+				<li class="nav-item dropdown d-none d-sm-inline-block">
+					<a class="nav-link" data-toggle="dropdown" href="#"><i class="fas fa-desktop"></i></a>
+					<div class="dropdown-menu p-2">
+						<div class="text-center text-bold text-gray mb-1">Ekran Boyutu</div>
+						<div class="btn-group screen-group">
+							<a href="javascript:screenChange(0);" class="btn btn-default">Çok Küçük</a>
+							<a href="javascript:screenChange(1);" class="btn btn-default">Küçük</a>
+							<a href="javascript:screenChange(2);" class="btn btn-success">Normal</a>
+							<a href="javascript:screenChange(3);" class="btn btn-default">Büyük</a>
+							<a href="javascript:screenChange(4);" class="btn btn-default">Çok Büyük</a>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+
+			<ul class="navbar-nav ml-auto">
+				
+				<li class="nav-item">
+					<div class="form-inline">
+						<div class="input-group light-mod">
+							<input type="text" class="form-control" name="Plaka_Ara" id="Plaka_Ara" onkeypress="return runScript(event)" placeholder="Plaka Yazıp Enter Basınız">
+							<div class="input-group-append" id="plaka-search">
+								<button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button>
+							</div>
+						</div>
+					</div>
+				</li>
+			  
+		  
+				<li class="nav-item dropdown">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="fas fa-user"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<div class="dropdown-item bg-color-gray">
+							<i class="fas fa-user mr-2"></i> BURAK BEY
+						</div>
+						<div class="dropdown-divider"></div>
+						<a href="Sifre_Degistir.aspx" class="dropdown-item">
+							<i class="fas fa-key mr-2"></i> Şifre Değiştir
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Yetki_Reset.aspx" class="dropdown-item">
+							<i class="fas fa-sync-alt mr-2"></i> Yetkileri Yenile
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="Cikis.aspx" class="dropdown-item">
+							<i class="fas fa-sign-out-alt mr-2"></i> Çıkış
+						</a>
+					</div>
+				</li>
+			  
+				<li class="nav-item d-none d-sm-inline-block">
+					<a class="nav-link" data-widget="fullscreen" href="#" role="button">
+						<i class="fas fa-expand-arrows-alt"></i>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
+						<i class="fas fa-th-large"></i>
+					</a>
+				</li>
+
+			</ul>
+		</nav>
+
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			
+			<div class="brand-link">
+			
+				<a href="javascript:spinSearchMenu(true);">
+					<img src="/img/favicon.png" alt="Rent" class="brand-image img-circle elevation-3" style="opacity: .8">
+					<span class="brand-text text-capitalize">bnarent
+						<text class="trv-badge">BURAK BEY</text>
+					</span>
+				</a>
+ 
+				<div class="menu_search_div input-group" style="display: none;">
+					<input class="form-control form-control-sidebar form-control-sm" type="search" autocomplete="off" placeholder="Menü Ara" id="menu_search">
+					<div class="input-group-append">
+						<button id="menu_search_button" class="btn btn-sidebar btn-sm"><i class="fas fa-search fa-fw"></i></button>
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 662px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible os-viewport-native-scrollbars-overlaid" style="overflow-y: scroll;"><div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+
+				<div class="form-inline" style="margin-top: 10px;">
+					<div class="input-group">
+						<input class="form-control form-control-sidebar" type="search" placeholder="Evrak No" aria-label="Sozlesme_No" name="RA_Ara" id="RA_Ara" onkeypress="return runScript2(event)">
+						<div class="input-group-append" id="ra-search">
+							<button class="btn btn-sidebar"><i class="fas fa-search fa-fw"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+						
+						
+						<li class="nav-item">
+							<a href="Rezervasyon.Aspx?Islem_Turu=Rezerv" class="nav-link" tags="yeni,rezervasyonlar,rezerve">
+								<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Rezervasyon</p>
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a href="Kiralama.Aspx?Islem_Turu=Kira" class="nav-link" tags="yeni,kiralamalar,sözleşmeler">
+								<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Kira</p>
+							</a>
+						</li>
+						
+							<li class="nav-item">
+								<a href="Musait_Arac_Listesi.Aspx" class="nav-link" tags="plaka,bazlı,müsaitlik,rezervasyon,fiyat">
+									<i class="nav-icon fas fa-calendar-alt"></i> <p>Müsaitlik-Fiyat Verme</p>
+								</a>
+							</li>
+						
+						
+						<li class="nav-item">
+							<p class="dropdown-divider left-menu"></p>
+						</li>
+
+						<li class="nav-item" tl="arac">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-car"></i> <p>Araçlar <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Arac_Guncel_Durum.Aspx" class="nav-link" tags="araçlar,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Kayit.Aspx" class="nav-link" tags="araç,yeni,kayıt,plaka">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Bos_Arac_Listesi.Aspx" class="nav-link" tags="araçlar,boştakiler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Boş Araçlar</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Listesi.Aspx" class="nav-link" tags="kiradakiler,araçlar,tüm">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tüm Araçlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Detayli_Arac_Listesi.Aspx" class="nav-link" tags="detayli,araçlar,tüm">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Detaylı Araç Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Genel_Durumu_Grafik.Aspx" class="nav-link" tags="araç,park,durumu,otopark">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Park Durumu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Gunluk_Durum.aspx" class="nav-link" tags="araçlar,günlük,durumu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Günlük Durum</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Satis_Bedeli.aspx" class="nav-link" tags="araçlar,satış,hesaplama,bedeli">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Satış Hesaplama</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Durum_Takip.aspx" class="nav-link" tags="araçlar,hareketleri,raporu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Hareket Raporu</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Bos_Km_Detay.aspx" class="nav-link" tags="araçlar,detay,km,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>KM Detay Listesi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="kira">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-handshake"></i> <p>Kira <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx" class="nav-link" tags="tüm,sözleşmeler,kiralamalar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tüm Sözleşmeler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?Kira_Durum=Kirada" class="nav-link" tags="kiradaki,araçlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kiradaki Araçlar</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?Kira_Durum=Döndü" class="nav-link" tags="kapalı,kapanan,sözleşmeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kapalı Sözleşmeler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?TarihX=2&amp;Kira_Durum=Kirada&amp;Tarih=Gecmis" class="nav-link" tags="dönüşü,gecikenler,araçlar,dönmeyenler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Dönüşü Gecikenler</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kira_Listesi.Aspx?TarihX=2&amp;Kira_Durum=Kirada&amp;Tarih=Gecmis&amp;Fatura_Durum=2" class="nav-link" tags="faturası,kesilmeyen,kesilmemişler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Faturası Kesilmeyenler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Kirada&amp;TarihX=1&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,çıkışı,yapılanlar,çıkanlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Çıkanlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Kirada&amp;TarihX=2&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,dönecekler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Dönecekler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kira_Listesi.aspx?Kira_Durum=Döndü&amp;TarihX=2&amp;Tarih=Bugun&amp;Otopark=2&amp;Sube=" class="nav-link" tags="bugün,dönenler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugün Dönenler</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kabis_Raporu.aspx" class="nav-link" tags="kabis">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kabis Raporu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kiralama.Aspx?Islem_Turu=Kira" class="nav-link" tags="kiralamalar,sözleşmeler,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Kira</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="rez">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-clock"></i> <p>Rezervasyon <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?TarihX=1&amp;Rezervasyon_Durum=Rezervasyon&amp;Tarih=7&amp;Tarih2=365" class="nav-link" tags="rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rezervasyon Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon" class="nav-link" tags="açık,rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Açık Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?TarihX=1&amp;Rezervasyon_Durum=Rezervasyon&amp;Tarih=Bugun" class="nav-link" tags="rezervasyonlar,listeleri,bugünkü">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Bugünkü Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Listesi.aspx?Rezervasyon_Durum=Rezervasyon&amp;Giden_Rez=True" class="nav-link" tags="dış,rezervasyonlar,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Dış Rezervasyonlar</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon_Kaynak_Raporu.aspx" class="nav-link" tags="rezervasyon,kaynak,raporu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rez. Kaynak Raporu</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Rezervasyon.Aspx?Islem_Turu=Rezerv" class="nav-link" tags="rezervasyonlar,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Rezervasyon</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Rezervasyon.Aspx?Islem_Turu=Giden_Rezerv" class="nav-link" tags="dış,giden">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Dış Rez</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="cari">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-users"></i> <p>Cariler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Musteri_Genel_Liste.Aspx" class="nav-link" tags="cariler,listesi,müşteriler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Cari Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Musteri_Kayit.Aspx" class="nav-link" tags="yeni,cari,bireysel,müşteri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Bireysel Cari</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Musteri_Kayit.aspx?Firma=EVET" class="nav-link" tags="yeni,kurumsal,cari,müşteri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Kurumsal Cari</p>
+									</a>
+								</li>
+                                    
+								    <li class="nav-item">
+									    <a href="Musteri_Kayit.Aspx?Firma=SERVIS" class="nav-link" tags="yeni,servis,cari">
+										    <i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Servis Carisi</p>
+									    </a>
+								    </li>
+                                    
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borçlar,alacaklar">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Hesap_Extresi.aspx" class="nav-link" tags="hesap,ekstresi,extresi">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Hesap Extresi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Musteri_Listesi.aspx" class="nav-link" tags="müşteri,listesi">
+										<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müşteri Listesi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="servis">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-tools"></i> <p>Servis &amp; Bakım <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx?Islem_Turu=Servis&amp;Durum=Devam" class="nav-link" tags="servisler,bakımlar,listeleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Servis &amp; Bakım Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Servis_Islemleri.Aspx?Islem_Turu=Servis" class="nav-link" tags="servis,bakım">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Servis &amp; Bakım</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Servis_Tanim_Tablosu.Aspx" class="nav-link" tags="periyodik,km,sınırları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Periyodik Km Sınırları</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Periyodik_Servis_Raporu.aspx" class="nav-link" tags="periyodik,servisler,raporu,listeleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Periyodik Servis Raporu</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="baf">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-road"></i> <p>Baf &amp; Satış İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Baf_Ara.aspx" class="nav-link" tags="baflar,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Baf Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Baf_Islemleri.aspx" class="nav-link" tags="baf,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Baf İşlemi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Satis_Ara.aspx" class="nav-link" tags="satıştakiler,araçlar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Satış Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Satis.aspx" class="nav-link" tags="araçlar,satışlar">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Satış</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+                          
+
+						<li class="nav-item" tl="filo">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-handshake"></i> <p>Filo İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Filo_Kiralama_Listesi.Aspx" class="nav-link" tags="kiralama,filo,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Filo Sözleşmeleri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis_Listesi.Aspx" class="nav-link" tags="araç,siparis,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Siparis Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis_Detay_Listesi.Aspx" class="nav-link" tags="araç,siparis,detay,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Siparis Detayı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Maliyet_Hesaplama_Ara.aspx" class="nav-link" tags="araç,filo,maliyet,liste">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Maliyet Teklif Listesi</p>
+									</a>
+								</li>
+                                
+								
+								<li class="nav-item">
+									<a href="Filo_Arac_Kiralama.Aspx" class="nav-link" tags="kiralamalar,sözleşmeler,yeni,filo">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Filo Kiralama</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Siparis.Aspx" class="nav-link" tags="arac,sipariş,yeni">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Yeni Sipariş</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Maliyet_Hesaplama.Aspx" class="nav-link" tags="filo,maliyet,hesaplama">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i><p>Maliyet Hesaplama</p>
+									</a>
+								</li>
+                                
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Fatura_Donem_Raporu.aspx" class="nav-link" tags="fatura,dönemleri,taksitleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Fatura Dönemleri (Taksit)</p>
+									</a>
+								</li>
+								
+
+							</ul>
+						</li>
+                        
+						<li class="nav-item" tl="gider">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-gas-pump"></i> <p>Gider İşlemleri <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx" class="nav-link" tags="giderler,listesi,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Gider Listeleri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Ofis" class="nav-link" tags="genel,gider,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Genel Gider</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Ara.Aspx?Islem_Turu=Personel" class="nav-link" tags="personel,giderleri,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Personel Gider Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Personel" class="nav-link" tags="yeni,personel,gideri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Personel Gideri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Islemleri.Aspx?Islem_Turu=Arac" class="nav-link" tags="yeni,araç,gideri">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Sigorta_Gider_Ara.Aspx" class="nav-link" tags="sigorta,kasko,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Sigorta İşlemleri</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Arac_Sigorta_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,sigorta,kasko,trafik,excel">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Sigorta Gideri</p>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a href="Arac_MTV_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,mtv,excel">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni MTV Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Muayene_Islemleri.Aspx" class="nav-link" tags="yeni,araç,gideri,muayene">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Muayene Gideri</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Toplu_Gider.Aspx" class="nav-link" tags="toplu,gider,girişi,işlemi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Toplu Gider Girişi</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+					    	
+						<li class="nav-item" tl="diger">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-money-check-alt"></i> <p>Diğer İşlemler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+                                
+								<li class="nav-item" tl="diger-fatura">
+									<a href="#" class="nav-link">
+										<p>Fatura İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Satis" class="nav-link" tags="satış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Satış Fatura Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Detay_Listesi.aspx?Islem_Turu=Satis" class="nav-link" tags="satış,detaylı,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Satış Detay Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Prof" class="nav-link" tags="onay,bekleyen,satış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Onay Bekleyen Faturalar</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura.aspx?Islem_Turu=Satis" class="nav-link" tags="yeni,satış,faturası">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Satış Faturası</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura_Islem_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="alış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alış Fatura Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Fatura_Detay_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="alış,detaylı,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alış Detay Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Gelen_E_Fatura_Listesi.aspx?Islem_Turu=Alis" class="nav-link" tags="gelen,efatura,e-fatura,alış,faturası,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Gelen E-Faturalar</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Fatura.aspx?Islem_Turu=Alis" class="nav-link" tags="yeni,alış,faturası">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Alış Faturası</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                	
+								<li class="nav-item" tl="diger-nakit">
+									<a href="#" class="nav-link">
+										<p>Nakit İşlemler <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Tahsilat" class="nav-link" tags="nakit,tahsilatlar,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Tahsilat Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="nakit,tahsilat">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Nakit Tahsilat</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Ödeme" class="nav-link" tags="nakit,ödemeler,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Ödeme Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="nakit,ödeme,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Nakit Ödeme</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Virman_Islem_Ara.aspx" class="nav-link" tags="virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kasa Virman Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Kasa_Virman.aspx" class="nav-link" tags="kasa,virman,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Kasa Virman</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Nakit_Islem_Ara.Aspx?Islem_Turu=Depozit" class="nav-link" tags="nakit,depozito,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Depozit Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Genel_Kasa.Aspx" class="nav-link" tags="nakit,kasa,listesi,durumu">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Nakit Kasa Durumu</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+	                            
+								<li class="nav-item" tl="diger-bakiye">
+									<a href="#" class="nav-link">
+										<p>Bakiye İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem_Ara.Aspx?Islem_Turu=Cari Borçlandır" class="nav-link" tags="borçlandırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Borçlandırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="cari,borçlandırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Borçlandırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem_Ara.Aspx?Islem_Turu=Cari Alacaklandır" class="nav-link" tags="alacaklandırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Alacaklandırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Bakiye_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="yeni,cari,alacaklandırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Alacaklandırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Cari_Virman_Islem_Ara.aspx" class="nav-link" tags="cari,virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Cari Virman Listesi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="Cari_Virman.aspx" class="nav-link" tags="yeni,cari,virman">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Cari Virman</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                
+								<li class="nav-item" tl="diger-banka">
+									<a href="#" class="nav-link">
+										<p>Banka İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Kredi Kart Tahsilatı" class="nav-link" tags="kredi,kartı,tahsilatı,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>K.Kartı Tahsilat Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=3" class="nav-link" tags="yeni,kredi,kartı,tahsilatı">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>K.Kartı Tahsilatı</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Kredi Kart İade" class="nav-link" tags="kredi,kartı,iade,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>K.Kartı İade Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=4" class="nav-link" tags="yeni,kredi,kartı,iade,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>K.Kartı İade</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Gelen Havale" class="nav-link" tags="gelen,havale,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Gelen Havale Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=1" class="nav-link" tags="yeni,gelen,havale,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Gelen Havale</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Islem_Turu=Giden Havale" class="nav-link" tags="giden,havale,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Giden Havale Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Islemleri.Aspx?Islem_Turu=2" class="nav-link" tags="yeni,giden,havale">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Giden Havale</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Nakit_Listesi.Aspx?Islem_Turu=1" class="nav-link" tags="bankaya,para,yatırma,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Para Yatırma Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Hesap_Para_Islem.Aspx?Islem_Turu=1" class="nav-link" tags="bankaya,para,yatırma">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Para Yatırma</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Nakit_Listesi.Aspx?Islem_Turu=2" class="nav-link" tags="bankadan,para,çekme,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Para Çekme Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Hesap_Para_Islem.Aspx?Islem_Turu=2" class="nav-link" tags="bankadan,para,çekme">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Para Çekme</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Virman_Islem_Ara.aspx" class="nav-link" tags="bankalar,virman,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Banka Virman Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Virman.aspx" class="nav-link" tags="bankalar,virman">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Banka Virman</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Banka_Hesap_Hareketleri.Aspx" class="nav-link" tags="bankalar,hesaplar,hareketleri">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Banka Hesap Hareketleri</p>
+											</a>
+										</li>
+										
+										
+										<li class="nav-item">
+											<a href="Banka_Islem_Ara.Aspx?Provizyon=True" class="nav-link" tags="kredi,kartı,provizyon,depozito,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Provizyon İşlemleri</p>
+											</a>
+										</li>
+
+										
+									</ul>
+								</li>
+                                
+								<li class="nav-item" tl="diger-kredi">
+									<a href="#" class="nav-link">
+										<p>Kredi İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Arac_Kredi_Listesi.Aspx" class="nav-link" tags="krediler,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kredi ListesiKredi Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Arac_Kredi.Aspx" class="nav-link" tags="araç,kredisi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Araç Kredi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<p class="dropdown-divider left-menu"></p>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Kredi_Takip_Listesi.aspx" class="nav-link" tags="kredi,takip,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Kredi Takip Listesi</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+								
+								<li class="nav-item" tl="diger-ceza">
+									<a href="#" class="nav-link">
+										<p>Ceza &amp; Geçiş İşlemleri <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										
+										<li class="nav-item">
+											<a href="Ceza_Listesi.aspx" class="nav-link" tags="ceza,geçiş,listesi">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Ceza &amp; Geçiş Listesi</p>
+											</a>
+										</li>
+										
+										<li class="nav-item">
+											<a href="Cezalar.aspx" class="nav-link" tags="yeni,ceza,geçiş,işlemi">
+												<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Ceza &amp; Geçiş</p>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+                                										   
+					            <li class="nav-item" tl="diger-gelir">
+									<a href="#" class="nav-link">
+										<p>Hukuk <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+                                            <a href="Hukuk_Birimi.aspx" class="nav-link" tags="hukuk,avukat,icra">
+										        <i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Hukuk Birimi</p>
+									        </a>
+										</li>
+										<li class="nav-item">
+									        <a href="Hukuk_Islem_Listesi.aspx" class="nav-link" tags="hukuk,avukat,icra">
+										        <i class="fas fa-circle nav-icon alt"></i> <p>Hukuk Dosyaları</p>
+									        </a>
+										</li>
+									</ul>
+								</li>
+								
+								<li class="nav-item" tl="diger-broker">
+									<a href="#" class="nav-link">
+										<p>Broker Yönetimi <i class="fas fa-angle-left right"></i></p>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+											<a href="Broker_Musaitlik_Listesi.Aspx" class="nav-link" tags="broker,müsaitlik,lokasyon">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Müsaitlik</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Disardan_Sube.Aspx" class="nav-link" tags="broker,excelden,şubeleri,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Şube Ayarları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Disardan_Arac.Aspx" class="nav-link" tags="broker,excelden,xml,araçları,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Araç Ayarları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Firma_Tanim.Aspx" class="nav-link" tags="broker,excelden,xml,firma,şube,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Şube Yönetimi</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Rez_Kaynak_Tedarikci.Aspx" class="nav-link" tags="broker,excelden,xml,firma,şube,aktarma,tedarikçi,rezervasyon,kaynak">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Tedarikçi Oranları</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="XML_Fiyat_Aktar.aspx" class="nav-link" tags="broker,excelden,xml,fiyatları,aktarma">
+												<i class="fas fa-circle nav-icon alt"></i> <p>Broker Fiyat Yönetimi</p>
+											</a>
+										</li>
+									</ul>
+								</li>
+								
+									<li class="nav-item" tl="diger-raporlar">
+										<a href="#" class="nav-link">
+											<p>Raporlar <i class="fas fa-angle-left right"></i></p>
+										</a>
+										<ul class="nav nav-treeview">
+											<li class="nav-item">
+												<a href="GunRaporu.aspx" class="nav-link" tags="günlük,faaliyet,raporu,ozeti">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i> <p>Günlük Faaliyet Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Arac_Rac_Takvim.aspx" class="nav-link" tags="çalışma,takvimi">
+													<i class="fas fa-calendar-alt nav-icon alt text-info"></i><p>Çalışma Takvimi</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Musaitlik_Durum.Aspx" class="nav-link" tags="müsaitlik,durumu,raporu">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müsaitlik Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Doluluk_Grafik.Aspx" class="nav-link" tags="doluluk,raporu">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Doluluk Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Extralar_Raporu.aspx" class="nav-link" tags="extra, ekstra, satış">
+													<i class="fas fa-donate nav-icon alt text-info"></i><p>Ek Hizmet Raporu</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Gelir_Tablosu.Aspx" class="nav-link" tags="gelirler,gider,tablosu,raporu,geliri">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Gelir &amp; Gider Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Genel_Rapor.Aspx" class="nav-link" tags="genel,gelir,extra,hizmet,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Genel Rapor</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Tahsilat_Raporu.Aspx" class="nav-link" tags="tahsilat,fatura,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Tahsilat Fatura Raporu</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Musteri_CRM.Aspx" class="nav-link" tags="musteri,analiz,rapor">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Müşteri Analiz</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Rakip_Fiyat_Analizi.aspx" class="nav-link" tags="rakip,analiz,fiyat">
+													<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Rakip Fiyat Analiz</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a href="Rez_Kaynagi_Mutabakat.aspx" class="nav-link" tags="mutabakat">
+													<i class="fas fa-donate nav-icon alt text-info"></i><p>Rez. Kaynağı Mutabakat</p>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="Kasa_Dagilimi.Aspx" class="nav-link" tags="tahsilatlar,ödemeler,listesi">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Tahsilat &amp; Ödeme</p>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<p class="dropdown-divider left-menu"></p>
+											</li>
+											
+												<li class="nav-item">
+													<a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borç,alacak,raporu,durumu">
+														<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak Raporu</p>
+													</a>
+												</li>
+												
+												<li class="nav-item">
+													<a href="Hesap_Extresi.aspx" class="nav-link" tags="cari,hesap,ekstresi,extresi,dökümü">
+														<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Cari Hesap Extresi</p>
+													</a>
+												</li>
+												
+												<li class="nav-item">
+													<p class="dropdown-divider left-menu"></p>
+												</li>
+											
+											<li class="nav-item">
+												<a href="Sigorta_Muayene.Aspx" class="nav-link" tags="sigorta,muayene,kasko,raporu,listesi">
+													<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Sigorta &amp; Muayene Raporu</p>
+												</a>
+											</li>
+											
+										</ul>
+									</li>
+								
+
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Serbest_SMS.aspx" class="nav-link" tags="sms,gönderme">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Sms Gönder</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Toplu_Tahsilat.aspx" class="nav-link" tags="toplu,tahsilat,girişi">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Toplu Tahsilat</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+
+								
+								<li class="nav-item">
+									<a href="HGS_Gecis_Listesi.aspx" class="nav-link" tags="hgs,geçişler,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Hgs Geçiş Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Ceza_Gecis_Listesi.aspx" class="nav-link" tags="cezaları,trafik,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Trafik Ceza Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Anket_Listesi.aspx" class="nav-link" tags="anket,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Anket Listesi</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Otomatik_Servisler.aspx" class="nav-link" tags="otomatik, servisler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Otomatik Servisler</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						<li class="nav-item" tl="tanim">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-folder-plus"></i> <p>Tanımlamalar <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Arac_Grubu.Aspx" class="nav-link" tags="araç,grubu,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Grubu Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Marka_Tanim.Aspx" class="nav-link" tags="marka,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Marka Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Tipi_Tanimlama.Aspx" class="nav-link" tags="tip,model,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tip Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Sube_Tanimlama.Aspx" class="nav-link" tags="şube,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Şube Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Lokasyonlar.Aspx" class="nav-link" tags="lokasyon,tanımı,tanımlama,drop">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Lokasyon Tanımı</p>
+									</a>
+								</li>
+                              						
+								
+								<li class="nav-item">
+									<a href="Lokasyon_Sube_Ara.aspx" class="nav-link" tags="lokasyon,şube,drop,listesi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Lokasyon Drop Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Rezervasyon_Kaynagi.aspx" class="nav-link" tags="rezervasyon,kaynağı,kaynak">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Rezervasyon Kaynağı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Tarifeler_XML.Aspx" class="nav-link" tags="fiyat,xml,tarifeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>XML Tarife</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Tarifeler.Aspx" class="nav-link" tags="genel,tarifeler">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Genel Tarife (NRM)</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Sigorta_Tarife_Listesi.aspx" class="nav-link" tags="sigorta,tarifeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Sigorta Tarifeleri</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kiralama_Sartlari.aspx" class="nav-link" tags="kiralama,şartları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kiralama Şartları</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Broker_Yasaklari.Aspx" class="nav-link" tags="stop,sell,broker,yasakları">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Stop Sell (Yasaklar)</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Arac_Plan_Yonetim.aspx" class="nav-link" tags="araç,artır,azalt">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Artır &amp; Azalt</p>
+									</a>
+								</li>
+								
+									<li class="nav-item">
+										<a href="Fiyat_Kampanya_Yonetimi.aspx" class="nav-link" tags="xml,tarife,fiyat,kampanya,indirim">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Fiyat Kampanya Yönetimi</p>
+										</a>
+									</li>
+
+									<li class="nav-item">
+										<a href="Kiralama_Kurallari_Basic.aspx" class="nav-link" tags="kupon,kampanya,indirim,kiralama,şartları,kuralları,promosyonlar,kodu">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Kupon Yönetimi</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="Kiralama_Kurallari.aspx" class="nav-link" tags="kupon,kampanya,indirim,kiralama,şartları,kuralları,promosyonlar,kodu">
+											<i class="fas fa-circle nav-icon alt"></i> <p>Detaylı Kupon Yönetimi</p>
+										</a>
+									</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Arac_Sahibi.aspx" class="nav-link" tags="araç,sahip,grubu,sahibi">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Sahip Grubu</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Gider_Tanimlama.Aspx" class="nav-link" tags="gider,tanımı,tanımlamalar">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Gider Tanımı</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Para_Tanimlama.Aspx" class="nav-link" tags="döviz,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Döviz Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Kasa_Tanimi.Aspx" class="nav-link" tags="kasa,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Kasa Tanımı</p>
+									</a>
+								</li>
+                                
+								<li class="nav-item">
+									<a href="Hesap_No_Tanimlama.Aspx" class="nav-link" tags="banka,hesabı,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Banka Hesabı Tanımı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								<li class="nav-item">
+									<a href="Fiyat_Grup_Tanimlama.aspx" class="nav-link" tags="genel,tarifeler,grup,tanımla">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Tarife Grubu Tanımı</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Iptal_Sebepleri.Aspx" class="nav-link" tags="iptal,tanımı,tanımlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>İptal Sebep Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Ozel_Kod_Tanim.Aspx" class="nav-link" tags="özel,kod,tanımı,tanımlama,kanal,noter,">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Araç Kod Tanımı</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Hesap_Tanimalama.aspx" class="nav-link" tags="fatura,hesap,kod,tanim,tanimlama">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Hesap Kod Tanım</p>
+									</a>
+								</li>
+                                 
+								
+							</ul>
+						</li>
+
+						<li class="nav-item" tl="per">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-id-card-alt"></i> <p>Personeller <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								
+								<li class="nav-item">
+									<a href="Personel_Listesi.aspx" class="nav-link" tags="personeller,çalışanlar,listesi,listeleri">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Personel Listesi</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Personel_Kayit.aspx" class="nav-link" tags="yeni,personel,tanımı,tanımlama,çalışanlar,elemanlar">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yeni Personel</p>
+									</a>
+								</li>
+								
+								<li class="nav-item">
+									<p class="dropdown-divider left-menu"></p>
+								</li>
+								
+								<li class="nav-item">
+									<a href="Personel_Calisma_Grafigi.aspx" class="nav-link" tags="personel,çalışma,tablosu">
+										<i class="fas fa-circle nav-icon alt"></i> <p>Per. Çalışma Tablosu</p>
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+						
+						<li class="nav-item" tl="yetki">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-user"></i> <p>Kullanıcılar &amp; Yetkiler <i class="fas fa-angle-left right"></i></p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a href="Kullanicilar.Aspx?Grup=True" class="nav-link" tags="yetki,grupları,grubu,tanımlama,tanımı">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Yetki Grupları</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="Kullanicilar.Aspx" class="nav-link" tags="kullanıcılar,tanımlama,tanımı,kullanıcısı,program,yetkili">
+										<i class="fas fa-plus-circle nav-icon alt text-info"></i> <p>Program Kullanıcıları</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+						
+
+						<div class="iframe-alt"></div>
+
+					</ul>
+				</nav>
+
+			</div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="height: 54.8841%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></div>
+		</aside>
+
+		<aside class="control-sidebar control-sidebar-dark" style="display: none; top: 57px;">
+			
+			<nav class="mt-2 control-sidebar-content os-host os-theme-light os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition os-host-scrollbar-vertical-hidden" style="height: 663px;"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px; width: 0px; height: 0px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible os-viewport-native-scrollbars-overlaid"><div class="os-content" style="padding: 0px; height: 100%; width: 100%;">
+				<ul class="nav nav-pills nav-sidebar flex-column sidebar-right">
+					
+					<li class="nav-item">
+						<a href="Arac_Rac_Takvim.aspx" class="nav-link" tags="çalışma,takvimi">
+							<i class="fas fa-calendar-alt nav-icon alt text-info"></i><p>Çalışma Takvimi</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Musaitlik_Durum.Aspx" class="nav-link" tags="müsaitlik,durumu,raporu">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Müsaitlik Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Doluluk_Grafik.Aspx" class="nav-link" tags="doluluk,raporu">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Doluluk Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Extralar_Raporu.aspx" class="nav-link" tags="extra, ekstra, satış">
+							<i class="fas fa-donate nav-icon alt text-info"></i><p>Ek Hizmet Raporu</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Gelir_Tablosu.Aspx" class="nav-link" tags="gelirler,gider,tablosu,raporu,geliri">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Gelir &amp; Gider Raporu</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Tahsilat_Raporu.Aspx" class="nav-link" tags="tahsilat,fatura,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Tahsilat Fatura Raporu</p>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="Genel_Rapor.Aspx" class="nav-link" tags="genel,gelir,extra,hizmet,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Genel Rapor</p>
+						</a>
+					</li>
+                    
+					
+					<li class="nav-item">
+						<a href="Rez_Kaynagi_Mutabakat.aspx" class="nav-link" tags="mutabakat">
+							<i class="fas fa-donate nav-icon alt text-info"></i><p>Rez. Kaynağı Mutabakat</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Kasa_Dagilimi.Aspx" class="nav-link" tags="tahsilatlar,ödemeler,listesi">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Tahsilat &amp; Ödeme</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Musteri_CRM.Aspx" class="nav-link" tags="musteri,analiz,rapor">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Müşteri Analiz</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="Rakip_Fiyat_Analizi.Aspx" class="nav-link" tags="rakip,analiz,fiyat">
+							<i class="fas fa-ruler-combined nav-icon alt text-info"></i><p>Rakip Fiyat Analiz</p>
+						</a>
+					</li>
+											
+
+					
+					<li class="nav-item">
+						<p class="dropdown-divider left-menu"></p>
+					</li>
+					
+					    <li class="nav-item">
+						    <a href="Genel_Borc_Alacak.aspx" class="nav-link" tags="genel,borç,alacak,raporu,durumu">
+							    <i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Genel Borç &amp; Alacak Raporu</p>
+						    </a>
+					    </li>
+					    
+					    <li class="nav-item">
+						    <a href="Hesap_Extresi.aspx" class="nav-link" tags="cari,hesap,ekstresi,extresi,dökümü">
+							    <i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Cari Hesap Extresi</p>
+						    </a>
+					    </li>
+					    
+					    <li class="nav-item">
+						    <p class="dropdown-divider left-menu"></p>
+					    </li>
+
+					
+					<li class="nav-item">
+						<a href="Sigorta_Muayene.Aspx" class="nav-link" tags="sigorta,muayene,kasko,raporu,listesi">
+							<i class="fas fa-chart-bar nav-icon alt text-info"></i><p>Sigorta &amp; Muayene Raporu</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<p class="dropdown-divider left-menu"></p>
+					</li>
+                    
+						<li class="nav-item">
+							<a href="Web_Site_Yonetimi.aspx" class="nav-link" tags="web,sitesi,makaleler,yönetimi,listesi">
+								<i class="fas fa-project-diagram nav-icon alt text-info"></i> <p>Web Site Yönetimi</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<p class="dropdown-divider left-menu"></p>
+						</li>
+					
+					<li class="nav-item">
+						<a href="Ayarlar.aspx" class="nav-link" tags="ayarlar">
+							<i class="fas fa-tools nav-icon alt text-info"></i><p>Ayarlar</p>
+						</a>
+					</li>
+					
+					<li class="nav-item">
+						<a href="Log_Kayit.Aspx" class="nav-link" tags="loglar,kayıtları">
+							<i class="fas fa-archive nav-icon alt text-info"></i><p>Log Kayıtları</p>
+						</a>
+					</li>
+					
+
+					<div class="iframe-alt"></div>
+				</ul>
+			</div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></nav>
+
+		</aside>
+
+		<div class="content-wrapper" style="min-height: 663px;">
+			<div class="content-empty"></div>
+			<form method="post" action="./Default.aspx" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="ToolkitScriptManager1_HiddenField" id="ToolkitScriptManager1_HiddenField" value="">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTk0Mzg2NzgxNw9kFgJmD2QWBgIBDxYCHglpbm5lcmh0bWwFATJkAgIPFgIeC18hSXRlbUNvdW50AgIWBGYPZBYCZg8VAiJSZXplcnZhc3lvbi5Bc3B4P0lzbGVtX1R1cnU9UmV6ZXJ2EFllbmkgUmV6ZXJ2YXN5b25kAgEPZBYCZg8VAh1LaXJhbGFtYS5Bc3B4P0lzbGVtX1R1cnU9S2lyYQlZZW5pIEtpcmFkAgMPZBYCAgEPZBYCAgQPPCsAEQMADxYEHgtfIURhdGFCb3VuZGcfAQIBZAEQFgAWABYADBQrAAAWAmYPZBYEAgEPZBYaZg8PFgIeBFRleHQFBk1FUktFWmRkAgEPZBYCZg8PFgQfAwUCMTIeC05hdmlnYXRlVXJsBR9+L0FyYWNfTGlzdGVzaS5hc3B4P1N1YmU9TUVSS0VaZGQCAg9kFgJmDw8WBB8DBQExHwQFI34vQm9zX0FyYWNfTGlzdGVzaS5hc3B4P1N1YmU9TUVSS0VaZGQCAw9kFgJmDw8WBB8DBQIxMR8EBUR+L0tpcmFfTGlzdGVzaS5hc3B4P1N1YmU9TUVSS0VaJktpcmFfRHVydW09S2lyYWRhJlRhcmloWD0wJk90b3Bhcms9NGRkAgQPZBYCZg8PFgQfAwUBMB8EBTp+L0dpZGVyX0FyYS5hc3B4P1N1YmU9TUVSS0VaJklzbGVtX1R1cnU9U2VydmlzJkR1cnVtPURldmFtZGQCBQ9kFgJmDxUBBiU5MSw2N2QCBg9kFgJmDw8WBB8DBQExHwQFRH4vS2lyYV9MaXN0ZXNpLmFzcHg/U3ViZT1NRVJLRVomS2lyYV9EdXJ1bT1LaXJhZGEmVGFyaWhYPTImT3RvcGFyaz02ZGQCBw9kFgJmDw8WBB8DBQEyHwQFPn4vS2lyYV9MaXN0ZXNpLmFzcHg/VGFyaWg9QnVndW4mU3ViZT1NRVJLRVomVGFyaWhYPTEmT3RvcGFyaz01ZGQCCA9kFgJmDw8WBB8DBQEyHwQFY34vUmV6ZXJ2YXN5b25fTGlzdGVzaS5hc3B4P1RhcmloPUJ1Z3VuJlN1YmU9TUVSS0VaJlJlemVydmFzeW9uX0R1cnVtPVJlemVydmFzeW9uJlRhcmloWD0xJk90b3Bhcms9NGRkAgkPZBYCZg8PFgQfAwUBMB8EBWN+L1JlemVydmFzeW9uX0xpc3Rlc2kuYXNweD9UYXJpaD1CdWd1biZTdWJlPU1FUktFWiZSZXplcnZhc3lvbl9EdXJ1bT1SZXplcnZhc3lvbiZUYXJpaFg9MSZPdG9wYXJrPTRkZAIKD2QWAmYPDxYEHwMFATAfBAVRfi9LaXJhX0xpc3Rlc2kuYXNweD9TdWJlPU1FUktFWiZUYXJpaD1CdWd1biZLaXJhX0R1cnVtPUTDtm5kw7wmVGFyaWhYPTImT3RvcGFyaz02ZGQCCw9kFgJmDw8WBB8DBQEwHwQFIn4vQmFmX0FyYS5hc3B4P1N1YmU9TUVSS0VaJkR1cnVtPTFkZAIMD2QWAmYPDxYEHwMFATEfBAUVfi9BcmFjX1NhdGlzX0FyYS5hc3B4ZGQCAg9kFhpmDw8WCh8DBQZUb3BsYW0eD0hvcml6b250YWxBbGlnbgsqKVN5c3RlbS5XZWIuVUkuV2ViQ29udHJvbHMuSG9yaXpvbnRhbEFsaWduAh4JRm9udF9Cb2xkZx4JRm9udF9TaXplKCoiU3lzdGVtLldlYi5VSS5XZWJDb250cm9scy5Gb250VW5pdAQxMnB0HgRfIVNCAoCYBGRkAgEPDxYKHwMFAjEyHwULKwQCHwZnHwcoKwUEMTJwdB8IAoCYBGRkAgIPDxYKHwMFATEfBQsrBAIfBmcfBygrBQQxMnB0HwgCgJgEZGQCAw8PFgofAwUCMTEfBQsrBAIfBmcfBygrBQQxMnB0HwgCgJgEZGQCBA8PFgofAwUBMB8FCysEAh8GZx8HKCsFBDEycHQfCAKAmARkZAIFDw8WCh8DBQYlOTEsNjcfBQsrBAIfBmcfBygrBQQxMnB0HwgCgJgEZGQCBg8PFgofAwUBMR8FCysEAh8GZx8HKCsFBDEycHQfCAKAmARkZAIHDw8WCh8DBQEyHwULKwQCHwZnHwcoKwUEMTJwdB8IAoCYBGRkAggPDxYKHwMFATIfBQsrBAIfBmcfBygrBQQxMnB0HwgCgJgEZGQCCQ8PFgofAwUBMB8FCysEAh8GZx8HKCsFBDEycHQfCAKAmARkZAIKDw8WCh8DBQEwHwULKwQCHwZnHwcoKwUEMTJwdB8IAoCYBGRkAgsPDxYKHwMFATAfBQsrBAIfBmcfBygrBQQxMnB0HwgCgJgEZGQCDA8PFgofAwUBMR8FCysEAh8GZx8HKCsFBDEycHQfCAKAmARkZBgCBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAQUfY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRIZXBzaQUjY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRHcmlkVmlldzEPPCsADAEIAgFkqN4XTWxlOGZ42Sspu85HgXp11aMMeZNrysvltBwTIfg=">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=JTn3AcvQUqE_gObjkBdGpRANKCf3bputTEz9KuNp-SST2XMgrHbiVpD9ciSbJJUxfxVpuLk6rB2z_WwAVjMwVcFIqaHjwTUirbXBXdpUrS01&amp;t=638942318819057530" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=YDzgj5Mbp3qRDssDkILTBXMjZemzvPZZkGUJobX-x8x9Gy9chE-sPWjI6cvRoy0-_USaERj2iq1FPTDqZYoe4TgDAKNcrqnFeR91RjU4ms5INOxwxFiwUM1b9NiSm4gbr1g18rvn2tgRhUwSQt9BdA2&amp;t=7c776dc1" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=6XKTE5du3CsTNOEFZ0ooPeD6WhMEsJu8kJ2rXvFE_BYMXzhlzdMHWq7HPUp1lzAj-SEIlU0zrwHNUW2OH26FeonO-dfgJB31SjHzors4n36QpnoWQ3YY8ilN_6D0ItzeZEuq3SAYPb024otSiSQeBw2&amp;t=7c776dc1" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334">
+</div>
+				
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ContentPlaceHolder1$ToolkitScriptManager1', 'form1', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+	<section class="content">
+		<div class="container-fluid">
+			<div class="card">
+				<div class="card-body">
+
+					<div class="row">
+
+						<div class="col-sm-6">
+							<div class="input-group flex-nowrap">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										Hepsi
+									</div>
+								</div>
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<input id="Hepsi" type="checkbox" name="ctl00$ContentPlaceHolder1$Hepsi">
+									</div>
+								</div>
+								<div class="input-group-prepend w-70">
+									<div id="comboTree526164Wrapper" class="comboTreeWrapper"><div id="comboTree526164InputWrapper" class="comboTreeInputWrapper"><input name="ctl00$ContentPlaceHolder1$justAnInputBox1" type="text" id="justAnInputBox1" class="form-control comboTreeInputBox" placeholder="Şube Arama" autocomplete="off" style="border-radius: 0px !important;"><div id="comboTree526164ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="mdi mdi-chevron-down comboTreeArrowBtnImg"></span></div></div><div id="comboTree526164DropDownContainer" class="comboTreeDropDownContainer"><input id="comboTree526164MultiFilter" type="text" class="multiplesFilter" placeholder="Filitrele"><ul id="comboTree526164ComboTreeSourceUlmain" style=""><li id="comboTree526164LiMERKEZ" class="ComboTreeItemParent"> <span class="comboTreeParentPlus"><span class="mdi mdi-chevron-down-circle-outline"></span></span><span data-id="MERKEZ" data-selectable="true" class="comboTreeItemTitle selectable"><input type="checkbox"><b></b></span><ul id="comboTree526164ComboTreeSourceUlMERKEZ" style=""><li id="comboTree526164Li1" class="ComboTreeItemChlid"> <span data-id="1" data-selectable="true" class="comboTreeItemTitle selectable"><input type="checkbox">MERKEZ</span></li></ul></li></ul></div></div>
+								</div>
+								<div class="input-group-append">
+									<input type="submit" name="ctl00$ContentPlaceHolder1$Button5" value="Filtre Et" id="Button5" class="input-group-text">
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-6">
+
+							<div class="btn-group float-right destek-klavuz">
+								<a class="btn btn-default btn-animate" href="/RentaCarHelp/index.html" target="_blank">
+									<text class="visible">Destek <text class="text-bold text-info">0 312 870 10 35</text></text>
+									<text class="hidden"><i class="fas fa-info-circle"></i> Kullanım Klavuzu</text>
+								</a>
+								<button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+									<span class="sr-only">Menü</span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-sm text-center" role="menu">
+									<a class="dropdown-item" href="https://www.alpemix.com/site/Alpemix.exe">Alpemix İndir</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="https://download.anydesk.com/AnyDesk.exe">AnyDesk İndir</a>
+								</div>
+							</div>
+
+							<a class="btn-group float-right mr-3 page-tour" href="javascript:tour();">
+								<i class="fas fa-compass btn btn-default"></i>
+								<div class="btn btn-default btn-animate btn-fade">
+									<text class="visible">Tura hazır mısın?</text>
+									<text class="hidden">Hadi başlayalım</text>
+								</div>
+							</a>
+
+						</div>
+						
+					</div>
+					
+				</div>
+				
+				<div class="col-sm-12 dropdown-divider m-0"></div>
+
+				<div class="card-header">
+					<div class="float-left">
+						<ul class="nav nav-pills ml-auto" id="mainpagetab">
+							<li class="nav-item">
+								<a class="nav-link" href="#mainpage_tab0" data-toggle="tab">Çıkış Grafiği</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#mainpage_tab1" data-toggle="tab">Otopark Durumu</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#mainpage_tab2" data-toggle="tab">Genel Durum</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#mainpage_tab3" data-toggle="tab">Araç Ayrıntıları</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#mainpage_tab4" data-toggle="tab">Personel Performansları</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" href="#mainpage_tab5" data-toggle="tab">Kısa Yollar</a>
+							</li>
+						<div class="dropdown-menu contex-menu"><a class="dropdown-item" href="javascript:saveTabMenu();"><i class="fa fa-save"></i> Seçilen Tabı Varsayılan Olarak Kaydet</a></div></ul>
+					</div>
+				</div>
+				
+				<div class="card-body p-2">
+					<div class="tab-content p-2">
+
+						<div class="tab-pane" id="mainpage_tab0">
+							<div class="row">
+
+								<div class="col-sm-12" id="main_grafik_screen">
+
+									<div class="preloader-absolute flex-column justify-content-center align-items-center" style="display: none;">
+										<img class="animation__shake" src="dist/img/loader.svg" alt="TürevRent" height="60" width="60">
+										<div class="text-lg">Lütfen Bekleyiniz</div>
+									</div>
+
+									<div class="card bg-gradient-info">
+										<div class="card-header border-0">
+											<h3 class="card-title"><i class="fas fa-chart-bar mr-1"></i><text id="mainRaporPeriod">Bu Haftanın Günlük Çıkışları</text></h3>
+											<div class="btn-group float-right">
+												<a href="javascript:chartCreateMainRapor('bar');" class="btn btn-default btn-sm main-report-bar bg-warning">Bar Grafik</a>
+												<a href="javascript:chartCreateMainRapor('line');" class="btn btn-default btn-sm main-report-line">Çizgi Grafik</a>
+											</div>
+											<div class="btn-group float-right mr-2">
+												<a href="javascript:mainRapor({period:'hafta'});" class="btn btn-default btn-sm main-report-hafta bg-warning">Haftalık Göster</a>
+												<a href="javascript:mainRapor({period:'ay'});" class="btn btn-default btn-sm main-report-ay">Aylık Göster</a>
+											</div>
+											<div class="btn-group float-right mr-2">
+												<a href="javascript:mainRapor({dataType:'cikislar'});" class="btn btn-default btn-sm main-report-cikislar bg-warning">Çıkış Adetleri</a>
+												<a href="javascript:mainRapor({dataType:'tutarlar'});" class="btn btn-default btn-sm main-report-tutarlar">Çıkış Tutarları</a>
+												<a href="javascript:mainRapor({dataType:'12ay'});" class="btn btn-default btn-sm main-report-12ay">Yıllık Çıkış Adetleri</a>
+												<a href="javascript:mainRapor({dataType:'12aytutarlar'});" class="btn btn-default btn-sm main-report-12aytutarlar">Yıllık Çıkış Tutarları</a>
+											</div>
+										</div>
+										<div class="card-body" id="chart_kira"><canvas style="min-height: 300px; height: 0px; max-height: 400px; max-width: 100%; display: block; width: 0px;" class="chartjs-render-monitor" width="0" height="0"></canvas></div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="tab-pane" id="mainpage_tab1">
+
+							<div class="row">
+
+								<div class="col-sm-12">
+									<div>
+	<table class="table table-striped table-bordered table-sm" cellspacing="0" rules="all" border="1" id="GridView1" style="width:100%;border-collapse:collapse;">
+		<tbody><tr>
+			<th align="center" scope="col">Şubeler</th><th scope="col">Filo</th><th scope="col">Boş Araç</th><th scope="col">Kirada</th><th scope="col">Bakımda</th><th scope="col">Doluluk</th><th scope="col">Dönecekler</th><th scope="col">Çıkışlar</th><th scope="col">Çıkacaklar</th><th scope="col">Giden Rez.</th><th scope="col">Dönüşler</th><th scope="col">Baf</th><th scope="col">Satılık</th>
+		</tr><tr>
+			<td>MERKEZ</td><td align="center"><a href="Arac_Listesi.aspx?Sube=MERKEZ">12</a></td><td align="center"><a href="Bos_Arac_Listesi.aspx?Sube=MERKEZ">1</a></td><td align="center"><a href="Kira_Listesi.aspx?Sube=MERKEZ&amp;Kira_Durum=Kirada&amp;TarihX=0&amp;Otopark=4">11</a></td><td align="center"><a href="Gider_Ara.aspx?Sube=MERKEZ&amp;Islem_Turu=Servis&amp;Durum=Devam">0</a></td><td align="center">
+									%91,67
+									</td><td align="center"><a href="Kira_Listesi.aspx?Sube=MERKEZ&amp;Kira_Durum=Kirada&amp;TarihX=2&amp;Otopark=6">1</a></td><td align="center"><a href="Kira_Listesi.aspx?Tarih=Bugun&amp;Sube=MERKEZ&amp;TarihX=1&amp;Otopark=5">2</a></td><td align="center"><a href="Rezervasyon_Listesi.aspx?Tarih=Bugun&amp;Sube=MERKEZ&amp;Rezervasyon_Durum=Rezervasyon&amp;TarihX=1&amp;Otopark=4">2</a></td><td align="center"><a href="Rezervasyon_Listesi.aspx?Tarih=Bugun&amp;Sube=MERKEZ&amp;Rezervasyon_Durum=Rezervasyon&amp;TarihX=1&amp;Otopark=4">0</a></td><td align="center"><a href="Kira_Listesi.aspx?Sube=MERKEZ&amp;Tarih=Bugun&amp;Kira_Durum=Döndü&amp;TarihX=2&amp;Otopark=6">0</a></td><td align="center"><a href="Baf_Ara.aspx?Sube=MERKEZ&amp;Durum=1">0</a></td><td align="center"><a href="Arac_Satis_Ara.aspx">1</a></td>
+		</tr><tr>
+			<td align="center" style="font-size:12pt;font-weight:bold;">Toplam</td><td align="center" style="font-size:12pt;font-weight:bold;">12</td><td align="center" style="font-size:12pt;font-weight:bold;">1</td><td align="center" style="font-size:12pt;font-weight:bold;">11</td><td align="center" style="font-size:12pt;font-weight:bold;">0</td><td align="center" style="font-size:12pt;font-weight:bold;">%91,67</td><td align="center" style="font-size:12pt;font-weight:bold;">1</td><td align="center" style="font-size:12pt;font-weight:bold;">2</td><td align="center" style="font-size:12pt;font-weight:bold;">2</td><td align="center" style="font-size:12pt;font-weight:bold;">0</td><td align="center" style="font-size:12pt;font-weight:bold;">0</td><td align="center" style="font-size:12pt;font-weight:bold;">0</td><td align="center" style="font-size:12pt;font-weight:bold;">1</td>
+		</tr>
+	</tbody></table>
+</div>
+								</div>
+							</div>
+
+						</div>
+						
+						<div class="tab-pane" id="mainpage_tab2">
+							<div id="mainpage_tab2_row" class="row">
+
+								<div class="preloader-absolute flex-column justify-content-center align-items-center" style="display: none;">
+									<img class="animation__shake" src="dist/img/loader.svg" alt="TürevRent" height="60" width="60">
+									<div class="text-lg">Lütfen Bekleyiniz</div>
+								</div>
+
+							<div class="pc-app"><div class="pc-container"><div class="progress-circle over50 p100"><span><div class="black">Toplam<br><text class="text-lg">%</text><text class="text-bold">100</text></div></span><div class="left-half-clipper"><div class="first50-bar bg-primary border-primary"></div><div class="value-bar bg-primary border-primary"></div></div></div><div class="list-parent"><span>12 Araç</span></div></div><div class="pc-container"><div class="progress-circle over50 p91"><span><div class="black">Kira<br><text class="text-lg">%</text><text class="text-bold">91</text></div></span><div class="left-half-clipper"><div class="first50-bar bg-danger border-danger"></div><div class="value-bar bg-danger border-danger"></div></div></div><div class="list-parent"><span>11 Araç</span></div></div><div class="pc-container"><div class="progress-circle p8"><span><div class="black">Boş<br><text class="text-lg">%</text><text class="text-bold">8</text></div></span><div class="left-half-clipper"><div class="first50-bar pink"></div><div class="value-bar pink"></div></div></div><div class="list-parent"><span>1 Araç</span></div></div><div class="pc-container"><div class="progress-circle p0"><span><div class="black">Baf<br><text class="text-lg">%</text><text class="text-bold">0</text></div></span><div class="left-half-clipper"><div class="first50-bar green"></div><div class="value-bar green"></div></div></div><div class="list-parent"><span>0 Araç</span></div></div><div class="pc-container"><div class="progress-circle p0"><span><div class="black">Satılık<br><text class="text-lg">%</text><text class="text-bold">0</text></div></span><div class="left-half-clipper"><div class="first50-bar purple"></div><div class="value-bar purple"></div></div></div><div class="list-parent"><span>0 Araç<i class="far fa-question-circle float-right" data-bs-toggle="tooltip" title="" data-original-title="Kiraya Verilemez, Satılıklar!"></i></span></div></div><div class="pc-container"><div class="progress-circle p0"><span><div class="black">Servis<br><text class="text-lg">%</text><text class="text-bold">0</text></div></span><div class="left-half-clipper"><div class="first50-bar teal"></div><div class="value-bar teal"></div></div></div><div class="list-parent"><span>0 Araç<i class="far fa-question-circle float-right" data-bs-toggle="tooltip" title="" data-original-title="Bir aracın birden çok servis kaydı olabilir. Burada Plaka sayısı önemlidir!"></i></span></div></div><div class="pc-container"><div class="progress-circle p0"><span><div class="black">Dönüşü Geciken<br><text class="text-lg">%</text><text class="text-bold">0</text></div></span><div class="left-half-clipper"><div class="first50-bar red"></div><div class="value-bar red"></div></div></div><div class="list-parent"><span>0 Araç</span></div></div><div class="pc-container"><div class="progress-circle p16"><span><div class="black">Bugünkü Çıkışlar<br><text class="text-lg">%</text><text class="text-bold">16</text></div></span><div class="left-half-clipper"><div class="first50-bar green"></div><div class="value-bar green"></div></div></div><div class="list-parent"><span>2 Araç</span></div></div><div class="pc-container"><div class="progress-circle p0"><span><div class="black">Bugün Dönenler<br><text class="text-lg">%</text><text class="text-bold">0</text></div></span><div class="left-half-clipper"><div class="first50-bar brown"></div><div class="value-bar brown"></div></div></div><div class="list-parent"><span>0 Araç</span></div></div><div class="pc-container"><div class="progress-circle p8"><span><div class="black">Bugün Dönecekler<br><text class="text-lg">%</text><text class="text-bold">8</text></div></span><div class="left-half-clipper"><div class="first50-bar yellow"></div><div class="value-bar yellow"></div></div></div><div class="list-parent"><span>1 Araç</span></div></div><div class="pc-container"><div class="progress-circle p25"><span><div class="black">Yarın Dönecekler<br><text class="text-lg">%</text><text class="text-bold">25</text></div></span><div class="left-half-clipper"><div class="first50-bar yellow"></div><div class="value-bar yellow"></div></div></div><div class="list-parent"><span>3 Araç</span></div></div><div class="pc-container"><div class="progress-circle over50 p150"><span><div class="black">Tüm Rez.<br><text class="text-lg">%</text><text class="text-bold">150</text></div></span><div class="left-half-clipper"><div class="first50-bar teal"></div><div class="value-bar teal"></div></div></div><div class="list-parent"><span>18 Araç</span></div></div></div></div>
+						</div>
+						
+						<div class="tab-pane" id="mainpage_tab3">
+					
+							<div class="row" id="items">
+				
+								<div class="col-sm-3">
+									<div class="card card-body p-2" id="progress_1"></div>
+								</div>
+								
+								<div class="col-sm-3">
+									<div class="card card-body p-2" id="progress_2"></div>
+								</div>
+								
+								<div class="col-sm-3">
+									<div class="card card-body p-2" id="progress_3"></div>
+								</div>
+								
+								<div class="col-sm-3">
+									<div class="card card-body p-2" id="progress_4"></div>
+								</div>
+								
+							</div>
+						
+						</div>
+
+						<div class="tab-pane" id="mainpage_tab4">
+							<div class="row card-group">
+							
+								<div class="card card-body">
+
+									<div class="btn-group mb-3">
+										<a href="javascript:chartCreate('adet');" class="btn btn-default">Adet Bazında</a>
+										<a href="javascript:chartCreate('gun');" class="btn btn-default">Gün Toplamı Bazında</a>
+										<a href="javascript:chartCreate('tutar');" class="btn btn-default">Tutar Bazında</a>
+									</div>
+
+									<div class="chart" id="personel_chart"><canvas style="min-height: 300px; height: 0px; max-height: 400px; max-width: 100%; display: block; width: 0px;" class="chartjs-render-monitor" width="0" height="0"></canvas></div>
+
+								</div>
+								
+								<div class="card card-body overflow-auto" id="personel_tablosu"><table class="table table-bordered table-striped table-sm"><thead style="background-color: #e9ecef;"><tr><th>Personel</th><th>Adet</th><th>Gün</th><th class="rp">Kira Tutar</th><th class="rp">Hizmet</th><th>Kira/Hizmet <i class="far fa-question-circle" data-bs-toggle="tooltip" title="" data-original-title="Ek Hizmet Satışlarının Kira Tutarına Oranı."></i></th></tr></thead><tbody><tr><td>BURAK BEY</td><td>7</td><td>25</td><td class="rp">82.800,00</td><td class="rp">0,00</td><td>% 0,00</td></tr></tbody><tfoot style="background-color: #e9ecef;"><tr><th>Toplam</th><th>7</th><th>25</th><th class="rp">82.800,00</th><th class="rp">0,00</th><th>% 0,00</th></tr></tfoot></table></div>
+
+							</div>
+
+							<div class="row mt-3">
+								<div class="col-sm-10">
+									<p>* İçerisinde bulunduğunuz ayın başından, bulunduğunuz güne kadarki (bulunulan gün dahil) kiralar raporlanır.
+									<br>* Bu rapor "Kiraları" dikkate alır. Personel açısından; önce varsa "Rezervasyonu Alan" yoksa "Kiraya Veren" dikkate alınır.
+									<br>* Rapor, kira adedi en fazla olan 10 personeli gösterecektir!</p>
+								</div>
+								<div class="float-right">
+									<a href="/Genel_rapor.aspx?sr=personel_performans" class="btn btn-default">Tüm Personeli Raporla</a>
+								</div>
+							</div>
+						</div>
+						
+						<div class="tab-pane active" id="mainpage_tab5">
+
+							<div class="row dortlu-button">
+
+								<a href="/Kira_Listesi.aspx?Sube=&amp;Kira_Durum=Kirada&amp;TarihX=0" target="_self" class="col-sm-3 col-12" id="mainpage_tab5_kirada">
+									<div class="info-box bg-info">
+										<span class="info-box-icon"><i class="fas fa-handshake"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Kiradaki Araçlar</span>
+											<span class="info-box-number">11</span>
+											<div class="progress">
+												<div class="progress-bar" style="width: 91%;"></div>
+											</div>
+											<span class="progress-description">Toplamdaki ağırlığı %91</span>
+										</div>
+									</div>
+								</a>
+
+								<a href="/Bos_Arac_Listesi.aspx?Sube=" target="_self" class="col-sm-3 col-12" id="mainpage_tab5_bosta">
+									<div class="info-box bg-success">
+										<span class="info-box-icon"><i class="fas fa-car"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Boştaki Araçlar</span>
+											<span class="info-box-number">1</span>
+											<div class="progress">
+												<div class="progress-bar" style="width: 8%;"></div>
+											</div>
+											<span class="progress-description">Toplamdaki ağırlığı %8</span>
+										</div>
+									</div>
+								</a>
+
+								<a href="/Gider_Ara.Aspx?Islem_Turu=Servis&amp;Durum=Devam&amp;Tarih_Sec=0&amp;Sube=" target="_self" class="col-sm-3 col-12" id="mainpage_tab5_servis">
+									<div class="info-box bg-danger">
+										<span class="info-box-icon"><i class="fas fa-tools"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Servisteki Araçlar</span>
+											<span class="info-box-number">0</span>
+											<div class="progress">
+												<div class="progress-bar" style="width: 0%;"></div>
+											</div>
+											<span class="progress-description">Toplamdaki ağırlığı %0</span>
+										</div>
+									</div>
+								</a>
+
+								<a href="/Rezervasyon_Listesi.aspx?TarihX=1&amp;Rezervasyon_Durum=Rezervasyon&amp;Tarih=7&amp;Tarih2=365&amp;Sube=" target="_self" class="col-sm-3 col-12" id="mainpage_tab5_rezervasyon">
+									<div class="info-box bg-warning">
+										<span class="info-box-icon"><i class="far fa-clock"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Açık Rezervasyonlar</span>
+											<span class="info-box-number">18</span>
+											<div class="progress">
+												<div class="progress-bar" style="width: 150%;"></div>
+											</div>
+											<span class="progress-description">Toplamdaki ağırlığı %150</span>
+										</div>
+									</div>
+								</a>
+
+							</div>
+
+							<div class="col-sm-12">
+
+								<div class="row dortlu-cift-button">
+
+									<div class="btn-group col-sm-3">
+										<a href="/Sigorta_Muayene.Aspx?T1=today&amp;T2=week&amp;T=1&amp;IT=2&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											1 Hafta Kalan
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Trafik Sigortaları
+											<span id="trafik_sigortasi_yaklasan" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+										<a href="/Sigorta_Muayene.Aspx?T1=empty&amp;T2=yesterday&amp;T=1&amp;IT=2&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											Tarihi Geçen
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Trafik Sigortaları
+											<span id="trafik_sigortasi_gecen" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+									</div>
+
+									<div class="btn-group col-sm-3">
+										<a href="/Sigorta_Muayene.Aspx?T1=today&amp;T2=week&amp;T=1&amp;IT=3&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											1 Hafta Kalan
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Kaskolar
+											<span id="kasko_yaklasan" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+										<a href="/Sigorta_Muayene.Aspx?T1=empty&amp;T2=yesterday&amp;T=1&amp;IT=3&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											Tarihi Geçen
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Kaskolar
+											<span id="kasko_gecen" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+									</div>
+
+									<div class="btn-group col-sm-3">
+										<a href="/Sigorta_Muayene.Aspx?T1=today&amp;T2=week&amp;T=1&amp;IT=1&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											1 Hafta Kalan
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Muayeneler
+											<span id="muayene_yaklasan" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+										<a href="/Sigorta_Muayene.Aspx?T1=empty&amp;T2=yesterday&amp;T=1&amp;IT=1&amp;SV=Non" target="_blank" class="btn btn-default btn-border-solid">
+											Tarihi Geçen
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Muayeneler
+											<span id="muayene_gecen" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+									</div>
+									<div class="btn-group col-sm-3">
+										<a href="/Periyodik_Servis_Raporu.aspx?Uyari=1" target="_blank" class="btn btn-default btn-border-solid">
+											KM Geçen
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Bakımlar
+											<span id="bakimi_gecen_araclar" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+										<a href="/Web_Rezervasyon.aspx" target="_blank" class="btn btn-default btn-border-solid">
+											Görülmeyen
+											<div class="col-sm-12 dropdown-divider mini"></div>
+											Rezervasyonlar
+											<span id="gorulmeyen_rezler" class="up-text up-text-right text-gray-dark">0</span>
+										</a>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="col-sm-12 mb-3"></div>
+
+							<div class="card-group">
+							
+								<div class="card donus">
+									<div class="card-header">
+										<div class="btn-group btn-left">
+											Dönüşler
+										</div>
+										<div class="btn-group btn-right">
+											<a href="javascript:shortMenu('donus-geciken');" type="donus-geciken" class="btn btn-default">
+												Dönüşü<br>Gecikenler
+												<span id="donus_geciken" class="up-text up-text-right short">0</span>
+											</a>
+											<a href="javascript:shortMenu('donus-bugun-donecek');" type="donus-bugun-donecek" class="btn btn-default active">
+												Bugün<br>Dönecekler
+												<span id="donus_bugun_donecek" class="up-text up-text-right short">1</span>
+											</a>
+											<a href="javascript:shortMenu('donus-bugun-donen');" type="donus-bugun-donen" class="btn btn-default">
+												Bugün<br>Dönenler
+												<span id="donus_bugun_donen" class="up-text up-text-right short">0</span>
+											</a>
+											<a href="javascript:shortMenu('donus-yarin-donecek');" type="donus-yarin-donecek" class="btn btn-default">
+												Yarın<br>Dönecekler
+												<span id="donus_yarin_donecek" class="up-text up-text-right short">3</span>
+											</a>
+
+											<button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+												<span class="sr-only">Menü</span>
+												<span id="donus_gunicinde_toplam" class="up-text">9</span>
+											</button>
+											<div class="dropdown-menu dropdown-menu-sm text-center" role="menu">
+												<a class="dropdown-item" href="javascript:shortMenu('donus-3gunicinde-donecek');" type="donus-3gunicinde-donecek">Dönecekler (3 gün içinde)
+													<span id="donus_3gunicinde_donecek" class="up-text-dropdown">7</span>
+												</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="javascript:shortMenu('donus-7gunicinde-donecek');" type="donus-7gunicinde-donecek">Dönecekler (7 gün içinde)
+													<span id="donus_7gunicinde_donecek" class="up-text-dropdown">8</span>
+												</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="javascript:shortMenu('donus-15gunicinde-donecek');" type="donus-15gunicinde-donecek">Dönecekler (15 gün içinde)
+													<span id="donus_15gunicinde_donecek" class="up-text-dropdown">9</span>
+												</a>
+											</div>
+
+										</div>
+									</div>
+									<div class="card-body p-2 overflow-auto" id="short_donus" style="min-height: 10rem;"><table class="table table-bordered table-striped table-sm"><thead style="background-color: #e9ecef;"><tr><th>Gör</th><th>Bitiş Tarih/Saat</th><th>Ad Soyad</th><th>Plaka</th><th>Şube</th></tr></thead><tbody><tr><td><a tabindex="0" class="btn btn-block btn-sm closer" role="button" data-toggle="popover" data-content="Başlama Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;05.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Başlama Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;20:45&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;06.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;20:45&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Kiralayan: &lt;div class=&quot;float-right ml-3&quot;&gt;SERHAT YAVUZ&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Telefon: &lt;div class=&quot;float-right ml-3&quot;&gt;905360221028&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Plaka: &lt;div class=&quot;float-right ml-3&quot;&gt;23DT993&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Dönüş Şube: &lt;div class=&quot;float-right ml-3&quot;&gt;MERKEZ"><i class="fas fa-eye closer"></i></a></td><td><a target="_blank" class="btn btn-default btn-sm btn-block" href="/Kiralama.Aspx?Sozlesme_No=6781">06.08.2026 20:45</a></td><td>SERHAT YAVUZ</td><td>23DT993</td><td>MERKEZ</td></tr></tbody></table></div>
+								</div>
+
+								<div class="card cikis">
+									<div class="card-header">
+										<div class="btn-group btn-left">
+											Çıkışlar
+										</div>
+										<div class="btn-group btn-right">
+											<a href="javascript:shortMenu('cikis-geciken');" type="cikis-geciken" class="btn btn-default">
+												Çıkışı<br>Gecikenler
+												<span id="cikis_geciken" class="up-text up-text-right short">0</span>
+											</a>
+											<a href="javascript:shortMenu('cikis-bugun-cikacak');" type="cikis-bugun-cikacak" class="btn btn-default">
+												Bugün<br>Çıkacaklar
+												<span id="cikis_bugun_cikacak" class="up-text up-text-right short">2</span>
+											</a>
+											<a href="javascript:shortMenu('cikis-bugun-cikan');" type="cikis-bugun-cikan" class="btn btn-default active">
+												Bugün<br>Çıkanlar
+												<span id="cikis_bugun_cikan" class="up-text up-text-right short">2</span>
+											</a>
+											<a href="javascript:shortMenu('cikis-yarin-cikacak');" type="cikis-yarin-cikacak" class="btn btn-default">
+												Yarın<br>Çıkacaklar
+												<span id="cikis_yarin_cikacak" class="up-text up-text-right short">0</span>
+											</a>
+
+											<button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+												<span class="sr-only">Menü</span>
+												<span id="cikis_gunicinde_toplam" class="up-text">14</span>
+											</button>
+											<div class="dropdown-menu dropdown-menu-sm text-center" role="menu">
+												<a class="dropdown-item" href="javascript:shortMenu('cikis-3gunicinde-cikacak');" type="cikis-3gunicinde-cikacak">Çıkacaklar (3 gün içinde)
+													<span id="cikis_3gunicinde_cikacak" class="up-text-dropdown">7</span>
+												</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="javascript:shortMenu('cikis-7gunicinde-cikacak');" type="cikis-7gunicinde-cikacak">Çıkacaklar (7 gün içinde)
+													<span id="cikis_7gunicinde_cikacak" class="up-text-dropdown">11</span>
+												</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="javascript:shortMenu('cikis-15gunicinde-cikacak');" type="cikis-15gunicinde-cikacak">Çıkacaklar (15 gün içinde)
+													<span id="cikis_15gunicinde_cikacak" class="up-text-dropdown">14</span>
+												</a>
+											</div>
+
+										</div>
+									</div>
+									<div class="card-body p-2 overflow-auto" id="short_cikis" style="min-height: 10rem;"><table class="table table-bordered table-striped table-sm"><thead style="background-color: #e9ecef;"><tr><th>Gör</th><th>Başlama Tarih/Saat</th><th>Ad Soyad</th><th>Plaka</th><th>Şube</th></tr></thead><tbody><tr><td><a tabindex="0" class="btn btn-block btn-sm closer" role="button" data-toggle="popover" data-content="Başlama Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;06.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Başlama Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;08:00&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;09.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;06:30&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Kiralayan: &lt;div class=&quot;float-right ml-3&quot;&gt;SAMET CİVELEK&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Telefon: &lt;div class=&quot;float-right ml-3&quot;&gt;905314743734&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Plaka: &lt;div class=&quot;float-right ml-3&quot;&gt;23EK128&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Çıkış Şube: &lt;div class=&quot;float-right ml-3&quot;&gt;MERKEZ"><i class="fas fa-eye closer"></i></a></td><td><a target="_blank" class="btn btn-default btn-sm btn-block" href="/Kiralama.Aspx?Sozlesme_No=6783">06.08.2026 08:00</a></td><td>SAMET CİVELEK</td><td>23EK128</td><td>MERKEZ</td></tr><tr><td><a tabindex="0" class="btn btn-block btn-sm closer" role="button" data-toggle="popover" data-content="Başlama Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;06.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Başlama Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;08:30&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Tarihi: &lt;div class=&quot;float-right ml-3&quot;&gt;07.08.2026&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Bitiş Saati: &lt;div class=&quot;float-right ml-3&quot;&gt;21:00&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Kiralayan: &lt;div class=&quot;float-right ml-3&quot;&gt;ZEYNEP KAYALI&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Telefon: &lt;div class=&quot;float-right ml-3&quot;&gt;905393376323&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Plaka: &lt;div class=&quot;float-right ml-3&quot;&gt;07AYN738&lt;/div&gt;&lt;div class=&quot;col-sm-12 dropdown-divider m-0&quot;&gt;&lt;/div&gt;Çıkış Şube: &lt;div class=&quot;float-right ml-3&quot;&gt;MERKEZ"><i class="fas fa-eye closer"></i></a></td><td><a target="_blank" class="btn btn-default btn-sm btn-block" href="/Kiralama.Aspx?Sozlesme_No=6784">06.08.2026 08:30</a></td><td>ZEYNEP KAYALI</td><td>07AYN738</td><td>MERKEZ</td></tr></tbody></table></div>
+								</div>
+
+							</div>
+						
+						</div>
+
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$chartData" id="chartData" value="[{&quot;Adet&quot;:7,&quot;Gun&quot;:25,&quot;Kira&quot;:82800,&quot;Hizmet&quot;:0,&quot;Islem_Personel&quot;:&quot;BURAK BEY&quot;,&quot;Oran&quot;:0}]">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$aktifTab" id="aktifTab" value="6">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$Sube_Adi_X" id="Sube_Adi_X">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$Sube_Isim_X" id="Sube_Isim_X">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$Sube_Kod_X" id="Sube_Kod_X">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$Supheli_Gorebilir" id="Supheli_Gorebilir">
+	<input type="hidden" name="ctl00$ContentPlaceHolder1$Secili_Sube_Kod_X" id="Secili_Sube_Kod_X">
+	<script>
+	var Sube_Isim_Value = document.getElementById('Sube_Adi_X').value;
+	var Sube_Kodu_Value = document.getElementById('Sube_Kod_X').value;
+	var pCircle = null;
+	var progress_1234 = null;
+	var progressDataObject = null;
+	</script>
+
+			
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("ToolkitScriptManager1_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();//]]>
+</script>
+</form>
+		</div>
+
+		
+
+	<div id="sidebar-overlay"></div></div>
+
+	<div class="toaster">
+		<div class="toast-header">
+			<strong class="mr-auto"></strong>
+			<small></small>
+			<a type="button" class="ml-2 mb-1 close" href="javascript:toaster({close:true});">
+				<span aria-hidden="true">×</span>
+			</a>
+		</div>
+		<div class="toast-body"></div>
+	</div>
+	
+	<div id="search_result" class="control-sidebar-dark" style="display: none;"></div>
+
+<script src="/plugins/MaskedEditFix.js"></script>
+<script type="text/javascript">
+var turevRentUser = "BURAK BEY";
+var mnu = (index) => {
+	const mnus = ";True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;False;False;False;False;False;False;True;True;True;True;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True";
+	const arr = mnus.split(";");
+	if(arr[index] == "True") {
+		return true;
+	}else{
+		return false;
+	}
+};
+
+function runScript(e) {
+	if (e.keyCode == 13) {
+		let tb = document.getElementById("Plaka_Ara");
+		openWindow('/Arac_Guncel_Durum.Aspx?Plaka_Ara='+tb.value, '_self');
+	}
+}
+
+function runScript2(e) {
+	if (e.keyCode == 13) {
+		let tb = document.getElementById("RA_Ara");
+		openWindow('/Fonksiyonlar.Aspx?Belge_Git=' + tb.value, '_self');
+	}
+}
+
+$(document).ready(function () {
+
+	document.getElementById('ra-search').onclick = function changeContent() {
+		runScript2({keyCode:13});
+	}
+
+	document.getElementById('plaka-search').onclick = function changeContent() {
+		runScript({keyCode:13});
+	}
+
+	sidebarListening();
+	spinSearchMenu();
+	favoriteMenusRead();
+	clickListening();
+	keydownListening();
+
+});
+</script>
+
+</body></html>

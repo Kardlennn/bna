@@ -1,0 +1,34 @@
+name: Turev Araç Senkronizasyonu
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Her saat başı çalışır (Dakika: 0, Saat: her saat)
+  workflow_dispatch: # Sizin de GitHub üzerinden manuel olarak tek tıkla çalıştırabilmeniz için
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Kodu İndir (Checkout)
+        uses: actions/checkout@v4
+        
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Gerekli Paketleri Yükle
+        run: npm install
+        
+      - name: Botu Çalıştır (Türev'den Araçları Çek)
+        run: npx tsx src/scripts/syncCars.ts
+        
+      - name: Yeni Araçları Sisteme (Buluta) Kaydet
+        run: |
+          git config --global user.name "BNA Bot (Otomatik)"
+          git config --global user.email "bot@bnarentacar.com"
+          git add src/data/cars.json
+          git commit -m "Otomatik Güncelleme: Türev araçları senkronize edildi" || echo "Değişiklik yok, güncellenmedi."
+          git push
