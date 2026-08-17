@@ -2,7 +2,7 @@ name: Turev Araç Senkronizasyonu
 
 on:
   schedule:
-    - cron: '0 * * * *' # Her saat başı çalışır (Dakika: 0, Saat: her saat)
+    - cron: '* * * * *' # Her dakika çalışır (Dakika: her, Saat: her)
   workflow_dispatch: # Sizin de GitHub üzerinden manuel olarak tek tıkla çalıştırabilmeniz için
 
 jobs:
