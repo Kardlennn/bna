@@ -2,14 +2,14 @@ name: Turev Araç Senkronizasyonu
 
 on:
   schedule:
-    - cron: '* * * * *' # Her dakika çalışır (Dakika: her, Saat: her)
-  workflow_dispatch: # Sizin de GitHub üzerinden manuel olarak tek tıkla çalıştırabilmeniz için
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # GitHub'a kod kaydedebilmesi için yazma izni
+      contents: write
     
     steps:
       - name: Kodu İndir (Checkout)
@@ -40,5 +40,4 @@ jobs:
           git config --global user.name "BNA Bot (Otomatik)"
           git config --global user.email "bot@bnarentacar.com"
           git add src/data/cars.json
-          git commit -m "Otomatik Güncelleme: Türev araçları senkronize edildi" || echo "Değişiklik yok, güncellenmedi."
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Otomatik Güncelleme: Türev araçları senkronize edildi" && git push)
