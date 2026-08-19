@@ -120,6 +120,7 @@ async function run() {
     
   } catch (error) {
     console.error('Hata oluştu:', error);
+    process.exit(1);
   } finally {
     await browser.close();
   }
