@@ -28,7 +28,7 @@ jobs:
         run: npx playwright install --with-deps chromium
         
       - name: Botu Çalıştır (Türev'den Araçları Çek)
-        run: npx tsx src/scripts/syncCars.ts
+        run: npx --yes tsx src/scripts/syncCars.ts
         env:
           TUREV_COMPANY_USERNAME: ${{ secrets.TUREV_COMPANY_USERNAME }}
           TUREV_COMPANY_PASSWORD: ${{ secrets.TUREV_COMPANY_PASSWORD }}
