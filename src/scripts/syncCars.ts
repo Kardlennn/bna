@@ -23,15 +23,33 @@ async function run() {
   try {
     console.log('1. Aşama: Giriş yapılıyor...');
     await page.goto('http://turev5.turevrac.com/Login.aspx', { timeout: 30000 });
-    await page.fill('#TextBoxKll', compUser);
-    await page.fill('#TextBoxSfr', compPass);
-    await page.click('#Button1');
     
+    // 1. Adım: Firma girişi ekranı gelirse (örneğin farklı IP'den girince)
+    try {
+      const firmaInput = await page.waitForSelector('#TextBoxKll', { timeout: 5000 });
+      if (firmaInput) {
+        console.log('Firma girişi ekranı algılandı, firma bilgileri giriliyor...');
+        await page.fill('#TextBoxKll', process.env.TUREV_COMPANY_USERNAME || '');
+        await page.fill('#TextBoxSfr', process.env.TUREV_COMPANY_PASSWORD || '');
+        await page.click('#Button1');
+        await page.waitForNavigation({ timeout: 15000 }).catch(() => {});
+      }
+    } catch (e) {
+      console.log('Firma girişi ekranı atlandı (veya zaten personel ekranındayız).');
+    }
+
+    // 2. Adım: Personel girişi
+    console.log('Personel girişi bekleniyor...');
     await page.waitForSelector('#TextBoxPr_Kll', { timeout: 15000 });
+    await page.fill('#TextBoxPr_Kll', process.env.TUREV_USER_USERNAME || '');
+    await page.fill('#TextBoxPr_Pass', process.env.TUREV_USER_PASSWORD || '');
     
-    await page.fill('#TextBoxPr_Kll', userUser);
-    await page.fill('#TextBoxPr_Pass', userPass);
-    await page.click('#Button2');
+    const btn2 = await page.$('#Button2');
+    if (btn2) {
+       await page.click('#Button2');
+    } else {
+       await page.click('#Button1');
+    }
     
     console.log('2. Aşama: Giriş tamamlandı, panelin yüklenmesi bekleniyor...');
     await page.waitForTimeout(10000);
