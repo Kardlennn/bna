@@ -1,0 +1,113 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 96019287332,
+      "run_id": 32237060696,
+      "workflow_name": "Turev Araç Senkronizasyonu",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/Kardlennn/bna/actions/runs/32237060696",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOT63ifs8AAAAWWzINJA",
+      "head_sha": "b0b911cc4d4ac3331e3dedfe8f75c2c47bf0c960",
+      "url": "https://api.github.com/repos/Kardlennn/bna/actions/jobs/96019287332",
+      "html_url": "https://github.com/Kardlennn/bna/actions/runs/32237060696/job/96019287332",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-08-19T09:20:00Z",
+      "started_at": "2026-08-19T09:25:03Z",
+      "completed_at": "2026-08-19T09:27:09Z",
+      "name": "sync",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-08-19T09:25:04Z",
+          "completed_at": "2026-08-19T09:25:05Z"
+        },
+        {
+          "name": "Kodu İndir (Checkout)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-08-19T09:25:05Z",
+          "completed_at": "2026-08-19T09:25:07Z"
+        },
+        {
+          "name": "Node.js Kurulumu",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-08-19T09:25:07Z",
+          "completed_at": "2026-08-19T09:25:14Z"
+        },
+        {
+          "name": "Gerekli Paketleri Yükle",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-08-19T09:25:14Z",
+          "completed_at": "2026-08-19T09:25:22Z"
+        },
+        {
+          "name": "Tarayıcıyı (Chrome) Kur",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-08-19T09:25:22Z",
+          "completed_at": "2026-08-19T09:26:42Z"
+        },
+        {
+          "name": "Botu Çalıştır (Türev'den Araçları Çek)",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6,
+          "started_at": "2026-08-19T09:26:42Z",
+          "completed_at": "2026-08-19T09:27:07Z"
+        },
+        {
+          "name": "Değişiklikleri Kaydet",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-08-19T09:27:07Z",
+          "completed_at": "2026-08-19T09:27:07Z"
+        },
+        {
+          "name": "Post Node.js Kurulumu",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-08-19T09:27:07Z",
+          "completed_at": "2026-08-19T09:27:07Z"
+        },
+        {
+          "name": "Post Kodu İndir (Checkout)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-08-19T09:27:07Z",
+          "completed_at": "2026-08-19T09:27:07Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-08-19T09:27:07Z",
+          "completed_at": "2026-08-19T09:27:07Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Kardlennn/bna/check-runs/96019287332",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000089,
+      "runner_name": "GitHub Actions 1000000089",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

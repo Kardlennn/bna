@@ -120,6 +120,12 @@ async function run() {
     
   } catch (error) {
     console.error('Hata oluştu:', error);
+    try {
+      const html = await page.content();
+      console.error('--- HATA ANINDAKI SAYFA HTML ---');
+      console.error(html.substring(0, 2000)); // Print first 2000 characters
+      console.error('---------------------------------');
+    } catch (e) {}
     process.exit(1);
   } finally {
     await browser.close();
