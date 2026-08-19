@@ -93,7 +93,15 @@ async function run() {
     
     console.log(`Toplam ${rentedCars.length} adet kirada araç bulundu.`);
     
-    let allCars = [...availableCars, ...rentedCars];
+    const allCarsMap = new Map();
+    
+    // Önce müsait araçları ekle
+    availableCars.forEach(car => allCarsMap.set(car.id, car));
+    
+    // Sonra kiradaki araçları ekle. Eğer aynı araç her iki listede de varsa, 'Kirada' durumu geçerli olur!
+    rentedCars.forEach(car => allCarsMap.set(car.id, car));
+    
+    let allCars = Array.from(allCarsMap.values());
     
     // Assign consistent images based on plate number (ID)
     allCars = allCars.map(car => {
