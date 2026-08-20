@@ -25,13 +25,7 @@ export default function Filomuz() {
           </p>
         </div>
 
-        {/* Filters (Mock) */}
-        <div className="flex space-x-4 mb-8 overflow-x-auto pb-4 scrollbar-hide">
-          <button className="bg-primary-500 text-dark-900 px-6 py-2 rounded-full font-semibold whitespace-nowrap">Tümü</button>
-          <button className="glass-panel text-white hover:bg-white/5 px-6 py-2 rounded-full font-medium whitespace-nowrap transition-colors">Ekonomi</button>
-          <button className="glass-panel text-white hover:bg-white/5 px-6 py-2 rounded-full font-medium whitespace-nowrap transition-colors">SUV</button>
-          <button className="glass-panel text-white hover:bg-white/5 px-6 py-2 rounded-full font-medium whitespace-nowrap transition-colors">Lüks</button>
-        </div>
+
 
         {/* Cars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
