@@ -39,7 +39,7 @@ export default function Iletisim() {
       {/* Main Content */}
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full relative z-10">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 mb-20">
           
           {/* WhatsApp / GSM Card */}
           <div className="glass-panel p-8 rounded-3xl border border-white/5 hover:border-green-500/50 transition-all duration-300 group hover:-translate-y-2 text-center">
