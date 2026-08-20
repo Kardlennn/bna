@@ -42,7 +42,7 @@ async function run() {
     console.log('Personel girişi bekleniyor...');
     await page.waitForSelector('#TextBoxPr_Kll', { timeout: 15000 });
     await page.fill('#TextBoxPr_Kll', process.env.TUREV_USER_USERNAME || '');
-    await page.fill('#TextBoxPr_Pass', process.env.TUREV_USER_PASSWORD || '');
+    await page.fill('#TextBoxPr_Sfr', process.env.TUREV_USER_PASSWORD || '');
     
     const btn2 = await page.$('#Button2');
     if (btn2) {
