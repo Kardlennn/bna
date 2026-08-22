@@ -1,15 +1,5 @@
 [
   {
-    "id": "35EP210",
-    "brand": "RENAULT",
-    "model": "FLUENCE TOUCH 1.5DCİ",
-    "year": 2023,
-    "fuel": "Dizel",
-    "transmission": "Düz",
-    "status": "Müsait",
-    "imageUrl": "/cars/35EP210.webp"
-  },
-  {
     "id": "23DT993",
     "brand": "KİA",
     "model": "SPORTAGE",
@@ -18,6 +8,16 @@
     "year": 2015,
     "status": "Kirada",
     "imageUrl": "/cars/23DT993.webp"
+  },
+  {
+    "id": "35EP210",
+    "brand": "RENAULT",
+    "model": "FLUENCE TOUCH 1.5DCİ",
+    "fuel": "Dizel",
+    "transmission": "Düz",
+    "year": 2023,
+    "status": "Kirada",
+    "imageUrl": "/cars/35EP210.webp"
   },
   {
     "id": "23EK128",
