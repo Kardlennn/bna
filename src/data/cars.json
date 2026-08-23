@@ -1,15 +1,5 @@
 [
   {
-    "id": "23DT993",
-    "brand": "KİA",
-    "model": "SPORTAGE",
-    "fuel": "Kurşunsuz",
-    "transmission": "Düz",
-    "year": 2015,
-    "status": "Kirada",
-    "imageUrl": "/cars/23DT993.webp"
-  },
-  {
     "id": "35EP210",
     "brand": "RENAULT",
     "model": "FLUENCE TOUCH 1.5DCİ",
@@ -98,6 +88,16 @@
     "year": 2020,
     "status": "Kirada",
     "imageUrl": "/cars/23AGE864.webp"
+  },
+  {
+    "id": "23DT993",
+    "brand": "KİA",
+    "model": "SPORTAGE",
+    "fuel": "Kurşunsuz",
+    "transmission": "Düz",
+    "year": 2015,
+    "status": "Kirada",
+    "imageUrl": "/cars/23DT993.webp"
   },
   {
     "id": "27BEA907",
