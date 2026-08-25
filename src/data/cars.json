@@ -1,5 +1,15 @@
 [
   {
+    "id": "23FD605",
+    "brand": "OPEL",
+    "model": "ASTRA SEDAN 1.3 DİZEL",
+    "year": 2013,
+    "fuel": "Dizel",
+    "transmission": "Düz",
+    "status": "Müsait",
+    "imageUrl": "/cars/23FD605.webp"
+  },
+  {
     "id": "35EP210",
     "brand": "RENAULT",
     "model": "FLUENCE TOUCH 1.5DCİ",
@@ -10,14 +20,14 @@
     "imageUrl": "/cars/35EP210.webp"
   },
   {
-    "id": "23FD605",
-    "brand": "OPEL",
-    "model": "ASTRA SEDAN 1.3 DİZEL",
+    "id": "45AHM646",
+    "brand": "FİAT",
+    "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
+    "year": 2019,
     "fuel": "Dizel",
-    "transmission": "Düz",
-    "year": 2013,
-    "status": "Kirada",
-    "imageUrl": "/cars/23FD605.webp"
+    "transmission": "Otomatik",
+    "status": "Müsait",
+    "imageUrl": "/cars/45AHM646.webp"
   },
   {
     "id": "06AGB858",
@@ -28,16 +38,6 @@
     "year": 2018,
     "status": "Kirada",
     "imageUrl": "/cars/06AGB858.webp"
-  },
-  {
-    "id": "45AHM646",
-    "brand": "FİAT",
-    "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
-    "fuel": "Dizel",
-    "transmission": "Otomatik",
-    "year": 2019,
-    "status": "Kirada",
-    "imageUrl": "/cars/45AHM646.webp"
   },
   {
     "id": "34SK7182",
