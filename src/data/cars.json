@@ -50,16 +50,6 @@
     "imageUrl": "/cars/35EP210.webp"
   },
   {
-    "id": "45AHM646",
-    "brand": "FİAT",
-    "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
-    "year": 2019,
-    "fuel": "Dizel",
-    "transmission": "Otomatik",
-    "status": "Müsait",
-    "imageUrl": "/cars/45AHM646.webp"
-  },
-  {
     "id": "07AYN738",
     "brand": "RENAULT",
     "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
@@ -68,6 +58,16 @@
     "year": 2022,
     "status": "Kirada",
     "imageUrl": "/cars/07AYN738.webp"
+  },
+  {
+    "id": "45AHM646",
+    "brand": "FİAT",
+    "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
+    "fuel": "Dizel",
+    "transmission": "Otomatik",
+    "year": 2019,
+    "status": "Kirada",
+    "imageUrl": "/cars/45AHM646.webp"
   },
   {
     "id": "23AGE864",
