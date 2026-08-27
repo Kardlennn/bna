@@ -1,15 +1,5 @@
 [
   {
-    "id": "06AGB858",
-    "brand": "FORD",
-    "model": "TOURNEO COURIER KOMBİ 1.5TDCI 75 VİP",
-    "year": 2018,
-    "fuel": "Dizel",
-    "transmission": "Düz",
-    "status": "Müsait",
-    "imageUrl": "/cars/06AGB858.webp"
-  },
-  {
     "id": "06DPN873",
     "brand": "VOLKSWAGEN",
     "model": "PASSAT 1.6 TDI DSG",
@@ -18,16 +8,6 @@
     "transmission": "Otomatik",
     "status": "Müsait",
     "imageUrl": "/cars/06DPN873.webp"
-  },
-  {
-    "id": "07AYN738",
-    "brand": "RENAULT",
-    "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
-    "year": 2022,
-    "fuel": "Benzin",
-    "transmission": "Otomatik",
-    "status": "Müsait",
-    "imageUrl": "/cars/07AYN738.webp"
   },
   {
     "id": "23AGE864",
@@ -70,6 +50,16 @@
     "imageUrl": "/cars/45AHM646.webp"
   },
   {
+    "id": "07AYN738",
+    "brand": "RENAULT",
+    "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
+    "fuel": "Benzin",
+    "transmission": "Otomatik",
+    "year": 2022,
+    "status": "Kirada",
+    "imageUrl": "/cars/07AYN738.webp"
+  },
+  {
     "id": "23DT993",
     "brand": "KİA",
     "model": "SPORTAGE",
@@ -78,6 +68,16 @@
     "year": 2015,
     "status": "Kirada",
     "imageUrl": "/cars/23DT993.webp"
+  },
+  {
+    "id": "06AGB858",
+    "brand": "FORD",
+    "model": "TOURNEO COURIER KOMBİ 1.5TDCI 75 VİP",
+    "fuel": "Dizel",
+    "transmission": "Düz",
+    "year": 2018,
+    "status": "Kirada",
+    "imageUrl": "/cars/06AGB858.webp"
   },
   {
     "id": "23EK128",
