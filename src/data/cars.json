@@ -30,6 +30,16 @@
     "imageUrl": "/cars/07AYN738.webp"
   },
   {
+    "id": "23AGE864",
+    "brand": "FORD",
+    "model": "FOCUS TİTANYUM 1.5 TDCİ",
+    "year": 2020,
+    "fuel": "Dizel",
+    "transmission": "Otomatik",
+    "status": "Müsait",
+    "imageUrl": "/cars/23AGE864.webp"
+  },
+  {
     "id": "34SK7182",
     "brand": "FİAT",
     "model": "EGEA SD EASY 1.3 M.JET 95 HP",
@@ -58,16 +68,6 @@
     "year": 2019,
     "status": "Kirada",
     "imageUrl": "/cars/45AHM646.webp"
-  },
-  {
-    "id": "23AGE864",
-    "brand": "FORD",
-    "model": "FOCUS TİTANYUM 1.5 TDCİ",
-    "fuel": "Dizel",
-    "transmission": "Otomatik",
-    "year": 2020,
-    "status": "Kirada",
-    "imageUrl": "/cars/23AGE864.webp"
   },
   {
     "id": "23DT993",
