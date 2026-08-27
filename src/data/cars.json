@@ -33,10 +33,10 @@
     "id": "45AHM646",
     "brand": "FİAT",
     "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
+    "year": 2019,
     "fuel": "Dizel",
     "transmission": "Otomatik",
-    "year": 2019,
-    "status": "Kirada",
+    "status": "Müsait",
     "imageUrl": "/cars/45AHM646.webp"
   },
   {
