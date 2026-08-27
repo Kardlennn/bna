@@ -10,6 +10,16 @@
     "imageUrl": "/cars/06AGB858.webp"
   },
   {
+    "id": "06DPN873",
+    "brand": "VOLKSWAGEN",
+    "model": "PASSAT 1.6 TDI DSG",
+    "year": 2023,
+    "fuel": "Dizel",
+    "transmission": "Otomatik",
+    "status": "Müsait",
+    "imageUrl": "/cars/06DPN873.webp"
+  },
+  {
     "id": "23FD605",
     "brand": "OPEL",
     "model": "ASTRA SEDAN 1.3 DİZEL",
@@ -18,6 +28,16 @@
     "transmission": "Düz",
     "status": "Müsait",
     "imageUrl": "/cars/23FD605.webp"
+  },
+  {
+    "id": "34SK7182",
+    "brand": "FİAT",
+    "model": "EGEA SD EASY 1.3 M.JET 95 HP",
+    "year": 2023,
+    "fuel": "Dizel",
+    "transmission": "Düz",
+    "status": "Müsait",
+    "imageUrl": "/cars/34SK7182.webp"
   },
   {
     "id": "35EP210",
@@ -38,26 +58,6 @@
     "transmission": "Otomatik",
     "status": "Müsait",
     "imageUrl": "/cars/45AHM646.webp"
-  },
-  {
-    "id": "34SK7182",
-    "brand": "FİAT",
-    "model": "EGEA SD EASY 1.3 M.JET 95 HP",
-    "fuel": "Dizel",
-    "transmission": "Düz",
-    "year": 2023,
-    "status": "Kirada",
-    "imageUrl": "/cars/34SK7182.webp"
-  },
-  {
-    "id": "06DPN873",
-    "brand": "VOLKSWAGEN",
-    "model": "PASSAT 1.6 TDI DSG",
-    "fuel": "Dizel",
-    "transmission": "Otomatik",
-    "year": 2023,
-    "status": "Kirada",
-    "imageUrl": "/cars/06DPN873.webp"
   },
   {
     "id": "07AYN738",
