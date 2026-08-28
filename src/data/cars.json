@@ -1,15 +1,5 @@
 [
   {
-    "id": "07AYN738",
-    "brand": "RENAULT",
-    "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
-    "year": 2022,
-    "fuel": "Benzin",
-    "transmission": "Otomatik",
-    "status": "Müsait",
-    "imageUrl": "/cars/07AYN738.webp"
-  },
-  {
     "id": "23AGE864",
     "brand": "FORD",
     "model": "FOCUS TİTANYUM 1.5 TDCİ",
@@ -48,6 +38,16 @@
     "year": 2023,
     "status": "Kirada",
     "imageUrl": "/cars/06DPN873.webp"
+  },
+  {
+    "id": "07AYN738",
+    "brand": "RENAULT",
+    "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
+    "fuel": "Benzin",
+    "transmission": "Otomatik",
+    "year": 2022,
+    "status": "Kirada",
+    "imageUrl": "/cars/07AYN738.webp"
   },
   {
     "id": "23DT993",
