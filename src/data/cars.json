@@ -1,15 +1,5 @@
 [
   {
-    "id": "06DPN873",
-    "brand": "VOLKSWAGEN",
-    "model": "PASSAT 1.6 TDI DSG",
-    "year": 2023,
-    "fuel": "Dizel",
-    "transmission": "Otomatik",
-    "status": "Müsait",
-    "imageUrl": "/cars/06DPN873.webp"
-  },
-  {
     "id": "45AHM646",
     "brand": "FİAT",
     "model": "EGEA SEDAN S3 URBAN 1.6 MJET 130HP DCT DİZEL E6DF",
@@ -58,6 +48,16 @@
     "year": 2023,
     "status": "Kirada",
     "imageUrl": "/cars/35EP210.webp"
+  },
+  {
+    "id": "06DPN873",
+    "brand": "VOLKSWAGEN",
+    "model": "PASSAT 1.6 TDI DSG",
+    "fuel": "Dizel",
+    "transmission": "Otomatik",
+    "year": 2023,
+    "status": "Kirada",
+    "imageUrl": "/cars/06DPN873.webp"
   },
   {
     "id": "23DT993",
