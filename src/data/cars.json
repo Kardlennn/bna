@@ -80,16 +80,6 @@
     "imageUrl": "/cars/06AGB858.webp"
   },
   {
-    "id": "23EK128",
-    "brand": "FİAT",
-    "model": "EGEA CROSS STREET 1.4 URBAN 95 E6D",
-    "fuel": "Kurşunsuz",
-    "transmission": "Düz",
-    "year": 2023,
-    "status": "Kirada",
-    "imageUrl": "/cars/23EK128.webp"
-  },
-  {
     "id": "23FD605",
     "brand": "OPEL",
     "model": "ASTRA SEDAN 1.3 DİZEL",
@@ -98,6 +88,16 @@
     "year": 2013,
     "status": "Kirada",
     "imageUrl": "/cars/23FD605.webp"
+  },
+  {
+    "id": "23EK128",
+    "brand": "FİAT",
+    "model": "EGEA CROSS STREET 1.4 URBAN 95 E6D",
+    "fuel": "Kurşunsuz",
+    "transmission": "Düz",
+    "year": 2023,
+    "status": "Kirada",
+    "imageUrl": "/cars/23EK128.webp"
   },
   {
     "id": "27BEA907",
