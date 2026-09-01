@@ -1,15 +1,5 @@
 [
   {
-    "id": "06AGB858",
-    "brand": "FORD",
-    "model": "TOURNEO COURIER KOMBİ 1.5TDCI 75 VİP",
-    "year": 2018,
-    "fuel": "Dizel",
-    "transmission": "Düz",
-    "status": "Müsait",
-    "imageUrl": "/cars/06AGB858.webp"
-  },
-  {
     "id": "06DPN873",
     "brand": "VOLKSWAGEN",
     "model": "PASSAT 1.6 TDI DSG",
@@ -60,6 +50,16 @@
     "imageUrl": "/cars/45AHM646.webp"
   },
   {
+    "id": "06AGB858",
+    "brand": "FORD",
+    "model": "TOURNEO COURIER KOMBİ 1.5TDCI 75 VİP",
+    "fuel": "Dizel",
+    "transmission": "Düz",
+    "year": 2018,
+    "status": "Kirada",
+    "imageUrl": "/cars/06AGB858.webp"
+  },
+  {
     "id": "07AYN738",
     "brand": "RENAULT",
     "model": "CLIO JOY 1.0 TCE X-TRONIC 90",
@@ -90,16 +90,6 @@
     "imageUrl": "/cars/23DT993.webp"
   },
   {
-    "id": "23EK128",
-    "brand": "FİAT",
-    "model": "EGEA CROSS STREET 1.4 URBAN 95 E6D",
-    "fuel": "Kurşunsuz",
-    "transmission": "Düz",
-    "year": 2023,
-    "status": "Kirada",
-    "imageUrl": "/cars/23EK128.webp"
-  },
-  {
     "id": "27BEA907",
     "brand": "TOYOTA",
     "model": "COROLLA OTOMATİK",
@@ -108,6 +98,16 @@
     "year": 2021,
     "status": "Kirada",
     "imageUrl": "/cars/27BEA907.webp"
+  },
+  {
+    "id": "23EK128",
+    "brand": "FİAT",
+    "model": "EGEA CROSS STREET 1.4 URBAN 95 E6D",
+    "fuel": "Kurşunsuz",
+    "transmission": "Düz",
+    "year": 2023,
+    "status": "Kirada",
+    "imageUrl": "/cars/23EK128.webp"
   },
   {
     "id": "34CDU768",
