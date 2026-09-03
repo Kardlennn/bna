@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import HeroCarousel from '@/components/HeroCarousel';
 import Navbar from '@/components/Navbar';
+import HeroSearch from '@/components/HeroSearch';
 
 export default function Home() {
   return (
@@ -43,6 +44,9 @@ export default function Home() {
                   Bizimle İletişime Geç
                 </Link>
               </div>
+
+              {/* Dynamic Search Component */}
+              <HeroSearch />
               
               <div className="mt-12 grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
                 <div>
