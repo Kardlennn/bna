@@ -45,9 +45,6 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Dynamic Search Component */}
-              <HeroSearch />
-              
               <div className="mt-12 grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-1">7/24</h3>
@@ -71,6 +68,20 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* Floating Search Engine Overlay */}
+      <div className="relative z-40 px-4 sm:px-6 lg:px-8">
+        <HeroSearch />
+      </div>
+
+      <section className="py-20 bg-dark-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 mt-8">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Ayrıcalıklı Kiralama Deneyimi</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">Premium filomuz ve kusursuz hizmet anlayışımızla Elazığ'da standartları yeniden belirliyoruz.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
