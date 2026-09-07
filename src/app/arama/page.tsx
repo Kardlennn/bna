@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Image from 'next/image';
+import ReservationModal from '@/components/ReservationModal';
 
 interface SearchResult {
   rez_id: string;
@@ -29,6 +29,9 @@ function SearchResultsContent() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
+  // Modal State
+  const [selectedCar, setSelectedCar] = useState<any>(null);
 
   useEffect(() => {
     const pickupId = searchParams.get('pickupId');
@@ -173,13 +176,24 @@ function SearchResultsContent() {
               <p className="text-4xl font-extrabold text-primary-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">{car.total_rental} <span className="text-2xl">{car.currency}</span></p>
             </div>
             
-            <button className="w-full bg-white text-dark-900 hover:bg-primary-500 hover:text-white hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] font-bold text-lg py-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+            <button 
+              onClick={() => setSelectedCar({
+                ...car,
+                pickupId: searchParams.get('pickupId'),
+                dropoffId: searchParams.get('dropoffId') || searchParams.get('pickupId'),
+                pickupDate: searchParams.get('pickupDate'),
+                dropoffDate: searchParams.get('dropoffDate')
+              })}
+              className="w-full bg-white text-dark-900 hover:bg-primary-500 hover:text-white hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] font-bold text-lg py-4 rounded-xl transition-all duration-300 transform hover:scale-105"
+            >
               Hemen Kirala
             </button>
           </div>
 
         </div>
       ))}
+      
+      <ReservationModal car={selectedCar} onClose={() => setSelectedCar(null)} />
     </div>
   );
 }
