@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import ReservationModal from '@/components/ReservationModal';
+import { getCarImage } from '@/lib/imageMapper';
 
 interface SearchResult {
   rez_id: string;
@@ -124,17 +125,11 @@ function SearchResultsContent() {
             <div className="absolute top-4 left-4 bg-dark-900 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/10 shadow-lg z-10">
               {car.car_name}
             </div>
-            {car.image_path ? (
-              <img 
-                src={`http://sistemjson1.trvrac.com/images/${car.image_path}`} 
-                alt={car.car_name}
-                className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
-              />
-            ) : (
-              <div className="text-dark-900 font-extrabold text-3xl text-center opacity-70">
-                {car.brand} <br/> {car.type}
-              </div>
-            )}
+            <img 
+              src={getCarImage(car.brand, car.type, car.image_path)} 
+              alt={car.car_name}
+              className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
+            />
           </div>
           
           {/* Car Details */}

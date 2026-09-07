@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { fetchTurev } from '@/lib/turevApi';
+import { getCarImage } from '@/lib/imageMapper';
 
 export const metadata = {
   title: 'Filomuz | BNA Rent A Car',
@@ -49,17 +50,11 @@ export default async function Filomuz() {
               {/* Image Container */}
               <div className="relative h-64 overflow-hidden bg-white/5 flex items-center justify-center p-8 backdrop-blur-sm">
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent opacity-80 z-0"></div>
-                {group.image_path ? (
-                  <img 
-                    src={`http://sistemjson1.trvrac.com/images/${group.image_path}`} 
-                    alt={group.group_name}
-                    className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
-                  />
-                ) : (
-                  <div className="relative z-10 text-white/20 font-extrabold text-4xl text-center tracking-widest uppercase">
-                    {group.brand} <br/> {group.type}
-                  </div>
-                )}
+                <img 
+                  src={getCarImage(group.brand, group.type, group.image_path)} 
+                  alt={group.group_name}
+                  className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
+                />
               </div>
 
               {/* Content */}
