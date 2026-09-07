@@ -1,6 +1,20 @@
 export function getCarImage(brand: string, type: string, apiImagePath?: string): string {
-  const b = brand.toLowerCase();
-  const t = type.toLowerCase();
+  // Normalize strings completely to avoid Turkish character bugs (e.g. FİAT -> fiat)
+  const normalize = (str: string) => {
+    return str
+      .toLocaleLowerCase('tr-TR')
+      .replace(/i̇/g, 'i') // fix node.js specific dot-above-i issue
+      .replace(/ı/g, 'i')
+      .replace(/ş/g, 's')
+      .replace(/ğ/g, 'g')
+      .replace(/ü/g, 'u')
+      .replace(/ö/g, 'o')
+      .replace(/ç/g, 'c')
+      .replace(/[^a-z0-9]/g, ''); // remove spaces and dashes
+  };
+
+  const b = normalize(brand || '');
+  const t = normalize(type || '');
 
   // 1. Volkswagen Passat
   if (b.includes('volkswagen') || b.includes('vw')) {
@@ -18,17 +32,16 @@ export function getCarImage(brand: string, type: string, apiImagePath?: string):
   }
 
   // 4. Fiat Egea / Egea Cross
-  if (b.includes('fiat') || b.includes('fıat')) {
+  if (b.includes('fiat')) {
     if (t.includes('cross')) return '/cars/23EK128.webp';
-    // Otomatik dizel Egea vs Manuel Egea (genel egea fotoğrafı veriyoruz)
-    // Şimdilik urban olanı otomatik kabul edelim veya ikisinden birini dönelim
+    // Otomatik dizel Egea vs Manuel Egea
     if (t.includes('otomatik')) return '/cars/45AHM646.webp';
     return '/cars/34SK7182.webp';
   }
 
-  // 5. Renault Clio
+  // 5. Renault Clio & Fluence
   if (b.includes('renault')) {
-    if (t.includes('clio') || t.includes('clıo')) {
+    if (t.includes('clio')) {
       if (t.includes('otomatik')) return '/cars/07AYN738.webp';
       return '/cars/34CDU768.webp';
     }
@@ -41,7 +54,7 @@ export function getCarImage(brand: string, type: string, apiImagePath?: string):
   }
 
   // 7. Kia Sportage
-  if (b.includes('kia') || b.includes('kıa')) {
+  if (b.includes('kia')) {
     if (t.includes('sportage')) return '/cars/23DT993.webp';
   }
 
@@ -55,6 +68,6 @@ export function getCarImage(brand: string, type: string, apiImagePath?: string):
     return `http://sistemjson1.trvrac.com/images/${apiImagePath}`;
   }
 
-  // 10. Ultimate fallback (a placeholder car silhouette or one of the good cars)
+  // 10. Ultimate fallback
   return '/cars/06DPN873.webp'; // Passat as default fallback
 }
