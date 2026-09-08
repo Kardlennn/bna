@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       Pickup_ID: pickupId,
       Drop_Off_ID: dropoffId,
       Name: name,
-      Sur_Name: surname,
+      SurName: surname,
       MobilePhone: phone,
       Mail_Adress: email,
       Rental_ID: '0',
@@ -42,7 +42,8 @@ export async function POST(request: Request) {
       Drop_Off_Hour: dDate.getHours().toString().padStart(2, '0'),
       Drop_Off_Min: dDate.getMinutes().toString().padStart(2, '0'),
       
-      Currency: currency
+      Currency: currency,
+      Payment_Type: '0'
     };
 
     // Turev API'ye kaydetme isteği (Hata verirse veya başarılı olursa devam edelim)
