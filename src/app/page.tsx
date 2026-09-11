@@ -6,18 +6,23 @@ import HeroSearch from '@/components/HeroSearch';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-dark-950">
       <Navbar />
 
+      {/* Floating Search Engine Overlay at the Top */}
+      <div className="relative z-40 px-4 sm:px-6 lg:px-8 pt-32 pb-8 w-full max-w-7xl mx-auto">
+        <HeroSearch />
+      </div>
+
       {/* Hero Section */}
-      <main className="flex-grow flex items-center relative overflow-hidden pt-20">
+      <main className="flex-grow flex items-center relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0 bg-dark-900">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-900/20 rounded-full blur-[120px] opacity-50 translate-x-1/3 -translate-y-1/3"></div>
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary-800/10 rounded-full blur-[100px] opacity-30 -translate-x-1/2 translate-y-1/2"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-10 lg:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div className="flex flex-col justify-center text-center lg:text-left">
@@ -68,11 +73,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      {/* Floating Search Engine Overlay */}
-      <div className="relative z-40 px-4 sm:px-6 lg:px-8">
-        <HeroSearch />
-      </div>
 
       <section className="py-20 bg-dark-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
