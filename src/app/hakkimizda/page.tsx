@@ -65,7 +65,7 @@ export default function Hakkimizda() {
             </div>
             <h3 className="text-xl font-bold text-white mb-3">Ücretsiz Vale</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Şehrin neresinde olursanız olun, aracınızı ücretsiz vale hizmetimizle kapınıza kadar getirip kapınızdan teslim alıyoruz.
+              Sadece havalimanı için ücretsiz vale ve araç teslimat hizmetimiz bulunmaktadır. Uçağınızdan indiğiniz an aracınız sizi bekler.
             </p>
           </div>
 
