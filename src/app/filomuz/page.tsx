@@ -60,8 +60,12 @@ export default async function Filomuz() {
               {/* Content */}
               <div className="p-8 flex-grow flex flex-col">
                 <div className="mb-6">
-                  <h3 className="text-3xl font-extrabold text-white mb-2">{group.brand} {group.type}</h3>
-                  <p className="text-gray-500 text-sm font-medium tracking-wide uppercase">{group.group_name}</p>
+                  <h3 className="text-3xl font-extrabold text-white mb-2">
+                    {group.brand || group.type ? `${group.brand} ${group.type}` : group.group_name}
+                  </h3>
+                  <p className="text-gray-500 text-sm font-medium tracking-wide uppercase">
+                    {group.brand || group.type ? group.group_name : 'BAKIMLI PREMIUM FİLO'}
+                  </p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-8">

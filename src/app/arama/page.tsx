@@ -134,8 +134,12 @@ function SearchResultsContent() {
           
           {/* Car Details */}
           <div className="p-6 md:p-8 flex-1 flex flex-col justify-center border-b md:border-b-0 md:border-r border-white/5">
-            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 group-hover:text-primary-400 transition-colors">{car.brand} {car.type}</h3>
-            <p className="text-gray-400 text-sm mb-6">{car.car_name}</p>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 group-hover:text-primary-400 transition-colors">
+              {car.brand || car.type ? `${car.brand} ${car.type}` : car.car_name}
+            </h3>
+            <p className="text-gray-400 text-sm mb-6">
+              {car.brand || car.type ? car.car_name : 'BAKIMLI PREMIUM FİLO'}
+            </p>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center text-gray-300 text-sm font-medium bg-dark-950 px-3 py-2 rounded-lg border border-white/5">
