@@ -13,53 +13,52 @@ export function getCarImage(brand: string, type: string, apiImagePath?: string):
       .replace(/[^a-z0-9]/g, ''); // remove spaces and dashes
   };
 
-  const b = normalize(brand || '');
-  const t = normalize(type || '');
+  const combined = normalize(brand || '') + normalize(type || '');
 
   // 1. Volkswagen Passat
-  if (b.includes('volkswagen') || b.includes('vw')) {
-    if (t.includes('passat')) return '/cars/06DPN873.webp';
+  if (combined.includes('volkswagen') || combined.includes('vw') || combined.includes('passat')) {
+    return '/cars/06DPN873.webp';
   }
 
   // 2. Ford Courier
-  if (b.includes('ford') && (t.includes('cour') || t.includes('tourneo'))) {
+  if (combined.includes('cour') || combined.includes('tourneo')) {
     return '/cars/06AGB858.webp';
   }
 
   // 3. Ford Focus
-  if (b.includes('ford') && t.includes('focus')) {
+  if (combined.includes('focus')) {
     return '/cars/23AGE864.webp';
   }
 
   // 4. Fiat Egea / Egea Cross
-  if (b.includes('fiat')) {
-    if (t.includes('cross')) return '/cars/23EK128.webp';
+  if (combined.includes('fiat') || combined.includes('egea')) {
+    if (combined.includes('cross')) return '/cars/23EK128.webp';
     // Otomatik dizel Egea vs Manuel Egea
-    if (t.includes('otomatik')) return '/cars/45AHM646.webp';
+    if (combined.includes('otomatik')) return '/cars/45AHM646.webp';
     return '/cars/34SK7182.webp';
   }
 
   // 5. Renault Clio & Fluence
-  if (b.includes('renault')) {
-    if (t.includes('clio')) {
-      if (t.includes('otomatik')) return '/cars/07AYN738.webp';
+  if (combined.includes('renault') || combined.includes('clio') || combined.includes('fluence')) {
+    if (combined.includes('clio')) {
+      if (combined.includes('otomatik')) return '/cars/07AYN738.webp';
       return '/cars/34CDU768.webp';
     }
-    if (t.includes('fluence')) return '/cars/35EP210.webp';
+    if (combined.includes('fluence')) return '/cars/35EP210.webp';
   }
 
   // 6. Opel Astra
-  if (b.includes('opel') && t.includes('astra')) {
+  if (combined.includes('astra')) {
     return '/cars/23FD605.webp';
   }
 
   // 7. Kia Sportage
-  if (b.includes('kia')) {
-    if (t.includes('sportage')) return '/cars/23DT993.webp';
+  if (combined.includes('kia') || combined.includes('sportage')) {
+    return '/cars/23DT993.webp';
   }
 
   // 8. Toyota Corolla
-  if (b.includes('toyota') && t.includes('corolla')) {
+  if (combined.includes('toyota') || combined.includes('corolla')) {
     return '/cars/27BEA907.webp';
   }
 
