@@ -51,7 +51,7 @@ export default async function Filomuz() {
               <div className="relative h-64 overflow-hidden bg-white/5 flex items-center justify-center p-8 backdrop-blur-sm">
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent opacity-80 z-0"></div>
                 <img 
-                  src={getCarImage(group.brand, group.type, group.image_path)} 
+                  src={getCarImage(group.brand, group.type, group.image_path, group.group_name)} 
                   alt={group.group_name}
                   className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
                 />

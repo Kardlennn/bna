@@ -1,4 +1,4 @@
-export function getCarImage(brand: string, type: string, apiImagePath?: string): string {
+export function getCarImage(brand: string, type: string, apiImagePath?: string, groupName?: string): string {
   // Normalize strings completely to avoid Turkish character bugs (e.g. FİAT -> fiat)
   const normalize = (str: string) => {
     return str
@@ -13,7 +13,7 @@ export function getCarImage(brand: string, type: string, apiImagePath?: string):
       .replace(/[^a-z0-9]/g, ''); // remove spaces and dashes
   };
 
-  const combined = normalize(brand || '') + normalize(type || '');
+  const combined = normalize(brand || '') + normalize(type || '') + normalize(groupName || '');
 
   // 1. Volkswagen Passat
   if (combined.includes('volkswagen') || combined.includes('vw') || combined.includes('passat')) {

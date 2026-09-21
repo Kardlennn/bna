@@ -126,7 +126,7 @@ function SearchResultsContent() {
               {car.car_name}
             </div>
             <img 
-              src={getCarImage(car.brand, car.type, car.image_path)} 
+              src={getCarImage(car.brand, car.type, car.image_path, car.car_name)} 
               alt={car.car_name}
               className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
             />
